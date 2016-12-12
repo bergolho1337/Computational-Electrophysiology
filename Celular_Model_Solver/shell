@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# ====================================================================================================================================
+# Shell script >>>> Compile, execute, plot <<<<<
+
+DT=0.1                      # Timestep for the discretization
+TMAX=200                     # Maximum time of the simulation
+NUM_MODEL=4                 # Number of the model || 1 - Mitchell || 2 - Noble || 3 - Hodkin-Huxley || 4 - FitzHugh-Nagumo || 5 - Li & Rudy || 6 - Haq ||
+# ====================================================================================================================================
+
+echo "=========================================================================================="
+echo "[!] SCRIPT SHELL BEING EXECUTED                          |\__  "
+echo "                                                         |   \ "
+echo "                                                         |    \    "
+echo "                                                         |     \   "
+echo "                                                   ______|      \____  "
+echo "=========================================================================================="
+
+# Existe uma versao anterior do executavel, deletar arquivos da ultima execucao com clean do Makefile
+if [ -f "celular_solver" ]; then
+  echo "----> [!] Removing previous versions ..."
+  make clean
+  echo "****************************************************************************************"
+fi
+
+# Compilar codigo fonte
+echo "----> [!] Compiling source code ..."
+make
+echo "******************************************************************************************"
+
+# Chamar o executavel com os parametros definidos no cabecalho desse shell
+echo "----> [!] Executing program ..."
+./celular_solver $DT $TMAX $NUM_MODEL
+echo "******************************************************************************************"
+
+# Executar script de plot do grafico
+echo "----> [!] Plotting results ... "
+python plot.py $NUM_MODEL
+echo "******************************************************************************************"
+
+echo "[!] Shell script terminated ..."
+echo "=========================================================================================="
+
+exit 0
