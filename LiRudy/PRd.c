@@ -295,7 +295,7 @@ int main ()
     y       = 0.0;
     camktrap= 0.0;
     */
-    
+
     // STATE STATE CONDITIONS DURING PACING CL=1000ms
     v		= -84.058830;
     m		= 0.000821;
@@ -333,11 +333,11 @@ int main ()
     u       = 0.535627;
     y       = 0.182859;
     camktrap= 0.010600;
-    
 
     // TIME SETTINGS
 	dvdtclock	= 1000;
-	tmax		= BCL*(beats)+S2+500;
+	//tmax		= BCL*(beats)+S2+500;
+	tmax = 5000;
 	t		= 0;
 	T       = 0;
 	tstim		= 0;
@@ -347,7 +347,6 @@ int main ()
 	// MAIN LOOP
 	while (t<=tmax) 	
 	{
-
 		timestep ();
 		
 		comp_revs ();
@@ -367,7 +366,7 @@ int main ()
 		comp_if ();
 		comp_istim ();
 		comp_itot ();
-		
+
 		comp_ip3 ();
 		comp_qrel1 ();
 		comp_qrel2 ();
@@ -384,7 +383,6 @@ int main ()
 		printtofile ();
 		
 		t	+= dt;
-
 	}
 
 	fclose(ap);
@@ -393,6 +391,8 @@ int main ()
 
 void timestep ()
 {
+	dt = dtmax;
+	/*
 	if ((dvdt>dvdtthresh) || (t>(tstim-2)) || (stimtime<(stimdur+2)) || (dvdtclock<5))
 		dt = dtmin; 			
 	else if (dvdtclock>=5 && dvdtclock<20)
@@ -401,6 +401,7 @@ void timestep ()
 		dt = dtmax; 			
 	
 	if (dvdt>dvdtthresh) dvdtclock = 0;	
+	*/
 	dvdtclock += dt;			
 }
 
@@ -521,7 +522,7 @@ void comp_ikr ()
 	xrtau   = 400.0/(1.0+exp(v/10.0)) + 100.0;
 	rkr	    = 1/(1+exp((v)/35));
 	xr	    = xrss-(xrss-xr)*exp(-dt/xrtau);
-	ikr	    = gkr*xr*rkr*(v-ek); 
+	ikr	    = gkr*xr*rkr*(v-ek);
 }
 
 void comp_iks ()
@@ -611,6 +612,7 @@ void comp_itot ()
 {
 	if (stimtime>=0.0 && stimtime<stimdur)
 	{
+		//printf("stimtime = %lf || stimdur = %lf\n",stimtime,stimdur);
 		icatot	= ical+icat+ipca+icab-2*inaca-2*inacass;
 		iktot	= ikr+iks+ik1-2*inak+ito1+ifk+1*istim;
 		inatot	= 3*inak+ina+3*inaca+3*inacass+inal+ifna+inab;
@@ -685,10 +687,16 @@ void comp_conc ()
 	qgap        = (cassl-cai)/gaptau;  
     qdiffna     = (nasss-nassl)/sstau;
     qgapna      = (nassl-nai)/gaptau;
+	
+	//printf("qdiff = %lf\n",qdiff);
+	//printf("qgap = %lf\n",qgap);
+	//printf("qdiffna = %lf\n",qdiffna);
+	//printf("qgapna = %lf\n",qgapna);
     
 	dcasss		= dt*(-(ical-2*inacass)*acap/(vsss*2.0*frdy)+(qrel1+qip3)*vjsr/vsss-qdiff);
 	bsss        = 1/(1+(bsrbar*kmbsr/pow(kmbsr+casss,2))+(bslbar*kmbsl/pow(kmbsl+casss,2)));
 	casss      += bsss*dcasss;
+	//printf("casss = %lf\n",casss);
 	
 	dcassl		= dt*(-(qup1)*vnsr/vssl+qdiff*vsss/vssl-qgap-(icat+ipca+icab-2*inaca)*acap/(vssl*2.0*frdy));
 	trpn        = trpnbar1*(cassl/(cassl+kmtrpn));
@@ -698,33 +706,41 @@ void comp_conc ()
 	cmyo		= kmcmdn*kmtrpn-catotal*(kmtrpn+kmcmdn)+(trpnbar1*kmcmdn)+cmdnbar1*kmtrpn;
 	dmyo		= -kmtrpn*kmcmdn*catotal;
 	cassl		= (2.0/3.0)*sqrt(bmyo*bmyo-3.0*cmyo)*cos(acos((9.0*bmyo*cmyo-2*bmyo*bmyo*bmyo-27*dmyo)/(2.0*pow((bmyo*bmyo-3.0*cmyo),1.5)))/3.0)-bmyo/3.0;   
- 	
+	//printf("cassl = %lf\n",cassl);
+
 	dcajsr		= dt*(qtr1-qrel1-qip3);
 	csqn1       = csqnbar1*(cajsr/(cajsr+kmcsqn));
 	bjsr        = csqnbar1 - csqn1-cajsr-dcajsr+kmcsqn;
 	cjsr        = kmcsqn*(csqn1+cajsr+dcajsr);
 	cajsr       = (sqrt(bjsr*bjsr+4*cjsr)-bjsr)/2;
+	//printf("cajsr = %lf\n",cajsr);
 	
 	dcacsr		= dt*(qtr2-qrel2);
 	csqn        = csqnbar*(cacsr/(cacsr+kmcsqn));
 	bcsr        = csqnbar - csqn-cacsr-dcacsr+kmcsqn;
 	ccsr        = kmcsqn*(csqn+cacsr+dcacsr);
 	cacsr       = (sqrt(bcsr*bcsr+4*ccsr)-bcsr)/2;
+	//printf("cacsr = %lf\n",cacsr);
 	
 	dcansr	    = dt*(qup1+qup2-qtr1*vjsr/vnsr-qtr2*vcsr/vnsr);
  	cansr	   += dcansr;
+	//printf("cansr = %lf\n",cansr); 
  	
 	dnasss	    = dt*((-(3*inacass)*acap)/((vsss)*zna*frdy)-qdiffna); 
 	nasss      += dnasss;
+	//printf("nasss = %lf\n",nasss);
 	
 	dnassl	    = dt*((-(3*inak+ina+inal+3*inaca+ifna+inab)*acap)/((vssl)*zna*frdy)+qdiffna*vsss/vssl-qgapna);
 	nassl	   += dnassl;
+	//printf("nassl = %lf\n",nassl);
 	
 	dnai        = dt*(qgapna*vssl/vmyo);
 	nai        += dnai;
+	//printf("nai = %lf\n",nai);
 	
 	dki	        = dt*((-iktot*acap)/((vmyo+vssl+vsss)*zk*frdy));
 	ki         += dki;
+	//printf("ki = %lf\n",ki);
 	
 	dcai		= dt*(-(qup2)*vnsr/vmyo+qgap*vssl/vmyo+(qrel2)*vcsr/vmyo);
 	trpn        = trpnbar*(cai/(cai+kmtrpn));
@@ -734,12 +750,15 @@ void comp_conc ()
 	cmyo		= kmcmdn*kmtrpn-catotal*(kmtrpn+kmcmdn)+(trpnbar*kmcmdn)+cmdnbar*kmtrpn;
 	dmyo		= -kmtrpn*kmcmdn*catotal;
 	cai		    = (2.0/3.0)*sqrt(bmyo*bmyo-3.0*cmyo)*cos(acos((9.0*bmyo*cmyo-2*bmyo*bmyo*bmyo-27*dmyo)/(2.0*pow((bmyo*bmyo-3.0*cmyo),1.5)))/3.0)-bmyo/3.0;  
-	
+	//printf("cai = %lf\n",cai);
+
 	caavg       = (casss*vsss+cassl*vssl+cai*vmyo)/(vsss+vmyo+vssl);
-	
+	//printf("caavg = %lf\n",caavg);
+
  	camkbound	= camk0*(1-camktrap)*1/(1+(kmcam/casss));
 	camktrap	= dt*(alphacamk*camkbound*(camkbound+camktrap)-betacamk*camktrap) + camktrap;
-	camkactive	= camkbound+camktrap; 
+	camkactive	= camkbound+camktrap;
+	//printf("camkactive = %lf\n",camkactive); 
 	
 }             
 
@@ -747,11 +766,12 @@ void printtofile ()
 {
 	count    += 1;
 	
+	fprintf(ap,"%f\t%f\t%f\n", t, v, caavg);
 	//PRINT LAST 5 BEATS
 	if (count>=10 && t>=(BCL*(beats-5)))			
 	{
 		count=0;
-		fprintf(ap,"%f\t%f\t%f\n", t-BCL*(beats-5), v, caavg);
+		//fprintf(ap,"%f\t%f\t%f\n", t-BCL*(beats-5), v, caavg);
    	}	
 	
 }

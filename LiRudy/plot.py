@@ -15,6 +15,7 @@ axis.set_ylabel('V')
 axis.plot(data['t'],data['V'],c='b',label='V')
 leg = axis.legend()
 plot.grid()
+plot.ylim([-100,60])
 plot.show()
 
 # Grafico de m
@@ -26,4 +27,5 @@ axis.set_ylabel('Ca')
 axis.plot(data['t'],data['ca'],c='g',label='ca')
 leg = axis.legend()
 plot.grid()
+plot.ylim([0,0.0003])
 plot.show()
