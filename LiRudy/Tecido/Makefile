@@ -1,14 +1,26 @@
-CPP = g++
-CPP_FLAGS = -Wall -O2
-LINKER = -lm
+INCLUDE_DIR = include
+SOURCE_DIR = src
+OBJECT_DIR = obj
+CC = g++
+CFLAGS = -Wall -O2 -std=c++11 -I$(INCLUDE_DIR) -fopenmp
+CC_SOURCES = $(wildcard src/*)
+STRING_OBJ_AUX = $(CC_SOURCES:.cpp=.o)
+STRING_OBJ = $(subst src/,,$(STRING_OBJ_AUX))
+CC_OBJ = $(patsubst %,$(OBJECT_DIR)/%,$(STRING_OBJ))
+PROGRAM_NAME = lirudy
 
-all: prd
+all: $(PROGRAM_NAME)
 
-prd: main.c prd.c
-	$(CPP) $(CPP_FLAGS) -o $@ $^ $(LINKER)
+$(PROGRAM_NAME): $(CC_OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
 
-clear:
-	rm -r prd
+$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cpp
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-plot:
-	python plot.py
+clean:
+	rm -f $(OBJECT_DIR)/*.o *.dat $(PROGRAM_NAME)
+
+rebuild:
+	$(MAKE) clean; $(MAKE)
+
+print-%  : ; @echo $* = $($*)

@@ -19,7 +19,7 @@ for i in range(10):
     leg = axis.legend()
     plot.grid()
     plot.ylim([-100,60])
-    plot.savefig(filename+"_v.png")
+    plot.savefig(filename+"_v.pdf")
     #plot.show()
 
     # Grafico de m
@@ -32,5 +32,5 @@ for i in range(10):
     leg = axis.legend()
     plot.grid()
     plot.ylim([0,0.0003])
-    plot.savefig(filename+"_ca.png")
+    plot.savefig(filename+"_ca.pdf")
     #plot.show()
