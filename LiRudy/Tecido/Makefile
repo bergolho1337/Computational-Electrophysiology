@@ -23,4 +23,7 @@ clean:
 rebuild:
 	$(MAKE) clean; $(MAKE)
 
+plot:
+	python plot.py
+
 print-%  : ; @echo $* = $($*)

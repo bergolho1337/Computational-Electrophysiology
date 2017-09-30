@@ -22,6 +22,104 @@ static constexpr double radius = 0.00175;
 static constexpr double length = 0.0164;	
 static constexpr double rcg = 1.54;
 
+// PHYSICAL CONSTANTS
+static constexpr double frdy = 96485;		      
+static constexpr double R = 8314;			  
+static constexpr double temp = 310;		    
+
+static constexpr double nao = 140;			
+static constexpr double cao = 1.8;			
+static constexpr double ko  = 5.4;			
+static constexpr double clo = 100;		
+
+static constexpr double zna = 1;			
+static constexpr double zk  = 1;			
+static constexpr double zcl = -1;		
+static constexpr double zca = 2;			
+static constexpr double ganai = 0.75;		
+static constexpr double ganao = 0.75;		
+static constexpr double gaki  = 0.75;	
+static constexpr double gako  = 0.75;	
+static constexpr double gacai = 1.0;		
+static constexpr double gacao = 0.341;
+
+// VOLTAGE			
+static constexpr double dvdtthresh = 1;		
+
+// STIMULUS CURRENT
+static constexpr double stimdur = 0.5; // default
+//static constexpr double stimdur = 3.0;
+
+// MEMBRANE IONIC CURRENTS
+static constexpr double gna = 18;	  
+static constexpr double gnal2 = 0.052;	
+static constexpr double gnal3 = 0.018;
+static constexpr double pca = 1.9926e-4;	
+static constexpr double powtau = 10;	
+static constexpr double gcat = 0.07875;    	
+static constexpr double gtos = 0.1414;	   
+static constexpr double gtof = 0.042;  
+static constexpr double prnak = 0.014;
+static constexpr double gnab = 0.0025;     
+
+static constexpr double pcab = 3.99e-8;	  
+static constexpr double pnab = 0.64e-8;
+
+static constexpr double inacamax = 2.52;
+static constexpr double kmcaact = 0.000125;
+static constexpr double kmnai1 = 12.3;		
+static constexpr double kmnao = 87.5;		
+static constexpr double kmcai = 0.0036;	
+static constexpr double kmcao = 1.3;		
+static constexpr double nu = 0.35;			
+static constexpr double ksat = 0.27;	
+static constexpr double ibarnak = 1.1004;
+static constexpr double ipcabar = 0.0115;		   
+static constexpr double kmpca = 0.0005;
+
+// CALCIUM FLUXES RATE CONSTANTS
+static constexpr double tautr1 = 120;
+static constexpr double tautr2 = 120;	
+static constexpr double gaptau = 12;
+static constexpr double sstau = 0.2;
+
+static constexpr double k1 = 150000;
+static constexpr double k1a = 16.5;
+static constexpr double k0 = 96000;
+static constexpr double k0a = 9.6;
+static constexpr double k2 = 1800;
+static constexpr double k2a = 0.21;
+static constexpr double tauip3r = 3.7;
+
+static constexpr double  dqupcamkbar = 0.75;
+static constexpr double  dkmplbbar = 0.00017;
+static constexpr double nsrbar = 15.0;
+static constexpr double bsrbar = 0.019975;	
+static constexpr double kmbsr = 0.00087;		
+static constexpr double bslbar = 0.4777;	
+static constexpr double kmbsl = 0.0087;
+static constexpr double csqnbar = 2.88;		    
+static constexpr double kmcsqn = 0.8;
+
+static constexpr double cmdnbar = 0.1125;	
+static constexpr double kmcmdn = 2.38e-3;
+static constexpr double trpnbar = 3.15e-2;
+static constexpr double kmtrpn = 0.5e-3;
+
+static constexpr double camk0 = 0.05;		
+static constexpr double alphacamk = 0.05;		
+static constexpr double betacamk = 0.00068;	
+static constexpr double kmcam = 0.0015;		
+static constexpr double kmcamk = 0.15;	
+static constexpr double fca_dtaucamkbar = 10.0;
+
+static constexpr double trpnbar1 = 3.5e-3;
+static constexpr double cmdnbar1 = 1.25e-2;
+static constexpr double csqnbar1 = 1.2;
+static constexpr double kmup   = 0.00028;
+static constexpr double IP3 = 0.0001;
+static constexpr double istim = -80;
+
 class Cell
 {
     
@@ -108,6 +206,36 @@ public:
     void solve (int id, double t, double dt);
     void swap ();
     void write (double t, FILE *out);
+    void timestep (double dt);
+
+    // Current functions of the model
+    void comp_revs();
+    void comp_ina ();
+    void comp_inal ();
+    void comp_inab ();
+    void comp_ical ();
+    void comp_icat ();
+    void comp_icab ();
+    void comp_ito1 ();
+    void comp_ikr ();
+    void comp_iks ();
+    void comp_ik1 ();
+    void comp_inaca ();
+    void comp_inak ();
+    void comp_ipca ();
+    void comp_if ();
+    void comp_istim (double t);
+    void comp_itot ();
+
+    void comp_ip3 ();
+    void comp_qrel1 ();
+    void comp_qrel2 ();
+    void comp_qup1 ();
+    void comp_qup2 ();
+    void comp_qtr1 ();
+    void comp_qtr2 ();
+
+    void comp_conc ();
 
     // TO DO
     friend ostream& operator<< (ostream &ost, const Cell &cell)
@@ -118,7 +246,7 @@ public:
 };
 
 void computeGeometrics ();
-
+void setTimestep (double dt, double tmax);
 void setBeats (int nbeats);
 
 #endif
