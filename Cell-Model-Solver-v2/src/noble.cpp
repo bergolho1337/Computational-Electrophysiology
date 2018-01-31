@@ -15,10 +15,10 @@ void Noble::initConst (double CONSTANTS[], double RATES[], double STATES[])
 
 void Noble::compVariables (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
 {
-    RATES[0] = - (ALGEBRAIC[4]+ALGEBRAIC[10]+ALGEBRAIC[11])/CONSTANTS[0];
-    RATES[1] =  ALGEBRAIC[1]*(1.00000 - STATES[1]) -  ALGEBRAIC[5]*STATES[1];
-    RATES[2] =  ALGEBRAIC[2]*(1.00000 - STATES[2]) -  ALGEBRAIC[6]*STATES[2];
-    RATES[3] =  ALGEBRAIC[3]*(1.00000 - STATES[3]) -  ALGEBRAIC[7]*STATES[3];
+    RATES[0] = (- (ALGEBRAIC[4]+ALGEBRAIC[10]+ALGEBRAIC[11])/CONSTANTS[0]) * 1.0E-03;
+    RATES[1] =  (ALGEBRAIC[1]*(1.00000 - STATES[1]) -  ALGEBRAIC[5]*STATES[1]) * 1.0E-03;
+    RATES[2] =  (ALGEBRAIC[2]*(1.00000 - STATES[2]) -  ALGEBRAIC[6]*STATES[2]) * 1.0E-03;
+    RATES[3] =  (ALGEBRAIC[3]*(1.00000 - STATES[3]) -  ALGEBRAIC[7]*STATES[3]) * 1.0E-03;
 }
 
 void Noble::compRates (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
@@ -44,7 +44,7 @@ void Noble::compRates (double t, double CONSTANTS[], double RATES[], double STAT
 */
 
 /*
- * VOI is time in component environment (second).
+ * VOI is time in component environment (milisecond).
  * STATES[0] is V in component membrane (millivolt).
  * CONSTANTS[0] is Cm in component membrane (microF).
  * ALGEBRAIC[4] is i_Na in component sodium_channel (nanoA).
@@ -55,15 +55,15 @@ void Noble::compRates (double t, double CONSTANTS[], double RATES[], double STAT
  * CONSTANTS[2] is E_Na in component sodium_channel (millivolt).
  * STATES[1] is m in component sodium_channel_m_gate (dimensionless).
  * STATES[2] is h in component sodium_channel_h_gate (dimensionless).
- * ALGEBRAIC[1] is alpha_m in component sodium_channel_m_gate (per_second).
- * ALGEBRAIC[5] is beta_m in component sodium_channel_m_gate (per_second).
- * ALGEBRAIC[2] is alpha_h in component sodium_channel_h_gate (per_second).
- * ALGEBRAIC[6] is beta_h in component sodium_channel_h_gate (per_second).
+ * ALGEBRAIC[1] is alpha_m in component sodium_channel_m_gate (per_milisecond).
+ * ALGEBRAIC[5] is beta_m in component sodium_channel_m_gate (per_milisecond).
+ * ALGEBRAIC[2] is alpha_h in component sodium_channel_h_gate (per_milisecond).
+ * ALGEBRAIC[6] is beta_h in component sodium_channel_h_gate (per_milisecond).
  * ALGEBRAIC[8] is g_K1 in component potassium_channel (microS).
  * ALGEBRAIC[9] is g_K2 in component potassium_channel (microS).
  * STATES[3] is n in component potassium_channel_n_gate (dimensionless).
- * ALGEBRAIC[3] is alpha_n in component potassium_channel_n_gate (per_second).
- * ALGEBRAIC[7] is beta_n in component potassium_channel_n_gate (per_second).
+ * ALGEBRAIC[3] is alpha_n in component potassium_channel_n_gate (per_milisecond).
+ * ALGEBRAIC[7] is beta_n in component potassium_channel_n_gate (per_milisecond).
  * CONSTANTS[3] is g_L in component leakage_current (microS).
  * CONSTANTS[4] is E_L in component leakage_current (millivolt).
  * RATES[0] is d/dt V in component membrane (millivolt).

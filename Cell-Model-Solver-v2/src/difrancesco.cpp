@@ -121,22 +121,22 @@ void DiFrancesco::compVariables (double t, double CONSTANTS[], double RATES[], d
     
 void DiFrancesco::compRates (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
 {
-    RATES[0] = - (ALGEBRAIC[25]+ALGEBRAIC[27]+ALGEBRAIC[28]+ALGEBRAIC[29]+ALGEBRAIC[30]+ALGEBRAIC[32]+ALGEBRAIC[33]+ALGEBRAIC[34]+ALGEBRAIC[36]+ALGEBRAIC[43]+CONSTANTS[4])/CONSTANTS[3];
-    RATES[1] =  - CONSTANTS[44]*(STATES[1] - CONSTANTS[43])+( 1.00000*ALGEBRAIC[42])/( 1.00000*CONSTANTS[42]*CONSTANTS[2]);
-    RATES[2] = ( - 1.00000*ALGEBRAIC[42])/( 1.00000*CONSTANTS[47]*CONSTANTS[2]);
-    RATES[3] = ( - 1.00000*(ALGEBRAIC[36]+ALGEBRAIC[30]+ALGEBRAIC[23]+ALGEBRAIC[40]+ ALGEBRAIC[33]*3.00000+( ALGEBRAIC[34]*CONSTANTS[22])/(CONSTANTS[22] - 2.00000)))/( 1.00000*CONSTANTS[47]*CONSTANTS[2]);
-    RATES[4] =  ALGEBRAIC[1]*(1.00000 - STATES[4]) -  ALGEBRAIC[19]*STATES[4];
-    RATES[5] =  ALGEBRAIC[2]*(1.00000 - STATES[5]) -  ALGEBRAIC[12]*STATES[5];
-    RATES[6] = ( - 1.00000*((((ALGEBRAIC[37]+ALGEBRAIC[32]) - ( 2.00000*ALGEBRAIC[34])/(CONSTANTS[22] - 2.00000)) - ALGEBRAIC[44])+ALGEBRAIC[39]))/( 2.00000*1.00000*CONSTANTS[47]*CONSTANTS[2]);
-    RATES[7] =  ALGEBRAIC[3]*(1.00000 - STATES[7]) -  ALGEBRAIC[13]*STATES[7];
-    RATES[8] =  ALGEBRAIC[14]*(1.00000 - STATES[8]) -  ALGEBRAIC[20]*STATES[8];
-    RATES[9] =  ALGEBRAIC[5]*(1.00000 - STATES[9]) -  ALGEBRAIC[15]*STATES[9];
-    RATES[10] =  ALGEBRAIC[16]*(1.00000 - STATES[10]) -  ALGEBRAIC[21]*STATES[10];
-    RATES[11] =  ALGEBRAIC[17]*(1.00000 - STATES[11]) -  ALGEBRAIC[22]*STATES[11];
-    RATES[12] = CONSTANTS[31] -  STATES[12]*(CONSTANTS[31]+ALGEBRAIC[8]);
-    RATES[13] = ( 1.00000*(ALGEBRAIC[39] - ALGEBRAIC[41]))/( 2.00000*1.00000*CONSTANTS[48]*CONSTANTS[2]);
-    RATES[14] = ( 1.00000*(ALGEBRAIC[41] - ALGEBRAIC[44]))/( 2.00000*1.00000*CONSTANTS[49]*CONSTANTS[2]);
-    RATES[15] =  ALGEBRAIC[9]*(1.00000 - STATES[15]) -  ALGEBRAIC[18]*STATES[15];    
+    RATES[0] = (- (ALGEBRAIC[25]+ALGEBRAIC[27]+ALGEBRAIC[28]+ALGEBRAIC[29]+ALGEBRAIC[30]+ALGEBRAIC[32]+ALGEBRAIC[33]+ALGEBRAIC[34]+ALGEBRAIC[36]+ALGEBRAIC[43]+CONSTANTS[4])/CONSTANTS[3]) * 1.0E-03;
+    RATES[1] =  (- CONSTANTS[44]*(STATES[1] - CONSTANTS[43])+( 1.00000*ALGEBRAIC[42])/( 1.00000*CONSTANTS[42]*CONSTANTS[2])) * 1.0E-03;
+    RATES[2] = ( ( - 1.00000*ALGEBRAIC[42])/( 1.00000*CONSTANTS[47]*CONSTANTS[2]) ) * 1.0E-03;
+    RATES[3] = ( ( - 1.00000*(ALGEBRAIC[36]+ALGEBRAIC[30]+ALGEBRAIC[23]+ALGEBRAIC[40]+ ALGEBRAIC[33]*3.00000+( ALGEBRAIC[34]*CONSTANTS[22])/(CONSTANTS[22] - 2.00000)))/( 1.00000*CONSTANTS[47]*CONSTANTS[2])) * 1.0E-03;
+    RATES[4] =  (ALGEBRAIC[1]*(1.00000 - STATES[4]) -  ALGEBRAIC[19]*STATES[4]) * 1.0E-03;
+    RATES[5] =  (ALGEBRAIC[2]*(1.00000 - STATES[5]) -  ALGEBRAIC[12]*STATES[5]) * 1.0E-03;
+    RATES[6] = (( - 1.00000*((((ALGEBRAIC[37]+ALGEBRAIC[32]) - ( 2.00000*ALGEBRAIC[34])/(CONSTANTS[22] - 2.00000)) - ALGEBRAIC[44])+ALGEBRAIC[39]))/( 2.00000*1.00000*CONSTANTS[47]*CONSTANTS[2])) * 1.0E-03;
+    RATES[7] =  (ALGEBRAIC[3]*(1.00000 - STATES[7]) -  ALGEBRAIC[13]*STATES[7]) * 1.0E-03;
+    RATES[8] =  (ALGEBRAIC[14]*(1.00000 - STATES[8]) -  ALGEBRAIC[20]*STATES[8]) * 1.0E-03;
+    RATES[9] =  (ALGEBRAIC[5]*(1.00000 - STATES[9]) -  ALGEBRAIC[15]*STATES[9]) * 1.0E-03;
+    RATES[10] =  (ALGEBRAIC[16]*(1.00000 - STATES[10]) -  ALGEBRAIC[21]*STATES[10]) * 1.0E-03;
+    RATES[11] =  (ALGEBRAIC[17]*(1.00000 - STATES[11]) -  ALGEBRAIC[22]*STATES[11]) * 1.0E-03;
+    RATES[12] = (CONSTANTS[31] -  STATES[12]*(CONSTANTS[31]+ALGEBRAIC[8])) * 1.0E-03;
+    RATES[13] = (( 1.00000*(ALGEBRAIC[39] - ALGEBRAIC[41]))/( 2.00000*1.00000*CONSTANTS[48]*CONSTANTS[2])) * 1.0E-03;
+    RATES[14] = (( 1.00000*(ALGEBRAIC[41] - ALGEBRAIC[44]))/( 2.00000*1.00000*CONSTANTS[49]*CONSTANTS[2])) * 1.0E-03;
+    RATES[15] =  (ALGEBRAIC[9]*(1.00000 - STATES[15]) -  ALGEBRAIC[18]*STATES[15]) * 1.0E-03;    
 }
 
 /*
@@ -146,7 +146,7 @@ void DiFrancesco::compRates (double t, double CONSTANTS[], double RATES[], doubl
  */
 
 /*
- * VOI is time in component environment (second).
+ * VOI is time in component environment (milisecond).
  * STATES[0] is V in component membrane (millivolt).
  * CONSTANTS[0] is R in component membrane (joule_per_kilomole_kelvin).
  * CONSTANTS[1] is T in component membrane (kelvin).
@@ -176,15 +176,15 @@ void DiFrancesco::compRates (double t, double CONSTANTS[], double RATES[], doubl
  * STATES[3] is Nai in component intracellular_sodium_concentration (millimolar).
  * CONSTANTS[8] is Nao in component extracellular_sodium_concentration (millimolar).
  * STATES[4] is y in component hyperpolarising_activated_current_y_gate (dimensionless).
- * ALGEBRAIC[1] is alpha_y in component hyperpolarising_activated_current_y_gate (per_second).
- * ALGEBRAIC[19] is beta_y in component hyperpolarising_activated_current_y_gate (per_second).
+ * ALGEBRAIC[1] is alpha_y in component hyperpolarising_activated_current_y_gate (per_milisecond).
+ * ALGEBRAIC[19] is beta_y in component hyperpolarising_activated_current_y_gate (per_milisecond).
  * CONSTANTS[9] is delta_y in component hyperpolarising_activated_current_y_gate (millivolt).
  * ALGEBRAIC[11] is E0_y in component hyperpolarising_activated_current_y_gate (millivolt).
  * ALGEBRAIC[26] is I_K in component time_dependent_potassium_current (nanoA).
  * CONSTANTS[10] is i_K_max in component time_dependent_potassium_current (nanoA).
  * STATES[5] is x in component time_dependent_potassium_current_x_gate (dimensionless).
- * ALGEBRAIC[2] is alpha_x in component time_dependent_potassium_current_x_gate (per_second).
- * ALGEBRAIC[12] is beta_x in component time_dependent_potassium_current_x_gate (per_second).
+ * ALGEBRAIC[2] is alpha_x in component time_dependent_potassium_current_x_gate (per_milisecond).
+ * ALGEBRAIC[12] is beta_x in component time_dependent_potassium_current_x_gate (per_milisecond).
  * CONSTANTS[11] is g_K1 in component time_independent_potassium_current (microS).
  * CONSTANTS[12] is Km_K1 in component time_independent_potassium_current (millimolar).
  * CONSTANTS[13] is Km_to in component transient_outward_current (millimolar).
@@ -192,8 +192,8 @@ void DiFrancesco::compRates (double t, double CONSTANTS[], double RATES[], doubl
  * CONSTANTS[15] is g_to in component transient_outward_current (microS_per_millimolar).
  * STATES[6] is Cai in component intracellular_calcium_concentration (millimolar).
  * STATES[7] is s in component transient_outward_current_s_gate (dimensionless).
- * ALGEBRAIC[3] is alpha_s in component transient_outward_current_s_gate (per_second).
- * ALGEBRAIC[13] is beta_s in component transient_outward_current_s_gate (per_second).
+ * ALGEBRAIC[3] is alpha_s in component transient_outward_current_s_gate (per_milisecond).
+ * ALGEBRAIC[13] is beta_s in component transient_outward_current_s_gate (per_milisecond).
  * CONSTANTS[16] is g_Nab in component sodium_background_current (microS).
  * ALGEBRAIC[31] is E_Ca in component calcium_background_current (millivolt).
  * CONSTANTS[17] is g_Cab in component calcium_background_current (microS).
@@ -209,12 +209,12 @@ void DiFrancesco::compRates (double t, double CONSTANTS[], double RATES[], doubl
  * ALGEBRAIC[35] is E_mh in component fast_sodium_current (millivolt).
  * STATES[8] is m in component fast_sodium_current_m_gate (dimensionless).
  * STATES[9] is h in component fast_sodium_current_h_gate (dimensionless).
- * ALGEBRAIC[14] is alpha_m in component fast_sodium_current_m_gate (per_second).
- * ALGEBRAIC[20] is beta_m in component fast_sodium_current_m_gate (per_second).
+ * ALGEBRAIC[14] is alpha_m in component fast_sodium_current_m_gate (per_milisecond).
+ * ALGEBRAIC[20] is beta_m in component fast_sodium_current_m_gate (per_milisecond).
  * CONSTANTS[27] is delta_m in component fast_sodium_current_m_gate (millivolt).
  * ALGEBRAIC[4] is E0_m in component fast_sodium_current_m_gate (millivolt).
- * ALGEBRAIC[5] is alpha_h in component fast_sodium_current_h_gate (per_second).
- * ALGEBRAIC[15] is beta_h in component fast_sodium_current_h_gate (per_second).
+ * ALGEBRAIC[5] is alpha_h in component fast_sodium_current_h_gate (per_milisecond).
+ * ALGEBRAIC[15] is beta_h in component fast_sodium_current_h_gate (per_milisecond).
  * ALGEBRAIC[37] is i_siCa in component second_inward_current (nanoA).
  * ALGEBRAIC[38] is i_siK in component second_inward_current (nanoA).
  * ALGEBRAIC[40] is i_siNa in component second_inward_current (nanoA).
@@ -222,16 +222,16 @@ void DiFrancesco::compRates (double t, double CONSTANTS[], double RATES[], doubl
  * STATES[10] is d in component second_inward_current_d_gate (dimensionless).
  * STATES[11] is f in component second_inward_current_f_gate (dimensionless).
  * STATES[12] is f2 in component second_inward_current_f2_gate (dimensionless).
- * ALGEBRAIC[16] is alpha_d in component second_inward_current_d_gate (per_second).
- * ALGEBRAIC[21] is beta_d in component second_inward_current_d_gate (per_second).
+ * ALGEBRAIC[16] is alpha_d in component second_inward_current_d_gate (per_milisecond).
+ * ALGEBRAIC[21] is beta_d in component second_inward_current_d_gate (per_milisecond).
  * CONSTANTS[29] is delta_d in component second_inward_current_d_gate (millivolt).
  * ALGEBRAIC[6] is E0_d in component second_inward_current_d_gate (millivolt).
- * ALGEBRAIC[17] is alpha_f in component second_inward_current_f_gate (per_second).
- * ALGEBRAIC[22] is beta_f in component second_inward_current_f_gate (per_second).
+ * ALGEBRAIC[17] is alpha_f in component second_inward_current_f_gate (per_milisecond).
+ * ALGEBRAIC[22] is beta_f in component second_inward_current_f_gate (per_milisecond).
  * CONSTANTS[30] is delta_f in component second_inward_current_f_gate (millivolt).
  * ALGEBRAIC[7] is E0_f in component second_inward_current_f_gate (millivolt).
- * CONSTANTS[31] is alpha_f2 in component second_inward_current_f2_gate (per_second).
- * ALGEBRAIC[8] is beta_f2 in component second_inward_current_f2_gate (per_second).
+ * CONSTANTS[31] is alpha_f2 in component second_inward_current_f2_gate (per_milisecond).
+ * ALGEBRAIC[8] is beta_f2 in component second_inward_current_f2_gate (per_milisecond).
  * CONSTANTS[32] is K_mf2 in component second_inward_current_f2_gate (millimolar).
  * CONSTANTS[33] is radius in component intracellular_sodium_concentration (micrometre).
  * CONSTANTS[34] is length in component intracellular_sodium_concentration (micrometre).
@@ -248,16 +248,16 @@ void DiFrancesco::compRates (double t, double CONSTANTS[], double RATES[], doubl
  * CONSTANTS[36] is Ca_up_max in component intracellular_calcium_concentration (millimolar).
  * CONSTANTS[37] is K_mCa in component intracellular_calcium_concentration (millimolar).
  * STATES[15] is p in component intracellular_calcium_concentration (dimensionless).
- * ALGEBRAIC[9] is alpha_p in component intracellular_calcium_concentration (per_second).
- * ALGEBRAIC[18] is beta_p in component intracellular_calcium_concentration (per_second).
- * CONSTANTS[38] is tau_up in component intracellular_calcium_concentration (second).
- * CONSTANTS[39] is tau_rep in component intracellular_calcium_concentration (second).
- * CONSTANTS[40] is tau_rel in component intracellular_calcium_concentration (second).
+ * ALGEBRAIC[9] is alpha_p in component intracellular_calcium_concentration (per_milisecond).
+ * ALGEBRAIC[18] is beta_p in component intracellular_calcium_concentration (per_milisecond).
+ * CONSTANTS[38] is tau_up in component intracellular_calcium_concentration (milisecond).
+ * CONSTANTS[39] is tau_rep in component intracellular_calcium_concentration (milisecond).
+ * CONSTANTS[40] is tau_rel in component intracellular_calcium_concentration (milisecond).
  * CONSTANTS[41] is rCa in component intracellular_calcium_concentration (dimensionless).
  * CONSTANTS[42] is Ve in component extracellular_potassium_concentration (micrometre3).
  * CONSTANTS[43] is Kb in component extracellular_potassium_concentration (millimolar).
  * ALGEBRAIC[42] is i_mK in component extracellular_potassium_concentration (nanoA).
- * CONSTANTS[44] is pf in component extracellular_potassium_concentration (per_second).
+ * CONSTANTS[44] is pf in component extracellular_potassium_concentration (per_milisecond).
  * RATES[0] is d/dt V in component membrane (millivolt).
  * RATES[4] is d/dt y in component hyperpolarising_activated_current_y_gate (dimensionless).
  * RATES[5] is d/dt x in component time_dependent_potassium_current_x_gate (dimensionless).
