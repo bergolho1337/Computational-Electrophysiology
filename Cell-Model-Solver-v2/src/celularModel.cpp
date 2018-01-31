@@ -125,7 +125,7 @@ void Usage (const char pName[])
   cout << "-----------------------------------------------------------------------" << endl;
   cout << "Examples:> " << pName << " 0.1 500.0 1 (1 pulse Mitchell)" << endl;
   cout << "           " << pName << " 0.1 600 2 (1 pulse Noble)" << endl;
-  cout << "           " << pName << " 1.0e-05 2.0 3 (1 pulse DiFrancesco)" << endl;
+  cout << "           " << pName << " 0.01 2000 3 (1 pulse DiFrancesco)" << endl;
 }
 
 void CelullarModel::WriteLogFile (const double elapsedTime)
