@@ -17,6 +17,9 @@ CelullarModel::CelullarModel (int argc, char *argv[])
     case 3: cout << "[!] Building DiFrancesco model ..." << endl;
             buildDiFrancesco();
             break;
+    case 4: cout << "[!] Building LuoRudy model ..." << endl;
+            buildLuoRudy();
+            break;
     
     default:  cout << "[-] Invalid ID code!" << endl;
               break;
@@ -76,6 +79,21 @@ void CelullarModel::buildDiFrancesco ()
   MODEL->initConst(CONSTANTS,RATES,STATES);
 }
 
+void CelullarModel::buildLuoRudy ()
+{
+  NRATES = 8;
+  NCONSTANTS = 24;
+  NALGEBRAICS = 25;
+
+  MODEL = new LuoRudy("LuoRudy");
+  ALGEBRAIC = new double[NALGEBRAICS];
+  RATES = new double[NRATES];
+  STATES = new double[NRATES];
+  CONSTANTS = new double[NCONSTANTS];
+
+  MODEL->initConst(CONSTANTS,RATES,STATES);
+}
+
 void CelullarModel::Solve ()
 {
   double start, end, elapsed;
@@ -122,10 +140,12 @@ void Usage (const char pName[])
   cout << "\t1 - Mitchell and Schaeffer" << endl;
   cout << "\t2 - Noble" << endl;
   cout << "\t3 - DiFrancesco" << endl;
+  cout << "\t4 - Luo and Rudy 1" << endl;
   cout << "-----------------------------------------------------------------------" << endl;
   cout << "Examples:> " << pName << " 0.1 500.0 1 (1 pulse Mitchell)" << endl;
   cout << "           " << pName << " 0.1 600 2 (1 pulse Noble)" << endl;
   cout << "           " << pName << " 0.01 2000 3 (1 pulse DiFrancesco)" << endl;
+  cout << "           " << pName << " 0.01 2000 4 (1 pulse LuoRudy)" << endl;
 }
 
 void CelullarModel::WriteLogFile (const double elapsedTime)
@@ -139,6 +159,8 @@ void CelullarModel::WriteLogFile (const double elapsedTime)
     case 2:   logFile << "Noble" << endl;
               break;
     case 3:   logFile << "DiFrancesco" << endl;
+              break;
+    case 4:   logFile << "LuoRudy" << endl;
               break;
     default:  cout << "[-] Invalid ID !" << endl;
               exit(EXIT_FAILURE);

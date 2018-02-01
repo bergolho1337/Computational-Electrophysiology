@@ -11,6 +11,8 @@ def setNameStates (modelName):
         nameStates = ["V","m","h","n"]
     elif (modelName == "DiFrancesco"):
         nameStates = ["V","Kc","Ki","Nai","y","x","Cai","s","m","h","d","f","f2","Ca_up","Ca_rel","p"]
+    elif (modelName == "LuoRudy"):
+        nameStates = ["V","m","h","j","Cai","d","f","X"]
     else:
         print("[-] Invalid model name!")
         sys.exit(-1)
