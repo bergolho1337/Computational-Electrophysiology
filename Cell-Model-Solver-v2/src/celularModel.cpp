@@ -20,6 +20,9 @@ CelullarModel::CelullarModel (int argc, char *argv[])
     case 4: cout << "[!] Building LuoRudy model ..." << endl;
             buildLuoRudy();
             break;
+    case 5: cout << "[!] Building Fitz-Hugh Nagumo model ..." << endl;
+            buildFitzHugh();
+            break;
     
     default:  cout << "[-] Invalid ID code!" << endl;
               break;
@@ -94,6 +97,21 @@ void CelullarModel::buildLuoRudy ()
   MODEL->initConst(CONSTANTS,RATES,STATES);
 }
 
+void CelullarModel::buildFitzHugh ()
+{
+  NRATES = 2;
+  NCONSTANTS = 3;
+  NALGEBRAICS = 1;
+
+  MODEL = new FitzHugh("Fitz-Hugh");
+  ALGEBRAIC = new double[NALGEBRAICS];
+  RATES = new double[NRATES];
+  STATES = new double[NRATES];
+  CONSTANTS = new double[NCONSTANTS];
+
+  MODEL->initConst(CONSTANTS,RATES,STATES);
+}
+
 void CelullarModel::Solve ()
 {
   double start, end, elapsed;
@@ -141,11 +159,14 @@ void Usage (const char pName[])
   cout << "\t2 - Noble" << endl;
   cout << "\t3 - DiFrancesco" << endl;
   cout << "\t4 - Luo and Rudy 1" << endl;
+  cout << "\t5 - Fitz-Hugh Nagumo" << endl;
   cout << "-----------------------------------------------------------------------" << endl;
   cout << "Examples:> " << pName << " 0.1 500.0 1 (1 pulse Mitchell)" << endl;
   cout << "           " << pName << " 0.1 600 2 (1 pulse Noble)" << endl;
   cout << "           " << pName << " 0.01 2000 3 (1 pulse DiFrancesco)" << endl;
   cout << "           " << pName << " 0.01 2000 4 (1 pulse LuoRudy)" << endl;
+  cout << "           " << pName << " 0.01 1000 5 (5 pulses Fitz-Hugh)" << endl;
+  
 }
 
 void CelullarModel::WriteLogFile (const double elapsedTime)
@@ -161,6 +182,8 @@ void CelullarModel::WriteLogFile (const double elapsedTime)
     case 3:   logFile << "DiFrancesco" << endl;
               break;
     case 4:   logFile << "LuoRudy" << endl;
+              break;
+    case 5:   logFile << "FitzHugh" << endl;
               break;
     default:  cout << "[-] Invalid ID !" << endl;
               exit(EXIT_FAILURE);

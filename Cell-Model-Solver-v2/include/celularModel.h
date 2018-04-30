@@ -12,6 +12,7 @@
 #include "../include/noble.h"
 #include "../include/difrancesco.h"
 #include "../include/luorudy.h"
+#include "../include/fitzhugh.h"
 #include "../include/timer.h"
 
 using namespace std;
@@ -39,6 +40,7 @@ public:
   void buildNoble ();
   void buildDiFrancesco ();
   void buildLuoRudy ();
+  void buildFitzHugh ();
   void Solve ();
   void PrintSolution (ofstream &out, const double t, const double STATES[]);
   void WriteLogFile (const double elapsedTime);
