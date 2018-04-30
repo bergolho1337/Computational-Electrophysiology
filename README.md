@@ -1,2 +1,2 @@
-# Eletrofisiologia_Computacional
-Programas da Disciplina Eletrofisiologia Computacional
+# Computational-Electrophysiology
+Programs implemented for the Computational Electrophysiology class.
