@@ -37,6 +37,31 @@ void Noble::compRates (double t, double CONSTANTS[], double RATES[], double STAT
     ALGEBRAIC[11] =  CONSTANTS[3]*(STATES[0] - CONSTANTS[4]);
 }
 
+void Noble::compRates_FE (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+    // V
+    RATES[0] = (- (ALGEBRAIC[4]+ALGEBRAIC[10]+ALGEBRAIC[11])/CONSTANTS[0]) * 1.0E-03;
+}
+
+void Noble::RL (double DT, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+    // Forward Euler for V
+    STATES[0] = STATES[0] + RATES[0]*DT;
+    
+    // Rush-Larsen for m, h, n
+    double m_inf = ALGEBRAIC[1] / (ALGEBRAIC[1] + ALGEBRAIC[5]);
+    double tau_m = 1.0 / (ALGEBRAIC[1] + ALGEBRAIC[5]);
+    STATES[1] = m_inf + ((STATES[1] - m_inf)*exp(-DT * 1.0E-03/tau_m));
+
+    double h_inf = ALGEBRAIC[2] / (ALGEBRAIC[2] + ALGEBRAIC[6]);
+    double tau_h = 1.0 / (ALGEBRAIC[2] + ALGEBRAIC[6]);
+    STATES[2] = h_inf + ((STATES[2] - h_inf)*exp(-DT * 1.0E-03/tau_h));
+
+    double n_inf = ALGEBRAIC[3] / (ALGEBRAIC[3] + ALGEBRAIC[7]);
+    double tau_n = 1.0 / (ALGEBRAIC[3] + ALGEBRAIC[7]);
+    STATES[3] = n_inf + ((STATES[3] - n_inf)*exp(-DT * 1.0E-03/tau_n));
+}
+
 /*
    There are a total of 12 entries in the algebraic variable array.
    There are a total of 4 entries in each of the rate and state variable arrays.
@@ -46,28 +71,29 @@ void Noble::compRates (double t, double CONSTANTS[], double RATES[], double STAT
 /*
  * VOI is time in component environment (milisecond).
  * STATES[0] is V in component membrane (millivolt).
- * CONSTANTS[0] is Cm in component membrane (microF).
- * ALGEBRAIC[4] is i_Na in component sodium_channel (nanoA).
- * ALGEBRAIC[10] is i_K in component potassium_channel (nanoA).
- * ALGEBRAIC[11] is i_Leak in component leakage_current (nanoA).
- * CONSTANTS[1] is g_Na_max in component sodium_channel (microS).
  * ALGEBRAIC[0] is g_Na in component sodium_channel (microS).
- * CONSTANTS[2] is E_Na in component sodium_channel (millivolt).
- * STATES[1] is m in component sodium_channel_m_gate (dimensionless).
- * STATES[2] is h in component sodium_channel_h_gate (dimensionless).
  * ALGEBRAIC[1] is alpha_m in component sodium_channel_m_gate (per_milisecond).
- * ALGEBRAIC[5] is beta_m in component sodium_channel_m_gate (per_milisecond).
  * ALGEBRAIC[2] is alpha_h in component sodium_channel_h_gate (per_milisecond).
+ * ALGEBRAIC[3] is alpha_n in component potassium_channel_n_gate (per_milisecond).
+ * ALGEBRAIC[4] is i_Na in component sodium_channel (nanoA).
+ * ALGEBRAIC[5] is beta_m in component sodium_channel_m_gate (per_milisecond).
  * ALGEBRAIC[6] is beta_h in component sodium_channel_h_gate (per_milisecond).
+ * ALGEBRAIC[7] is beta_n in component potassium_channel_n_gate (per_milisecond).
  * ALGEBRAIC[8] is g_K1 in component potassium_channel (microS).
  * ALGEBRAIC[9] is g_K2 in component potassium_channel (microS).
+ * ALGEBRAIC[10] is i_K in component potassium_channel (nanoA).
+ * ALGEBRAIC[11] is i_Leak in component leakage_current (nanoA).
+ * STATES[1] is m in component sodium_channel_m_gate (dimensionless).
+ * STATES[2] is h in component sodium_channel_h_gate (dimensionless).
  * STATES[3] is n in component potassium_channel_n_gate (dimensionless).
- * ALGEBRAIC[3] is alpha_n in component potassium_channel_n_gate (per_milisecond).
- * ALGEBRAIC[7] is beta_n in component potassium_channel_n_gate (per_milisecond).
- * CONSTANTS[3] is g_L in component leakage_current (microS).
- * CONSTANTS[4] is E_L in component leakage_current (millivolt).
  * RATES[0] is d/dt V in component membrane (millivolt).
  * RATES[1] is d/dt m in component sodium_channel_m_gate (dimensionless).
  * RATES[2] is d/dt h in component sodium_channel_h_gate (dimensionless).
  * RATES[3] is d/dt n in component potassium_channel_n_gate (dimensionless).
+ * CONSTANTS[0] is Cm in component membrane (microF).
+ * CONSTANTS[1] is g_Na_max in component sodium_channel (microS).
+ * CONSTANTS[2] is E_Na in component sodium_channel (millivolt).
+ * CONSTANTS[3] is g_L in component leakage_current (microS).
+ * CONSTANTS[4] is E_L in component leakage_current (millivolt).
+ * 
  */

@@ -21,6 +21,9 @@ public:
   virtual void initConst (double CONSTANTS[], double RATES[], double STATES[]) = 0;
   virtual void compVariables (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[]) = 0;
   virtual void compRates (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[]) = 0;
+  // Rush-Larsen functions
+  virtual void compRates_FE (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[]) = 0;
+  virtual void RL (double DT, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[]) = 0;
 };
 
 #endif

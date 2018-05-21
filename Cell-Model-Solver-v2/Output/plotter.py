@@ -15,6 +15,12 @@ def setNameStates (modelName):
         nameStates = ["V","m","h","j","Cai","d","f","X"]
     elif (modelName == "FitzHugh"):
         nameStates = ["V","h"]
+    elif (modelName == "TenTusscherMC"):
+        nameStates = ["V","Ki","Nai","Cai","Xr1","Xr2","Xs","m","h","j","Cass","d","f","f2","fCass","s","r","CaSR","Rprime"]
+    elif (modelName == "TenTusscherEPI"):
+        nameStates = ["V","Ki","Nai","Cai","Xr1","Xr2","Xs","m","h","j","Cass","d","f","f2","fCass","s","r","CaSR","Rprime"]
+    elif (modelName == "TenTusscherENDO"):
+        nameStates = ["V","Ki","Nai","Cai","Xr1","Xr2","Xs","m","h","j","Cass","d","f","f2","fCass","s","r","CaSR","Rprime"]
     else:
         print("[-] Invalid model name!")
         sys.exit(-1)
@@ -31,6 +37,7 @@ def plotSolution (nameStates):
         pyplot.grid()
         pyplot.legend(loc=0,fontsize=15)
         pyplot.savefig("Output/" + nameStates[i] + ".pdf")
+	    #pyplot.savefig("Output/" + nameStates[i] + ".png")
         #pyplot.show()
 
 def main ():

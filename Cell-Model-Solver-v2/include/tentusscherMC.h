@@ -1,22 +1,22 @@
-// A Modification of the Hodgkin-Huxley Equations Applicable to Purkinje Fibre Action and Pace-Maker Potentials
-// Noble, 1962
+// Alternans and spiral breakup in a human ventricular tissue model
+// Midmiocardium cell
+// TenTusscher, 2006
 
-#ifndef NOBLE_H
-#define NOBLE_H
+#ifndef TENTUSSCHERMC_H
+#define TENTUSSCHERMC_H
 
 #include "../include/model.h"
 
-class Noble: public Model
+class TenTusscherMC: public Model
 {
 public:
-    Noble (string name) : Model(name) { };
+    TenTusscherMC (string name) : Model(name) { };
     void initConst (double CONSTANTS[], double RATES[], double STATES[]);
     void compVariables (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[]);
     void compRates (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[]);
-    // Rush-Larsen methods
+    // Rush-Larsen
     void compRates_FE (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[]);
     void RL (double DT, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[]);
 };
-
 
 #endif

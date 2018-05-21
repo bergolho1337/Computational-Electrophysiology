@@ -1,0 +1,3 @@
+- Diminuir o tamanho dos arquivos de saida ".dat"	--> Usar HDF5
+- Melhorar a entrada do programa			--> Usar "getopt.h", arquivo ".ini"
+

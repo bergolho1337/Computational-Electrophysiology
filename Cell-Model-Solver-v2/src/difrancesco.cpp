@@ -139,6 +139,16 @@ void DiFrancesco::compRates (double t, double CONSTANTS[], double RATES[], doubl
     RATES[15] =  (ALGEBRAIC[9]*(1.00000 - STATES[15]) -  ALGEBRAIC[18]*STATES[15]) * 1.0E-03;    
 }
 
+void DiFrancesco::compRates_FE (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+
+}
+
+void DiFrancesco::RL (double DT, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+
+}
+
 /*
    There are a total of 45 entries in the algebraic variable array.
    There are a total of 16 entries in each of the rate and state variable arrays.

@@ -25,6 +25,16 @@ void FitzHugh::compVariables (double t, double CONSTANTS[], double RATES[], doub
     //ALGEBRAIC[0] = (t>=0.00000 && t<=0.500000 ?  0.0000 : 0.00000);
 }
 
+void FitzHugh::compRates_FE (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+
+}
+
+void FitzHugh::RL (double DT, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+
+}
+
 /*
    There are a total of 1 entries in the algebraic variable array.
    There are a total of 2 entries in each of the rate and state variable arrays.

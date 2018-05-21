@@ -77,6 +77,16 @@ void LuoRudy::compRates (double t, double CONSTANTS[], double RATES[], double ST
     RATES[7] =  ALGEBRAIC[6]*(1.00000 - STATES[7]) -  ALGEBRAIC[13]*STATES[7];
 }
 
+void LuoRudy::compRates_FE (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+
+}
+
+void LuoRudy::RL (double DT, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+
+}
+
 /*
    There are a total of 25 entries in the algebraic variable array.
    There are a total of 8 entries in each of the rate and state variable arrays.

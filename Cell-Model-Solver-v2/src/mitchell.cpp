@@ -29,6 +29,16 @@ void Mitchell::compRates (double t, double CONSTANTS[], double RATES[], double S
     RATES[1] = (STATES[0]<CONSTANTS[8] ? (1.00000 - STATES[1])/CONSTANTS[6] : - STATES[1]/CONSTANTS[7]);
 }
 
+void Mitchell::compRates_FE (double t, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+
+}
+
+void Mitchell::RL (double DT, double CONSTANTS[], double RATES[], double STATES[], double ALGEBRAIC[])
+{
+
+}
+
 /*
    There are a total of 3 entries in the algebraic variable array.
    There are a total of 2 entries in each of the rate and state variable arrays.

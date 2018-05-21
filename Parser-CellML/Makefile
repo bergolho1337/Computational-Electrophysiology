@@ -3,28 +3,24 @@ SOURCE_DIR = src
 OBJECT_DIR = obj
 CC = g++
 CFLAGS = -Wall -O2 -std=c++11 -I$(INCLUDE_DIR)
-PFLAGS = -DOUTPUT
 CC_SOURCES = $(wildcard src/*)
 STRING_OBJ_AUX = $(CC_SOURCES:.cpp=.o)
 STRING_OBJ = $(subst src/,,$(STRING_OBJ_AUX))
 CC_OBJ = $(patsubst %,$(OBJECT_DIR)/%,$(STRING_OBJ))
-PROGRAM_NAME = celular_solver
+PROGRAM_NAME = parser
 
 all: $(PROGRAM_NAME)
 
 $(PROGRAM_NAME): $(CC_OBJ)
-	$(CC) $(CFLAGS) $(PFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cpp
-	$(CC) $(CFLAGS) $(PFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -f $(OBJECT_DIR)/*.o Output/*.dat Output/*.pdf Output/*.png Output/*.log $(PROGRAM_NAME)
+	rm -f $(OBJECT_DIR)/*.o *.dat $(PROGRAM_NAME)
 
-free_results:
-	rm -f Output/*.dat Output/*.pdf Output/*.log
-
-plot:
-	python Output/plotter.py
+rebuild:
+	$(MAKE) clean; $(MAKE)
 
 print-%  : ; @echo $* = $($*)

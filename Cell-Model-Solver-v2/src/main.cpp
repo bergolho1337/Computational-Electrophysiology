@@ -7,9 +7,9 @@ using namespace std;
 int main (int argc, char *argv[])
 {
   printf("============================== CELULAR MODEL SOLVER =================================================\n");
-  printf("[!] Solving the system of equations related to ionic currents (I_ion) using Explicit Euler\n");
+  printf("[!] Solving the system of equations related to ionic currents (I_ion)\n");
   printf("-----------------------------------------------------------------------------------------------------\n");
-  if (argc-1 != 3)
+  if (argc-1 != 4)
   {
     Usage(argv[0]);
     exit(EXIT_FAILURE);
