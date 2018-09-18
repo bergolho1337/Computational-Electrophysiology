@@ -5,21 +5,21 @@
  */
 /*
  * VOI is time in component environment (ms).
- * ALGEBRAIC[0] is J_stim in component J_stim (per_ms).
  * CONSTANTS[0] is IstimStart in component J_stim (ms).
  * CONSTANTS[1] is IstimEnd in component J_stim (ms).
  * CONSTANTS[2] is IstimAmplitude in component J_stim (per_ms).
  * CONSTANTS[3] is IstimPeriod in component J_stim (ms).
  * CONSTANTS[4] is IstimPulseDuration in component J_stim (ms).
- * STATES[0] is Vm in component membrane (dimensionless).
- * ALGEBRAIC[1] is J_in in component J_in (per_ms).
- * ALGEBRAIC[2] is J_out in component J_out (per_ms).
  * CONSTANTS[5] is tau_in in component J_in (ms).
- * STATES[1] is h in component J_in_h_gate (dimensionless).
  * CONSTANTS[6] is tau_open in component J_in_h_gate (ms).
  * CONSTANTS[7] is tau_close in component J_in_h_gate (ms).
  * CONSTANTS[8] is V_gate in component J_in_h_gate (dimensionless).
  * CONSTANTS[9] is tau_out in component J_out (ms).
+ * ALGEBRAIC[0] is J_stim in component J_stim (per_ms).
+ * ALGEBRAIC[1] is J_in in component J_in (per_ms).
+ * ALGEBRAIC[2] is J_out in component J_out (per_ms).
+ * STATES[0] is Vm in component membrane (dimensionless).
+ * STATES[1] is h in component J_in_h_gate (dimensionless).
  * RATES[0] is d/dt Vm in component membrane (dimensionless).
  * RATES[1] is d/dt h in component J_in_h_gate (dimensionless).
  */

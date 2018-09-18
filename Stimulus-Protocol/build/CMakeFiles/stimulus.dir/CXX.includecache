@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Stimulus-Protocol/stimulus.cpp
+iostream
+-
+iomanip
+-
+cmath
+-
+algorithm
+-
+fstream
+-
+

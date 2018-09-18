@@ -1,0 +1,3 @@
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Stimulus-Protocol/build/CMakeFiles/rebuild_cache.dir
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Stimulus-Protocol/build/CMakeFiles/stimulus.dir
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Stimulus-Protocol/build/CMakeFiles/edit_cache.dir

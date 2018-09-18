@@ -1,0 +1,4 @@
+======================================================================
+Opening shared_libs/libmitchell_shaeffer.so as model lib
+Using the default library for stimuli functions for stim_simple
+Setting ODE's initial conditions
