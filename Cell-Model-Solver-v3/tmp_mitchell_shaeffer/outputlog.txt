@@ -1,6 +1,6 @@
 ======================================================================
 Opening shared_libs/libmitchell_shaeffer.so as model lib
-Using the default library for stimuli functions for stim_default
+Using the default library for stimuli functions for stim_feedback
 Setting ODE's initial conditions
 System parameters: 
 Initial V: 0.000000
@@ -9,7 +9,7 @@ Print Rate = 10
 Saving to plain text output in ./tmp_mitchell_shaeffer dir
 ======================================================================
 Stimuli configuration:
-Stimulus name: stim_default
+Stimulus name: stim_feedback
 Stimulus start: 0.000000
 Stimulus duration: 1.000000
 Stimulus current: 1.000000
@@ -17,7 +17,7 @@ Stimulus library: ./shared_libs/libdefault_stimuli.so
 Stimulus function: stim_default
 ======================================================================
 Starting simulation
-Resolution Time: 33666 μs
-ODE Total Time: 1530 μs
-Write time: 31829 μs
-Initial configuration time: 332 μs
+Resolution Time: 175881 μs
+ODE Total Time: 10377 μs
+Write time: 163723 μs
+Initial configuration time: 188 μs

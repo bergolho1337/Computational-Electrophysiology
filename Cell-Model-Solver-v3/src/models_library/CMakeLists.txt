@@ -8,3 +8,11 @@ ADD_LIBRARY(mitchell_shaeffer ${LIB_TYPE} ${COMMON_HEADERS} ${MODEL_FILE_CPU})
 
 #########################################################
 
+############## NOBLE PURKINJE 1962 ##############################
+set(MODEL_FILE_CPU "noble_1962.c")
+set(COMMON_HEADERS model_common.h noble_1962.h)
+
+ADD_LIBRARY(noble_1962 ${LIB_TYPE} ${COMMON_HEADERS} ${MODEL_FILE_CPU})
+
+#########################################################
+

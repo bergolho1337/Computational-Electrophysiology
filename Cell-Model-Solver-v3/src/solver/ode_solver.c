@@ -268,7 +268,12 @@ void solve_odes (struct ode_solver *solver, double cur_time, int ode_step, struc
     real merged_stims;
 
     struct stim_config *tmp = NULL;
-    real stim_start, stim_dur;
+    real stim_period;
+    real stim_start, stim_duration, stim_current;
+    real start_period, end_period, period_step;
+    int n_cycles;
+
+    real new_time;
 
     if(stim_configs) 
     {
@@ -278,14 +283,51 @@ void solve_odes (struct ode_solver *solver, double cur_time, int ode_step, struc
             {
                 tmp = e->value;
                 stim_start = tmp->stim_start;
-                stim_dur = tmp->stim_duration;
+                stim_duration = tmp->stim_duration;
+                stim_current = tmp->stim_current;
+                start_period = tmp->start_period;
+                end_period = tmp->end_period;
+                period_step = tmp->period_step;
+                n_cycles = tmp->n_cycles;
+
+/*
+                print_to_stdout_and_file("Stim start = %lf\n",stim_start);
+                print_to_stdout_and_file("Stim duration = %lf\n",stim_duration);
+                print_to_stdout_and_file("Stim current = %lf\n",stim_current);
+                print_to_stdout_and_file("Start period = %lf\n",start_period);
+                print_to_stdout_and_file("End period = %lf\n",end_period);
+                print_to_stdout_and_file("Period step = %lf\n",period_step);
+                print_to_stdout_and_file("Ncycles = %d\n",n_cycles);
+*/
+
                 for (int j = 0; j < ode_step; ++j) 
                 {
-                    // TO DO: Change this to Jhonny stimulus protocol
-                    if ((time >= stim_start) && (time <= stim_start + stim_dur)) 
+                    new_time = 0.0f;
+                    // New Jhonny stimulus protocol for alternans simulations ...
+                    for (double new_period = start_period; new_period >= end_period; new_period -= period_step)
+                    {
+                        if ( time >= new_time && (time < new_time + n_cycles*new_period || new_period == end_period) )
+                        {
+                            stim_period = new_period;
+                            time -= new_time;
+                            break;
+                        }
+                        new_time += n_cycles*new_period;
+
+                    }
+                    if( (time-floor(time/stim_period)*stim_period>=stim_start) && ( time - floor(time/stim_period)*stim_period <= stim_start + stim_duration ) )
+                    {
+                        merged_stims = stim_current;
+                    }
+
+
+                    // Old Sachetto's stimulus protocol ...
+                    /*
+                    if ((time >= stim_start) && (time <= stim_start + stim_duration)) 
                     {
                         merged_stims = tmp->stim_current;
                     }
+                    */
                     time += dt;
                 }
                 time = cur_time;
@@ -383,125 +425,3 @@ void print_cell (const struct ode_solver *solver, FILE *output_file, double cur_
         fprintf(output_file,"%g\n",sv[nedos-1]);
     }
 }
-
-/*
-void solve_all_volumes_odes(struct ode_solver *the_ode_solver, uint32_t n_active, double cur_time, int num_steps,
-                            struct stim_config_hash *stim_configs) {
-
-    assert(the_ode_solver->sv);
-
-    real dt = the_ode_solver->min_dt;
-    //int n_odes = the_ode_solver->model_data.number_of_ode_equations;
-    real *sv = the_ode_solver->sv;
-
-    void *extra_data = the_ode_solver->edo_extra_data;
-    size_t extra_data_size = the_ode_solver->extra_data_size;
-
-    double time = cur_time;
-
-    real *merged_stims = (real*)calloc(sizeof(real), n_active);
-
-    struct stim_config *tmp = NULL;
-    real stim_start, stim_dur;
-
-	int i;
-
-    if(stim_configs) {
-        for (int k = 0; k < stim_configs->size; k++) {
-            for (struct stim_config_elt *e = stim_configs->table[k % stim_configs->size]; e != 0; e = e->next) {
-                tmp = e->value;
-                stim_start = tmp->stim_start;
-                stim_dur = tmp->stim_duration;
-                for (int j = 0; j < num_steps; ++j) {
-                    if ((time >= stim_start) && (time <= stim_start + stim_dur)) {
-                        #pragma omp parallel for
-                        for (i = 0; i < n_active; i++) {
-                            merged_stims[i] = tmp->spatial_stim_currents[i];
-                        }
-                    }
-                    time += dt;
-                }
-                time = cur_time;
-            }
-        }
-    }
-
-
-    if(the_ode_solver->gpu) {
-#ifdef COMPILE_CUDA
-        solve_model_ode_gpu_fn *solve_odes_pt = the_ode_solver->solve_model_ode_gpu;
-        solve_odes_pt(dt, sv, merged_stims, the_ode_solver->cells_to_solve, n_active, num_steps, extra_data,
-                      extra_data_size);
-
-#endif
-    }
-    else {
-        solve_model_ode_cpu_fn *solve_odes_pt = the_ode_solver->solve_model_ode_cpu;
-        solve_odes_pt(dt, sv, merged_stims, the_ode_solver->cells_to_solve, n_active, num_steps, extra_data);
-    }
-
-    free(merged_stims);
-}
-
-void update_state_vectors_after_refinement(struct ode_solver *ode_solver, const uint32_t *refined_this_step) {
-
-    assert(ode_solver);
-    assert(ode_solver->sv);
-
-    size_t num_refined_cells = sb_count(refined_this_step)/8;
-
-    real *sv = ode_solver->sv;
-    int neq = ode_solver->model_data.number_of_ode_equations;
-    real *sv_src;
-    real *sv_dst;
-    size_t  i;
-
-
-    if(ode_solver->gpu) {
-#ifdef COMPILE_CUDA
-
-        size_t pitch_h = ode_solver->pitch;
-
-		#pragma omp parallel for private(sv_src, sv_dst)
-        for (i = 0; i < num_refined_cells; i++) {
-
-            size_t index_id = i * 8;
-
-            uint32_t index = refined_this_step[index_id];
-            sv_src = &sv[index];
-
-            for (int j = 1; j < 8; j++) {
-                index = refined_this_step[index_id + j];
-                sv_dst = &sv[index];
-                check_cuda_errors(cudaMemcpy2D(sv_dst, pitch_h, sv_src, pitch_h, sizeof(real), (size_t )neq, cudaMemcpyDeviceToDevice));
-            }
-
-
-        }
-        //TODO: test if is faster to update the GPU using a kernel or a host function with cudaMemcpy2D
-        //ode_solver->update_gpu_fn(sv, refined_this_step->base, num_refined_cells, neq);
-
-#endif
-    }
-    else {
-
-        #pragma omp parallel for private(sv_src, sv_dst)
-        for (i = 0; i < num_refined_cells; i++) {
-
-            size_t index_id = i * 8;
-
-            uint32_t index = refined_this_step[index_id];
-            sv_src = &sv[index * neq];
-
-            for (int j = 1; j < 8; j++) {
-                index = refined_this_step[index_id + j];
-                sv_dst = &sv[index * neq];
-                memcpy(sv_dst, sv_src, neq * sizeof(real));
-            }
-
-
-        }
-    }
-
-}
-*/

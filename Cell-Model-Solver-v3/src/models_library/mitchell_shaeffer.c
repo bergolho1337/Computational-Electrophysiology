@@ -27,11 +27,9 @@ void solve_model_ode_cpu(real dt, real *sv, real stim_current)  {
     real rY[NEQ], rDY[NEQ];
 
     // Save old value of the state vector
-    //print_to_stdout_and_file("\nOld\n");
     for(int i = 0; i < NEQ; i++)
     {
         rY[i] = sv[i];
-        //print_to_stdout_and_file("sv[%d] = %lf\n",i,sv[i]);
     }
         
 
@@ -39,11 +37,9 @@ void solve_model_ode_cpu(real dt, real *sv, real stim_current)  {
     RHS_cpu(rY, rDY, stim_current);
 
     // Solve model using Forward Euler
-    //print_to_stdout_and_file("\nNew\n");
     for(int i = 0; i < NEQ; i++)
     {
         sv[i] = dt*rDY[i] + rY[i];
-        //print_to_stdout_and_file("sv[%d] = %lf\n",i,sv[i]);
     }
         
 }
@@ -55,11 +51,6 @@ void RHS_cpu(const real *sv, real *rDY_, real stim_current) {
     const real h_old_ = sv[1];
 
     //Parameters
-    const real IstimStart = 0;
-    const real IstimEnd = 50000;
-    const real IstimAmplitude = 0.2;
-    const real IstimPeriod = 500;
-    const real IstimPulseDuration = 1;
     const real tau_in = 0.3;
     const real tau_open = 120.0;
     const real tau_close = 150.0;

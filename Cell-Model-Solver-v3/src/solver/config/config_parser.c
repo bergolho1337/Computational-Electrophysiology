@@ -430,32 +430,64 @@ int parse_config_file (void *user, const char *section, const char *name, const 
             pconfig->model_file_path_was_set = true;
         }
     }
-    else if(SECTION_STARTS_WITH(STIM_SECTION)) {
+    else if(SECTION_STARTS_WITH(STIM_SECTION)) 
+    {
 
-        if(pconfig->stim_configs == NULL) {
+        if(pconfig->stim_configs == NULL) 
+        {
             pconfig->stim_configs = stim_config_hash_create();
         }
 
         struct stim_config *tmp = stim_config_hash_search(pconfig->stim_configs, section);
 
-        if( tmp == NULL) {
+        if( tmp == NULL) 
+        {
             tmp = new_stim_config();
             stim_config_hash_insert(pconfig->stim_configs, section, tmp);
         }
 
-        if(MATCH_NAME("start")) {
+        if(MATCH_NAME("stim_start")) 
+        {
             tmp->stim_start = (real)strtod(value, NULL);
             tmp->stim_start_was_set = true;
-        } else if(MATCH_NAME("duration")) {
+        }
+        else if(MATCH_NAME("stim_duration")) 
+        {
             tmp->stim_duration = (real)strtod(value, NULL);
             tmp->stim_duration_was_set = true;
-        }else if(MATCH_NAME("current")) {
+        }
+        else if(MATCH_NAME("stim_current")) 
+        {
             tmp->stim_current = (real)strtod(value, NULL);
             tmp->stim_current_was_set = true;
-        } else if(MATCH_NAME("function")) {
+        }
+        else if(MATCH_NAME("n_cycles")) 
+        {
+            tmp->n_cycles = (int)strtol (value, NULL, 10);;
+            tmp->n_cycles_was_set = true;
+        }
+        else if(MATCH_NAME("start_period")) 
+        {
+            tmp->start_period = (real)strtod(value, NULL);
+            tmp->start_period_was_set = true;
+        }
+        else if(MATCH_NAME("end_period")) 
+        {
+            tmp->end_period = (real)strtod(value, NULL);
+            tmp->end_period_was_set = true;
+        }
+        else if(MATCH_NAME("period_step")) 
+        {
+            tmp->period_step = (real)strtod(value, NULL);
+            tmp->period_step_was_set = true;
+        } 
+        else if(MATCH_NAME("function")) 
+        {
             tmp->config_data.function_name = strdup(value);
             tmp->config_data.function_name_was_set = true;
-        } else if(MATCH_NAME("library_file")) {
+        } 
+        else if(MATCH_NAME("library_file")) 
+        {
             tmp->config_data.library_file_path = strdup(value);
             tmp->config_data.library_file_path_was_set = true;
         }

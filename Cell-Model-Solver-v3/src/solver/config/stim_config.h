@@ -27,6 +27,14 @@ struct stim_config {
     bool stim_duration_was_set;
     real stim_current;
     bool stim_current_was_set;
+    int n_cycles;
+    bool n_cycles_was_set;
+    double start_period;
+    bool start_period_was_set;
+    double end_period;
+    bool end_period_was_set;
+    double period_step;
+    bool period_step_was_set;
 
 };
 

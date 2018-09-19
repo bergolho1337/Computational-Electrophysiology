@@ -19,8 +19,6 @@ void init_stim_functions(struct stim_config *config, char* stim_name) {
 	char *default_library_name = "./shared_libs/libdefault_stimuli.so";
 #endif
 
-    char *function_name = config->config_data.function_name;
-
     if(config->config_data.library_file_path == NULL) {
         print_to_stdout_and_file("Using the default library for stimuli functions for %s\n", stim_name);
         config->config_data.library_file_path = strdup(default_library_name);
