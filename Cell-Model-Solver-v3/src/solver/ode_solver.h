@@ -51,6 +51,11 @@ void init_ode_solver_with_cell_model (struct ode_solver* solver);
 void set_ode_initial_conditions (struct ode_solver *solver);
 
 void solve_celular_model (struct ode_solver *solver, struct user_options *options);
+void solve_odes (struct ode_solver *solver, double cur_time, int ode_step, struct stim_config_hash *stim_configs);
+void print_solver_info (struct ode_solver *solver, struct user_options *options);
+
+void print_result(const struct ode_solver *solver, const struct user_options *configs, int count, double cur_time, bool save_in_binary);
+void print_cell (const struct ode_solver *solver, FILE *output_file, double cur_time, bool save_in_binary);
 
 /*
 void update_state_vectors_after_refinement(struct ode_solver *ode_solver, const uint32_t *refined_this_step);

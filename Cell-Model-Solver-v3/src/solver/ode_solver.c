@@ -121,11 +121,65 @@ void solve_celular_model (struct ode_solver *solver, struct user_options *option
     int count = 0;
     bool save_to_file = (options->out_dir_name != NULL);
     double dt_edo = solver->min_dt;
+    double finalT = options->final_time;
 
     print_to_stdout_and_file ("Setting ODE's initial conditions\n");
     set_ode_initial_conditions(solver);
 
+    total_config_time = stop_stop_watch (&config_time);
 
+    print_solver_info (solver, options);
+
+    init_stop_watch (&solver_time);
+    init_stop_watch (&ode_time);
+    init_stop_watch (&write_time);
+
+    int print_rate = options->print_rate;
+
+    //if (stimuli_configs)
+    //    set_spatial_stim(stimuli_configs);
+
+    bool save_in_binary = options->binary;
+
+    double cur_time = 0.0;
+    int ode_step = 1;
+
+    print_to_stdout_and_file ("Starting simulation\n");
+    start_stop_watch (&solver_time);
+
+    while (cur_time <= finalT) 
+    {
+
+        if (save_to_file) 
+        {
+
+            if (count % print_rate == 0) 
+            {
+                start_stop_watch (&write_time);
+
+                print_result(solver, options, count, cur_time, save_in_binary);
+
+                total_write_time += stop_stop_watch (&write_time);
+
+            }
+        }
+
+        start_stop_watch (&ode_time);
+
+        solve_odes (solver, cur_time, ode_step, stimuli_configs);
+
+        ode_total_time += stop_stop_watch (&ode_time);
+
+        count++;
+        cur_time += dt_edo;
+
+    }
+
+    print_to_stdout_and_file ("Resolution Time: %ld μs\n", stop_stop_watch (&solver_time));
+    print_to_stdout_and_file ("ODE Total Time: %ld μs\n", ode_total_time);
+    print_to_stdout_and_file ("Write time: %ld μs\n", total_write_time);
+    print_to_stdout_and_file ("Initial configuration time: %ld μs\n", total_config_time);
+    
 }
 
 void init_ode_solver_with_cell_model(struct ode_solver* solver) {
@@ -200,6 +254,134 @@ void set_ode_initial_conditions (struct ode_solver *solver)
 
     soicc_fn_pt(solver->sv);
 
+}
+
+void solve_odes (struct ode_solver *solver, double cur_time, int ode_step, struct stim_config_hash *stim_configs)
+{
+    assert(solver->sv);
+
+    real dt = solver->min_dt;
+    real *sv = solver->sv;
+
+    double time = cur_time;
+
+    real merged_stims;
+
+    struct stim_config *tmp = NULL;
+    real stim_start, stim_dur;
+
+    if(stim_configs) 
+    {
+        for (int k = 0; k < stim_configs->size; k++) 
+        {
+            for (struct stim_config_elt *e = stim_configs->table[k % stim_configs->size]; e != 0; e = e->next) 
+            {
+                tmp = e->value;
+                stim_start = tmp->stim_start;
+                stim_dur = tmp->stim_duration;
+                for (int j = 0; j < ode_step; ++j) 
+                {
+                    // TO DO: Change this to Jhonny stimulus protocol
+                    if ((time >= stim_start) && (time <= stim_start + stim_dur)) 
+                    {
+                        merged_stims = tmp->stim_current;
+                    }
+                    time += dt;
+                }
+                time = cur_time;
+            }
+        }
+    }
+
+    // Get the reference to the solver function
+    solve_model_ode_cpu_fn *solve_odes_pt = solver->solve_model_ode_cpu;
+    solve_odes_pt(dt, sv, merged_stims, ode_step);
+
+}
+
+void print_solver_info (struct ode_solver *the_ode_solver, struct user_options *options) {
+    print_to_stdout_and_file ("System parameters: \n");
+
+    print_to_stdout_and_file ("Initial V: %lf\n", the_ode_solver->model_data.initial_v);
+    print_to_stdout_and_file ("Number of ODEs in cell model: %d\n", the_ode_solver->model_data.number_of_ode_equations);
+
+    print_to_stdout_and_file ("Print Rate = %d\n", options->print_rate);
+
+    if (options->out_dir_name != NULL) {
+        if (options->binary) {
+            print_to_stdout_and_file ("Saving using binary output in %s dir\n", options->out_dir_name);
+
+        } else {
+            print_to_stdout_and_file ("Saving to plain text output in %s dir\n", options->out_dir_name);
+        }
+    } else {
+        print_to_stdout_and_file ("The solution will not be saved\n");
+    }
+
+    if (options->stim_configs) 
+    {
+        print_to_stdout_and_file (LOG_LINE_SEPARATOR);
+
+        if (options->stim_configs->size == 1)
+            print_to_stdout_and_file ("Stimulus configuration:\n");
+        else {
+            print_to_stdout_and_file ("Stimuli configuration:\n");
+        }
+
+        for (int i = 0; i < options->stim_configs->size; i++) {
+            for (struct stim_config_elt *e = options->stim_configs->table[i % options->stim_configs->size]; e != 0;
+                 e = e->next) {
+
+                print_to_stdout_and_file ("Stimulus name: %s\n", e->key);
+                print_to_stdout_and_file ("Stimulus start: %lf\n", e->value->stim_start);
+                print_to_stdout_and_file ("Stimulus duration: %lf\n", e->value->stim_duration);
+                print_to_stdout_and_file ("Stimulus current: %lf\n", e->value->stim_current);
+                print_to_stdout_and_file ("Stimulus library: %s\n", e->value->config_data.library_file_path);
+                print_to_stdout_and_file ("Stimulus function: %s\n", e->value->config_data.function_name);
+                struct string_hash *tmp = e->value->config_data.config;
+                if (tmp->n == 1) {
+                    print_to_stdout_and_file ("Stimulus extra parameter:\n");
+                } else if (tmp->n > 1) {
+                    print_to_stdout_and_file ("Stimulus extra parameters:\n");
+                }
+
+                STRING_HASH_PRINT_KEY_VALUE_LOG (tmp);
+
+                print_to_stdout_and_file (LOG_LINE_SEPARATOR);
+            }
+        }
+    }
+}
+
+void print_result(const struct ode_solver *solver, const struct user_options *configs, int count, double cur_time, bool save_in_binary) 
+{
+    char tmp[500];
+    sprintf(tmp,"%s/V_t_%d",configs->out_dir_name,count);
+    FILE *f1 = fopen (tmp, "w");
+    print_cell(solver,f1,cur_time,save_in_binary);
+    fclose (f1);
+}
+
+void print_cell (const struct ode_solver *solver, FILE *output_file, double cur_time, bool save_in_binary)
+{
+    int nedos = solver->model_data.number_of_ode_equations;
+    real *sv = solver->sv;
+
+    if(save_in_binary) 
+    {
+        fwrite(&cur_time,sizeof(cur_time),1,output_file);
+        for (int i = 0; i < nedos; i++)
+        {
+            fwrite(&sv[i],sizeof(sv[i]),1,output_file);
+        }
+    }
+    else 
+    {
+        fprintf(output_file,"%g,",cur_time);
+        for (int i = 0; i < nedos-1; i++)
+            fprintf(output_file, "%g,", sv[i]);
+        fprintf(output_file,"%g\n",sv[nedos-1]);
+    }
 }
 
 /*

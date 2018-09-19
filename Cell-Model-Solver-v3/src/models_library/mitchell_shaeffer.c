@@ -16,25 +16,10 @@ SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu) {
 
 SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) {
 
-    /*
-    uint32_t sv_id;
-
-	int i;
-
-    #pragma omp parallel for private(sv_id)
-    for (i = 0; i < num_cells_to_solve; i++) {
-
-        if(cells_to_solve)
-            sv_id = cells_to_solve[i];
-        else
-            sv_id = i;
-
-        for (int j = 0; j < num_steps; ++j) {
-            solve_model_ode_cpu(dt, sv + (sv_id * NEQ), stim_currents[i]);
-
-        }
+    for (int j = 0; j < num_steps; ++j) 
+    {
+        solve_model_ode_cpu(dt, sv, stim_currents);
     }
-    */
 }
 
 void solve_model_ode_cpu(real dt, real *sv, real stim_current)  {
@@ -42,15 +27,25 @@ void solve_model_ode_cpu(real dt, real *sv, real stim_current)  {
     real rY[NEQ], rDY[NEQ];
 
     // Save old value of the state vector
+    //print_to_stdout_and_file("\nOld\n");
     for(int i = 0; i < NEQ; i++)
+    {
         rY[i] = sv[i];
+        //print_to_stdout_and_file("sv[%d] = %lf\n",i,sv[i]);
+    }
+        
 
     // Compute Right-hand-side of the ODE's
     RHS_cpu(rY, rDY, stim_current);
 
     // Solve model using Forward Euler
+    //print_to_stdout_and_file("\nNew\n");
     for(int i = 0; i < NEQ; i++)
+    {
         sv[i] = dt*rDY[i] + rY[i];
+        //print_to_stdout_and_file("sv[%d] = %lf\n",i,sv[i]);
+    }
+        
 }
 
 void RHS_cpu(const real *sv, real *rDY_, real stim_current) {
