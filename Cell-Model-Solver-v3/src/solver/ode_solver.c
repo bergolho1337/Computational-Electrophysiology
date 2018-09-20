@@ -82,6 +82,10 @@ void solve_celular_model (struct ode_solver *solver, struct user_options *option
     assert (options);
     assert (solver);
 
+    char tmp[500];
+    sprintf(tmp,"%s/V_t",options->out_dir_name);
+    FILE *f1 = fopen (tmp, "w+");
+
     print_to_stdout_and_file (LOG_LINE_SEPARATOR);
 
     long ode_total_time = 0, total_write_time = 0, total_config_time = 0;
@@ -157,7 +161,7 @@ void solve_celular_model (struct ode_solver *solver, struct user_options *option
             {
                 start_stop_watch (&write_time);
 
-                print_result(solver, options, count, cur_time, save_in_binary);
+                print_result(solver, options, count, cur_time, save_in_binary, f1);
 
                 total_write_time += stop_stop_watch (&write_time);
 
@@ -179,6 +183,7 @@ void solve_celular_model (struct ode_solver *solver, struct user_options *option
     print_to_stdout_and_file ("ODE Total Time: %ld μs\n", ode_total_time);
     print_to_stdout_and_file ("Write time: %ld μs\n", total_write_time);
     print_to_stdout_and_file ("Initial configuration time: %ld μs\n", total_config_time);
+    fclose(f1);
     
 }
 
@@ -395,13 +400,9 @@ void print_solver_info (struct ode_solver *the_ode_solver, struct user_options *
     }
 }
 
-void print_result(const struct ode_solver *solver, const struct user_options *configs, int count, double cur_time, bool save_in_binary) 
+void print_result(const struct ode_solver *solver, const struct user_options *configs, int count, double cur_time, bool save_in_binary, FILE *output_file) 
 {
-    char tmp[500];
-    sprintf(tmp,"%s/V_t_%d",configs->out_dir_name,count);
-    FILE *f1 = fopen (tmp, "w");
-    print_cell(solver,f1,cur_time,save_in_binary);
-    fclose (f1);
+    print_cell(solver,output_file,cur_time,save_in_binary);
 }
 
 void print_cell (const struct ode_solver *solver, FILE *output_file, double cur_time, bool save_in_binary)

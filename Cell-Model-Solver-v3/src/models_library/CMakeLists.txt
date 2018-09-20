@@ -16,3 +16,11 @@ ADD_LIBRARY(noble_1962 ${LIB_TYPE} ${COMMON_HEADERS} ${MODEL_FILE_CPU})
 
 #########################################################
 
+############## TEN TUSSHER 2006 ##############################
+set(MODEL_FILE_CPU "ten_tusscher_2006.c")
+set(COMMON_HEADERS model_common.h ten_tusscher_2006.h)
+
+ADD_LIBRARY(ten_tusscher_2006 ${LIB_TYPE} ${COMMON_HEADERS} ${MODEL_FILE_CPU})
+
+#########################################################
+

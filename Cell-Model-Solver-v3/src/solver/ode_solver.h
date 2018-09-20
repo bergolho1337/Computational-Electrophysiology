@@ -54,7 +54,7 @@ void solve_celular_model (struct ode_solver *solver, struct user_options *option
 void solve_odes (struct ode_solver *solver, double cur_time, int ode_step, struct stim_config_hash *stim_configs);
 void print_solver_info (struct ode_solver *solver, struct user_options *options);
 
-void print_result(const struct ode_solver *solver, const struct user_options *configs, int count, double cur_time, bool save_in_binary);
+void print_result(const struct ode_solver *solver, const struct user_options *configs, int count, double cur_time, bool save_in_binary, FILE *output_file);
 void print_cell (const struct ode_solver *solver, FILE *output_file, double cur_time, bool save_in_binary);
 
 #endif //MONOALG3D_EDO_SOLVER_H
