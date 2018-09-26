@@ -10,6 +10,6 @@
 #include "../utils/logfile_utils.h"
 
 void solve_model_ode_cpu(real dt, real *sv, real stim_current);
-void RHS_cpu(const real *sv, real *rDY_, real stim_current);
+void RHS_cpu(const real dt, const real *sv, real *rDY_, real stim_current);
 
 #endif //MONOALG3D_MODEL_NOBLE_1962_H

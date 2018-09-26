@@ -34,13 +34,17 @@ void solve_model_ode_cpu(real dt, real *sv, real stim_current)  {
     for(int i = 0; i < NEQ; i++)
         rY[i] = sv[i];
 
-    RHS_cpu(rY, rDY, stim_current);
+    RHS_cpu(dt, rY, rDY, stim_current);
 
-    for(int i = 0; i < NEQ; i++)
-        sv[i] = dt*rDY[i] + rY[i];
+    // Explicit Euler for solving the transmembrane potential ...
+    sv[0] = dt*rDY[0] + rY[0];
+    // Rush-Larsen over the gating variables ...
+    for(int i = 1; i < NEQ; i++)
+        sv[i] = rDY[i];
 }
 
-void RHS_cpu(const real *sv, real *rDY_, real stim_current) {
+void RHS_cpu(const real dt, const real *sv, real *rDY_, real stim_current) 
+{
 
     //State variables
     const real V_old_ = sv[0];
@@ -64,7 +68,6 @@ void RHS_cpu(const real *sv, real *rDY_, real stim_current) {
     real alpha_h =  ((1.7e-01*exp((((-V_old_)-9.0e+01)/2.0e+01))));
     real alpha_n = (((1.0e-04*((-V_old_)-5.0e+01))/(exp((((-V_old_)-5.0e+01)/1.0e+01))-1.0e+00)));
     real i_na =  (g_na+1.4e-01)*(V_old_ - E_na);
-    //real i_na_no_oscilation = (g_na+122.500)*(V_old_ - E_na);
     real beta_m = (((1.2e-01*(V_old_+8.0e+00))/(exp(((V_old_+8.0e+00)/5.0e+00))-1.0e+00)));
     real beta_h = ((1.0/(1.0e+00+exp((((-V_old_)-4.2e+01)/1.0e+01)))));
     real beta_n =  ((2.0e-03*exp((((-V_old_)-9.0e+01)/8.0e+01))));
@@ -77,8 +80,22 @@ void RHS_cpu(const real *sv, real *rDY_, real stim_current) {
     // Rates
     rDY_[0] = ( - (i_na + i_k + i_leak + calc_I_stim)) / Cm;
     //rDY_[0] = (- (i_na_no_oscilation + i_k + i_leak + calc_I_stim)/Cm) * 1.0E-03;
-    rDY_[1] =  (alpha_m*(1.00000 - m_old_) -  (beta_m*m_old_) );
-    rDY_[2] =  (alpha_h*(1.00000 - h_old_) -  (beta_h*h_old_) );
-    rDY_[3] =  (alpha_n*(1.00000 - n_old_) -  (beta_n*n_old_) );
+
+    // Rush-Larsen
+    real m_inf = alpha_m / (alpha_m + beta_m);
+    real tau_m = 1.0 / (alpha_m + beta_m);
+    rDY_[1] = m_inf + ((m_old_ - m_inf)*exp(-dt/tau_m));
+
+    real h_inf = alpha_h / (alpha_h + beta_h);
+    real tau_h = 1.0 / (alpha_h + beta_h);
+    rDY_[2] = h_inf + ((h_old_ - h_inf)*exp(-dt/tau_h));
+
+    real n_inf = alpha_n / (alpha_n + beta_n);
+    real tau_n = 1.0 / (alpha_n + beta_n);
+    rDY_[3] = n_inf + ((n_old_ - n_inf)*exp(-dt/tau_n));
+    
+    //rDY_[1] =  (alpha_m*(1.00000 - m_old_) -  (beta_m*m_old_) );
+    //rDY_[2] =  (alpha_h*(1.00000 - h_old_) -  (beta_h*h_old_) );
+    //rDY_[3] =  (alpha_n*(1.00000 - n_old_) -  (beta_n*n_old_) );
 
 }

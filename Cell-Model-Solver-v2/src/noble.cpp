@@ -49,15 +49,21 @@ void Noble::RL (double DT, double CONSTANTS[], double RATES[], double STATES[], 
     STATES[0] = STATES[0] + RATES[0]*DT;
     
     // Rush-Larsen for m, h, n
+    // m_inf = alpha_m / (alpha_m + beta_m)
     double m_inf = ALGEBRAIC[1] / (ALGEBRAIC[1] + ALGEBRAIC[5]);
+    // tau_m = 1.0 / (alpha_m + beta_m)
     double tau_m = 1.0 / (ALGEBRAIC[1] + ALGEBRAIC[5]);
     STATES[1] = m_inf + ((STATES[1] - m_inf)*exp(-DT * 1.0E-03/tau_m));
 
+    // h_inf = alpha_h / (alpha_h + beta_h)
     double h_inf = ALGEBRAIC[2] / (ALGEBRAIC[2] + ALGEBRAIC[6]);
+    // tau_h = 1.0 / (alpha_h + beta_h)
     double tau_h = 1.0 / (ALGEBRAIC[2] + ALGEBRAIC[6]);
     STATES[2] = h_inf + ((STATES[2] - h_inf)*exp(-DT * 1.0E-03/tau_h));
 
+    // n_inf = alpha_n / (alpha_n + beta_n)
     double n_inf = ALGEBRAIC[3] / (ALGEBRAIC[3] + ALGEBRAIC[7]);
+    // tau_n = 1.0 / (alpha_n + beta_n)
     double tau_n = 1.0 / (ALGEBRAIC[3] + ALGEBRAIC[7]);
     STATES[3] = n_inf + ((STATES[3] - n_inf)*exp(-DT * 1.0E-03/tau_n));
 }
