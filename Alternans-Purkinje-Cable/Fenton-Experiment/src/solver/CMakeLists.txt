@@ -1,0 +1,3 @@
+set(SOURCE_FILES_SOLVER solver.cpp solver.h)
+
+ADD_LIBRARY(solvers STATIC ${SOURCE_FILES_SOLVER})

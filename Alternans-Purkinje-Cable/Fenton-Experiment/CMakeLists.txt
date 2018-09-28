@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.0.1)
+project(FentonExperiment)
+
+SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin )
+SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/shared_libs )
+
+SET (CMAKE_CXX_STANDARD 11)
+
+FIND_PACKAGE(OpenMP)
+FIND_PACKAGE(Eigen3 3.3 REQUIRED NO_MODULE)
+
+IF (OPENMP_FOUND)
+    SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    SET (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+ENDIF(OPENMP_FOUND)
+
+ADD_SUBDIRECTORY(src/graph)
+ADD_SUBDIRECTORY(src/noble)
+ADD_SUBDIRECTORY(src/purkinje)
+ADD_SUBDIRECTORY(src/stimuli)
+ADD_SUBDIRECTORY(src/solver)
+ADD_SUBDIRECTORY(src/ini_parser)
+ADD_SUBDIRECTORY(src/utils)
+
+
+ADD_EXECUTABLE(FentonExperiment main.cpp)
+
+ADD_DEPENDENCIES(FentonExperiment solvers utils ini_parser graph purkinje stimuli)
+
+TARGET_LINK_LIBRARIES(FentonExperiment solvers utils ini_parser graph purkinje stimuli Eigen3::Eigen m)
+
+###

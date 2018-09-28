@@ -1,0 +1,3 @@
+set(SOURCE_FILES_GRAPH graph.h graph.cpp)
+
+ADD_LIBRARY(graph STATIC ${SOURCE_FILES_GRAPH})
