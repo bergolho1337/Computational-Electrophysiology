@@ -1,2 +1,0 @@
-/usr/bin/ar qc libutils.a  CMakeFiles/utils.dir/search.c.o CMakeFiles/utils.dir/stop_watch.c.o CMakeFiles/utils.dir/sort.c.o CMakeFiles/utils.dir/logfile_utils.c.o
-/usr/bin/ranlib libutils.a

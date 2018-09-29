@@ -602,6 +602,7 @@ void usage (const char pName[])
 
 void solve_model (int argc, char *argv[])
 {
+    // TO DO: Build a function to do this
     struct user_options *options = new_user_options(argc,argv);
     get_config_file (argc,argv,options);
 
@@ -615,6 +616,7 @@ void solve_model (int argc, char *argv[])
         }
     }
 
+    // TO DO: build a function to this
     // Create the output dirs
     if (options->out_dir_name) 
     {
@@ -625,7 +627,22 @@ void solve_model (int argc, char *argv[])
         create_dir_if_no_exists(options->out_steady_state_dir);
     }
 
-    print_user_options(options);
+    //print_user_options(options);
+
+    // Purkinje configuration
+    struct graph *purkinje_network;
+    struct purkinje_config *purkinje_config = options->purkinje_config;
+
+    if (purkinje_config) 
+    {
+        set_spatial_purkinje(purkinje_network,purkinje_config);
+        //purkinje_config->set_spatial_purkinje(purkinje_config,the_grid);
+    } 
+    else 
+    {
+        fprintf(stderr,"No Purkinje configuration provided! Exiting!\n");
+        exit (EXIT_FAILURE);
+    }
 
 }
 

@@ -1,3 +1,6 @@
+#ifndef STIM_CONFIG_H_
+#define STIM_CONFIG_H_
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -28,3 +31,5 @@ struct stim_config
 };
 
 struct stim_config* new_stim_config ();
+
+#endif

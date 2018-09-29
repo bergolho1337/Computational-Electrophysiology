@@ -2,8 +2,8 @@
 // Created by bergolho on 20/07/18.
 //
 
-#ifndef MONOALG3D_GRAPH_H
-#define MONOALG3D_GRAPH_H
+#ifndef _GRAPH_H
+#define _GRAPH_H
 
 #include <stdbool.h>
 #include <stdint.h>

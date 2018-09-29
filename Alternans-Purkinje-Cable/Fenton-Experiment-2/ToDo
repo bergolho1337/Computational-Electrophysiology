@@ -1,0 +1,30 @@
+Berg:
+
+- steady_state option
+	- Add a steady-state option to enable the user passing a file containing a 
+steady-state configuration of the solution
+	- Build a function to initialize the initial conditions using this file
+	- Build a function to write the steady-state to a file
+
+- monodomain
+	- Add a variable diameter on the monodomain equation (check my master's writeups ...)
+
+- models_library
+	- Fix bug on the Noble 1962 Purkinje cell model
+	- Fix bug on the Li & Rudy 2011 Purkinje cell model
+	- Build more celular model related to Purkinje cell (DiFrancesco Noble, ...)
+	- Test each variation of the TenTusscher model (Miocardium, Epicardium and Endocardium) using the 2006 version.
+	- Refactor the code of the 'mask_function' module
+	- Made more tests with the adaptive mesh when dealing with more than one celular model
+
+- extras
+	- Ask Sachetto for the "big_scar", "small_scar" and "human" ALG meshes files.
+	- Decide if the metric of the Purkinje should be in centimeters or in micrometers.
+
+========================================================================================================================================
+Sachetto:
+
+- Correct the domain version that sets the two scars and the fibrosis from file (maybe the error is on extra-data
+- Compare the mesh with the mesh from the scientific reports paper
+- Use a sparse matrix format and take the matrix out of the alg mesh (http://people.sc.fsu.edu/~jburkardt/c_src/csparse/csparse.html)
+- Finish GUI interface

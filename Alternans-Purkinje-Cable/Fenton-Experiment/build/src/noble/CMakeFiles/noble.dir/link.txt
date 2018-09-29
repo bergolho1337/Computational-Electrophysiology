@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnoble.a  CMakeFiles/noble.dir/noble.cpp.o
-/usr/bin/ranlib libnoble.a

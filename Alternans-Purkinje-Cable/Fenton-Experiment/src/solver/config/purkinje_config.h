@@ -1,3 +1,6 @@
+#ifndef PURKINJE_CONFIG_H_
+#define PURKINJE_CONFIG_H_
+
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -15,3 +18,5 @@ struct purkinje_config
 };
 
 struct purkinje_config* new_purkinje_config ();
+
+#endif

@@ -8,9 +8,10 @@
 #include <sys/stat.h>
 #include "../ini_parser/ini_file_sections.h"
 #include "../ini_parser/ini.h"
-#include "config/config_parser.h"
-#include "../graph/graph.h"
 #include "../utils/logfile_utils.h"
+#include "config/config_parser.h"
+
+#include "purkinje.h"
 
 //#include <Eigen/Sparse>
 //#include "../graph/graph.h"

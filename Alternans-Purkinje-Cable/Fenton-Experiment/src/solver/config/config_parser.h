@@ -1,3 +1,6 @@
+#ifndef CONFIG_PARSER_H_
+#define CONFIG_PARSER_H_
+
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -35,6 +38,8 @@ struct user_options
   bool out_steady_state_dir_was_set;
   char *steady_state_filename;
   bool steady_state_filename_was_set;
+  char *model_file_path;         
+  bool model_file_path_was_set;
   double sigma;
   bool sigma_was_set;
   double beta;
@@ -51,3 +56,5 @@ struct user_options
 
 struct user_options* new_user_options (int argc, char *argv[]);
 void print_user_options (struct user_options *options);
+
+#endif
