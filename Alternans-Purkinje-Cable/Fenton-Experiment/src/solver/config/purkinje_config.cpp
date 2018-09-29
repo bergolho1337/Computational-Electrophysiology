@@ -1,4 +1,4 @@
-#include "purkinje.h"
+#include "purkinje_config.h"
 
 struct purkinje_config* new_purkinje_config ()
 {

@@ -6,7 +6,8 @@
 #define MONOALG3D_LOGFILE_UTILS_H
 
 #define LOG_LINE_SEPARATOR "======================================================================\n"
-
+#define PRINT_LINE "-------------------------------------------------------------------------------------"
+#define PRINT_LINE_2 "====================================================================================="
 
 void print_to_stdout_and_file(char const *fmt, ...);
 void open_logfile(const char *path);

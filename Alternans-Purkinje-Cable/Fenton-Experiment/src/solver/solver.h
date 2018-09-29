@@ -4,14 +4,13 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
-#include <cmath>
-#include <cstring>
-#include <omp.h>
 #include <getopt.h>
+#include <sys/stat.h>
 #include "../ini_parser/ini_file_sections.h"
 #include "../ini_parser/ini.h"
-#include "../stimuli/stimuli.h"
-#include "../purkinje/purkinje.h"
+#include "config/config_parser.h"
+#include "../graph/graph.h"
+#include "../utils/logfile_utils.h"
 
 //#include <Eigen/Sparse>
 //#include "../graph/graph.h"
@@ -118,51 +117,16 @@ private:
 };
 */
 
-#define PRINT_LINE "-------------------------------------------------------------------------------------"
-#define PRINT_LINE_2 "====================================================================================="
-
-#define SIGMA 1400      // Dummy values
-#define STIM_OPT 2000   // Dummy values
-#define BETA 4000       // Dummy values
-#define CM 5000         // Dummy values
-
-struct user_options
-{
-  int num_threads;
-  bool num_threads_was_set;
-  double final_time;
-  bool final_time_was_set;
-  double dt;
-  bool dt_was_set;
-  int print_rate;
-  bool print_rate_was_set;
-  char *out_dir_name;
-  bool out_dir_name_was_set;
-  char *out_steady_state_dir;
-  bool out_steady_state_dir_was_set;
-  char *steady_state_filename;
-  bool steady_state_filename_was_set;
-  double sigma;
-  bool sigma_was_set;
-  double beta;
-  bool beta_was_set;
-  double cm;
-  bool cm_was_set;
-
-  char *config_file;
-
-  struct stim_config *stim_configs;
-  struct purkinje_config *purkinje_config;
-};
-
-struct user_options* new_user_options (int argc, char *argv[]);
-
 void usage (const char pname[]);
 void solve_model (int argc, char *argv[]);
 void get_config_file (int argc, char *argv[], struct user_options *user_args);
 int parse_config_file (void *user, const char *section, const char *name, const char *value);
 void swap (double **a, double **b);
+
 void printProgress (int iter, int max_iter);
+
+void create_dir_if_no_exists(const char *out_dir);
+bool dir_exists(const char *path);
 
 
 #endif

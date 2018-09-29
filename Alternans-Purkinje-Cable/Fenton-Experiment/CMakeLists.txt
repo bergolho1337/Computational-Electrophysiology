@@ -17,17 +17,14 @@ ENDIF(OPENMP_FOUND)
 
 ADD_SUBDIRECTORY(src/graph)
 ADD_SUBDIRECTORY(src/noble)
-ADD_SUBDIRECTORY(src/purkinje)
-ADD_SUBDIRECTORY(src/stimuli)
 ADD_SUBDIRECTORY(src/solver)
 ADD_SUBDIRECTORY(src/ini_parser)
 ADD_SUBDIRECTORY(src/utils)
 
-
 ADD_EXECUTABLE(FentonExperiment main.cpp)
 
-ADD_DEPENDENCIES(FentonExperiment solvers utils ini_parser graph purkinje stimuli)
+ADD_DEPENDENCIES(FentonExperiment utils solvers ini_parser graph)
 
-TARGET_LINK_LIBRARIES(FentonExperiment solvers utils ini_parser graph purkinje stimuli Eigen3::Eigen m)
+TARGET_LINK_LIBRARIES(FentonExperiment utils solvers ini_parser graph Eigen3::Eigen m)
 
 ###

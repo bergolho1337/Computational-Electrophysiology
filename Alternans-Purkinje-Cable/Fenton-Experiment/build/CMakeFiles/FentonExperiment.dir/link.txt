@@ -1,0 +1,1 @@
+/usr/bin/c++   -fopenmp    -rdynamic CMakeFiles/FentonExperiment.dir/main.cpp.o  -o ../bin/FentonExperiment src/utils/libutils.a src/solver/libsolvers.a src/ini_parser/libini_parser.a src/graph/libgraph.a -lm 
