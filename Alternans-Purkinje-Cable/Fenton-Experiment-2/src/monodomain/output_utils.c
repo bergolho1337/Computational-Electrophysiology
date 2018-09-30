@@ -11,7 +11,7 @@
 #include <malloc.h>
 #include <stdlib.h>
 
-
+ 
 bool dir_exists(const char *path) {
     struct stat info;
 

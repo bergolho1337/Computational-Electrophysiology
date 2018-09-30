@@ -3,12 +3,8 @@
 #include "monodomain/monodomain_solver.h"
 #include "monodomain/ode_solver.h"
 #include "utils/logfile_utils.h"
-#include "string/sds.h"
 #include "monodomain/output_utils.h"
-
-#ifdef COMPILE_OPENGL
-#include "draw/draw.h"
-#endif
+#include "string/sds.h"
 
 int main (int argc, char **argv) 
 {

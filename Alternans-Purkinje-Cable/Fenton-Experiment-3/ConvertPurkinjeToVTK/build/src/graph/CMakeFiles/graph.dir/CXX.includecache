@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/src/graph/graph.cpp
+graph.h
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/src/graph/graph.h
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/src/graph/graph.h
+stdbool.h
+-
+stdint.h
+-
+stdio.h
+-
+stdlib.h
+-
+assert.h
+-
+math.h
+-
+

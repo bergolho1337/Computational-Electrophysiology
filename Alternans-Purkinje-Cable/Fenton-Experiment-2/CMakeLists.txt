@@ -64,7 +64,6 @@ SET(COMMON_SRC ../libraries_common/config_helpers.c ../libraries_common/config_h
 
 ADD_SUBDIRECTORY(src/stimuli_library)
 ADD_SUBDIRECTORY(src/purkinje_library)
-ADD_SUBDIRECTORY(src/matrix_assembly_library)
 ADD_SUBDIRECTORY(src/extra_data_library)
 ###
 

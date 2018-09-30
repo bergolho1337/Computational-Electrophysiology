@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/src/hash/hash_common.h
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/src/hash/point_hash.cpp
+point_hash.h
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/src/hash/point_hash.h
+stdlib.h
+-
+assert.h
+-
+stdbool.h
+-
+hash_common.h
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/src/hash/hash_common.h
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/src/hash/point_hash.h
+

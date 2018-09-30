@@ -27,6 +27,7 @@ struct monodomain_solver {
 
     // TO DO: Put Eigen matrix here ...
 
+
 };
 
 struct monodomain_solver *new_monodomain_solver ();
@@ -56,5 +57,6 @@ void configure_monodomain_solver_from_options(struct monodomain_solver *the_mono
 
 bool print_result(const struct grid *the_grid, const struct user_options *configs, int count, bool save_in_binary);
 
+void assembly_matrix_using_eigen (struct monodomain_solver *monodomain_solver, struct grid *grid);
 
 #endif // MONOALG3D_SOLVER_H

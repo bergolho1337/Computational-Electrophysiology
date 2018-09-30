@@ -6,7 +6,6 @@
 #define MONOALG3D_OUTPUT_INFO_H
 
 #include <stdbool.h>
-#include "../string/sds.h"
 
 bool dir_exists(const char *path);
 void create_dir_if_no_exists(const char *out_dir);

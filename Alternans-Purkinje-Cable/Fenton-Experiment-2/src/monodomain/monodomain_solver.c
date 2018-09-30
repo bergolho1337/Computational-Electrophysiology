@@ -19,7 +19,6 @@
 #include "../string/sds.h"
 
 #include "config/purkinje_config.h"
-#include "config/assembly_matrix_config.h"
 
 static inline double ALPHA (double beta, double cm, double dt, double h) {
     return (((beta * cm) / dt) * UM2_TO_CM2) * pow (h, 3.0);
@@ -66,6 +65,33 @@ void save_old_cell_positions (struct grid *the_grid)
     {
         ac[i]->sv_position = ac[i]->grid_position;
     }
+}
+
+void set_initial_conditions_all_volumes (struct monodomain_solver *the_solver, struct grid *the_grid, double initial_v) 
+{
+
+    double alpha, h;
+    struct cell_node **ac = the_grid->active_cells;
+    uint32_t active_cells = the_grid->num_active_cells;
+    double beta = the_solver->beta;
+    double cm = the_solver->cm;
+    double dt = the_solver->dt;
+	int i;
+
+
+	#pragma omp parallel for private(alpha, h)
+    for (i = 0; i < active_cells; i++) 
+    {
+        h = ac[i]->face_length;
+        alpha = ALPHA (beta, cm, dt, h);
+        ac[i]->v = initial_v;
+        ac[i]->b = initial_v * alpha;
+    }
+}
+
+void assembly_matrix_using_eigen (struct monodomain_solver *monodomain_solver, struct grid *grid)
+{
+    
 }
 
 void solve_monodomain (struct monodomain_solver *the_monodomain_solver, struct ode_solver *the_ode_solver,
@@ -195,21 +221,7 @@ void solve_monodomain (struct monodomain_solver *the_monodomain_solver, struct o
 
     print_solver_info (the_monodomain_solver, the_ode_solver, the_grid, configs);
 
-    /*
     int ode_step = 1;
-
-    if (dt_edp >= dt_edo) 
-    {
-        ode_step = (int)(dt_edp / dt_edo);
-        print_to_stdout_and_file ("Solving EDO %d times before solving PDE\n", ode_step);
-    } 
-    else 
-    {
-        print_to_stdout_and_file ("WARNING: EDO time step is greater than PDE time step. Adjusting to EDO time "
-                                  "step: %lf\n",
-                                  dt_edo);
-        dt_edp = dt_edo;
-    }
 
     fflush (stdout);
 
@@ -227,12 +239,14 @@ void solve_monodomain (struct monodomain_solver *the_monodomain_solver, struct o
 
     set_initial_conditions_all_volumes (the_monodomain_solver, the_grid, initial_v);
     
-    assembly_matrix_config->assembly_matrix(assembly_matrix_config, the_monodomain_solver, the_grid);
+    //assembly_matrix_config->assembly_matrix(assembly_matrix_config, the_monodomain_solver, the_grid);
+    assembly_matrix_using_eigen(the_monodomain_solver,the_grid);
     
     total_mat_time = stop_stop_watch (&part_mat);
     print_to_stdout_and_file ("Assembling Monodomain Matrix End\n");
     print_to_stdout_and_file (LOG_LINE_SEPARATOR);
 
+/*
     start_stop_watch (&solver_time);
 
     int print_rate = configs->print_rate;
@@ -418,28 +432,6 @@ void update_cells_to_solve (struct grid *the_grid, struct ode_solver *solver) {
 	#pragma omp parallel for
     for (i = 0; i < n_active; i++) {
         cts[i] = ac[i]->sv_position;
-    }
-}
-
-void set_initial_conditions_all_volumes (struct monodomain_solver *the_solver, struct grid *the_grid, double initial_v) 
-{
-
-    double alpha, h;
-    struct cell_node **ac = the_grid->active_cells;
-    uint32_t active_cells = the_grid->num_active_cells;
-    double beta = the_solver->beta;
-    double cm = the_solver->cm;
-    double dt = the_solver->dt;
-	int i;
-
-
-	#pragma omp parallel for private(alpha, h)
-    for (i = 0; i < active_cells; i++) 
-    {
-        h = ac[i]->face_length;
-        alpha = ALPHA (beta, cm, dt, h);
-        ac[i]->v = initial_v;
-        ac[i]->b = initial_v * alpha;
     }
 }
 

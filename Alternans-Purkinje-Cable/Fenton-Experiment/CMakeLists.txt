@@ -7,7 +7,6 @@ SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/shared_libs )
 SET (CMAKE_CXX_STANDARD 11)
 
 FIND_PACKAGE(OpenMP)
-FIND_PACKAGE(Eigen3 3.3 REQUIRED NO_MODULE)
 
 IF (OPENMP_FOUND)
     SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
@@ -15,16 +14,28 @@ IF (OPENMP_FOUND)
     SET (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 ENDIF(OPENMP_FOUND)
 
-ADD_SUBDIRECTORY(src/noble)
-ADD_SUBDIRECTORY(src/solver)
-ADD_SUBDIRECTORY(src/ini_parser)
-ADD_SUBDIRECTORY(src/utils)
+FIND_PACKAGE(CUDA)
+
+IF (CUDA_FOUND)
+    SET (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -I \"${CUDA_INCLUDE_DIRS}\" -DCOMPILE_CUDA")
+    SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -I \"${CUDA_INCLUDE_DIRS}\" -DCOMPILE_CUDA")
+
+    ADD_SUBDIRECTORY(src/gpu_utils)
+    SET(OPT_DEPS gpu_utils)
+ENDIF(CUDA_FOUND)
+
+FIND_PACKAGE(Eigen3 3.3 REQUIRED NO_MODULE)
+
+ADD_SUBDIRECTORY(src/monodomain)
+ADD_SUBDIRECTORY(src/grid)
 ADD_SUBDIRECTORY(src/graph)
+ADD_SUBDIRECTORY(src/hash)
+ADD_SUBDIRECTORY(src/utils)
 
-ADD_EXECUTABLE(FentonExperiment main.cpp)
+ADD_EXECUTABLE(FentonExperiment src/main.cpp)
 
-ADD_DEPENDENCIES(FentonExperiment utils solvers ini_parser graph)
+ADD_DEPENDENCIES(FentonExperiment solvers grid graph hashes utils)
 
-TARGET_LINK_LIBRARIES(FentonExperiment utils solvers ini_parser graph Eigen3::Eigen m)
+TARGET_LINK_LIBRARIES(FentonExperiment solvers grid graph hashes utils Eigen3::Eigen ${CUDA_LIBRARIES} dl m)
 
 ###

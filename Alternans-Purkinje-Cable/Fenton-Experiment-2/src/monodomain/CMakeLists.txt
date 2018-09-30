@@ -4,7 +4,6 @@ set(SOURCE_FILES_SOLVER
         config/config_common.c config/config_common.h
         config/stim_config_hash.c config/stim_config_hash.h
         config/stim_config.h config/stim_config.c
-        config/assembly_matrix_config.c config/assembly_matrix_config.h
         config/purkinje_config.c config/purkinje_config.h
         config/extra_data_config.c config/extra_data_config.h
         ode_solver.c ode_solver.h
@@ -12,8 +11,6 @@ set(SOURCE_FILES_SOLVER
         config/config_parser.c config/config_parser.h
         constants.h)
 
-ADD_LIBRARY(solvers STATIC ${SOURCE_FILES_SOLVER})
+INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
 
-IF(MSVC)
-	TARGET_LINK_LIBRARIES(solvers getopt)
-ENDIF()
+ADD_LIBRARY(solvers STATIC ${SOURCE_FILES_SOLVER})

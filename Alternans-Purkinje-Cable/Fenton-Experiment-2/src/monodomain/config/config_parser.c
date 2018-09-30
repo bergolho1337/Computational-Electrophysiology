@@ -7,7 +7,6 @@
 #include "../../string/sds.h"
 #include "stim_config_hash.h"
 #include "purkinje_config.h"
-#include "assembly_matrix_config.h"
 #include "extra_data_config.h"
 
 static const char *opt_string =   "c:o:n:p:t:e:f:k:g:G:h";
@@ -221,78 +220,6 @@ void set_stim_config(const char *args, struct stim_config_hash *stim_configs, co
     sdsfreesplitres(extra_config_tokens, tokens_count);
     free(stim_name);
 
-}
-
-void set_assembly_matrix_config(const char *args, struct assembly_matrix_config *mc, const char *config_file) 
-{
-
-    sds extra_config;
-    sds *extra_config_tokens;
-    int tokens_count;
-    extra_config = sdsnew(args);
-    extra_config_tokens = sdssplit(extra_config, ",", &tokens_count);
-    char *opt_value;
-    char *key, *value;
-
-    assert(mc);
-
-    struct string_hash *sh = mc->config_data.config;
-
-    for (int i = 0; i < tokens_count; i++) 
-    {
-        extra_config_tokens[i] = sdstrim(extra_config_tokens[i], " ");
-
-        int values_count;
-        sds *key_value = sdssplit(extra_config_tokens[i], "=", &values_count);
-
-        if (values_count != 2) 
-        {
-            fprintf(stderr, "Invalid format for options %s. Exiting!\n", args);
-            exit(EXIT_FAILURE);
-        }
-
-        key_value[0] = sdstrim(key_value[0], " ");
-        key_value[1] = sdstrim(key_value[1], " ");
-
-        key = key_value[0];
-        value = key_value[1];
-
-        if (strcmp(key, "name") == 0) 
-        {
-            if (strcmp(key, "function") == 0) 
-            {
-                if (mc->config_data.function_name_was_set) 
-                {
-                    print_to_stdout_and_file("WARNING: For assembly_matrix configuration: \n");
-                    issue_overwrite_warning("function", mc->config_data.function_name, value, config_file);
-                }
-                free(mc->config_data.function_name);
-                mc->config_data.function_name = strdup(value);
-            } 
-            else if (strcmp(key, "library_file") == 0) 
-            {
-                if (mc->config_data.library_file_path_was_set) 
-                {
-                    print_to_stdout_and_file("WARNING: For assembly_matrix configuration: \n");
-                    issue_overwrite_warning("library_file", mc->config_data.library_file_path, value, config_file);
-                }
-                free(mc->config_data.library_file_path);
-                mc->config_data.library_file_path = strdup(value);
-            } 
-            else 
-            {
-                opt_value = string_hash_search(sh, key);
-                if (opt_value) 
-                {
-                    issue_overwrite_warning(key, opt_value, value, config_file);
-                }
-                string_hash_insert_or_overwrite(sh, key, value);
-
-            }
-            sdsfreesplitres(key_value, values_count);
-        }
-        sdsfreesplitres(extra_config_tokens, tokens_count);
-    }
 }
 
 void set_extra_data_config(const char *args, struct extra_data_config *dc, const char *config_file) {
