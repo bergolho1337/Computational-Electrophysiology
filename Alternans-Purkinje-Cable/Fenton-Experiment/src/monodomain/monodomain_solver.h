@@ -24,5 +24,12 @@ struct monodomain_solver
 };
 
 struct monodomain_solver *new_monodomain_solver ();
+void configure_monodomain_solver_from_options (struct monodomain_solver *the_monodomain_solver,
+                                               struct user_options *options);
+                                               
+void solve_monodomain (struct monodomain_solver *monodomain_solver, struct ode_solver *ode_solver,\
+                        struct grid *grid, struct user_options *configs);
+
+void set_spatial_purkinje (struct purkinje_config *pk_config, struct grid *grid);
 
 #endif

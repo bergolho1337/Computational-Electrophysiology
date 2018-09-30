@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/logfile_utils.cpp
+cstdarg
+-
+logfile_utils.h
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/logfile_utils.h
+cstdio
+-
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/logfile_utils.h
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/search.cpp
+utils.h
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/utils.h
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/sort.cpp
+utils.h
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/utils.h
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/stop_watch.cpp
+stop_watch.h
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/stop_watch.h
+cstdlib
+-
+cstdio
+-
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/stop_watch.h
+cstdbool
+-
+sys/time.h
+-
+
+/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/utils/utils.h
+cstddef
+-
+

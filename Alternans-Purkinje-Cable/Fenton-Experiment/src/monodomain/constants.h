@@ -5,7 +5,7 @@
 #ifndef _CONSTANTS_H_
 #define _CONSTANTS_H_
 
-#include <cmath>
+#include <math.h>
 
 #define UM2_TO_CM2 0.00000001f
 #define BLOCK_SIZE 256

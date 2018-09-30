@@ -7,8 +7,8 @@
 
 #include "stop_watch.h"
 
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 
 #ifdef _MSC_VER
 int gettimeofday(struct timeval * tp, struct timezone * tzp)

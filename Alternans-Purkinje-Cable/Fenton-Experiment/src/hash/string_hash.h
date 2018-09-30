@@ -2,8 +2,8 @@
 // Created by sachetto on 01/10/17.
 //
 
-#ifndef MONOALG3D_STRING_HASH_H
-#define MONOALG3D_STRING_HASH_H
+#ifndef _STRING_HASH_H_
+#define _STRING_HASH_H_
 
 #define STRING_HASH_PRINT_KEY_VALUE(d)                                                                          \
     for (int i = 0; i < (d)->size; i++) {                                                                                   \

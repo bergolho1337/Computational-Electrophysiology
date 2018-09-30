@@ -52,8 +52,7 @@ void free_graph (struct graph *g)
 
     if (g->list_nodes)
         free_list_nodes(g);
-    
-    free(g);
+
 }
 
 void insert_edge_graph (struct graph *g, const uint32_t id_1, const uint32_t id_2)

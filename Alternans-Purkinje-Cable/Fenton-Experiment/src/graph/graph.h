@@ -29,6 +29,7 @@ struct edge
 {
     uint32_t id;
     double w;
+    double diameter;
     struct edge *next;
     struct node *dest;
 };

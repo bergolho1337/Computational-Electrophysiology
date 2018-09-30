@@ -7,6 +7,7 @@
 
 #include "../../grid/grid.h"
 #include "../constants.h"
+#include "../../utils/logfile_utils.h"
 #include "config_common.h"
 
 struct stim_config;
@@ -33,9 +34,12 @@ struct stim_config {
     bool end_period_was_set;
     double period_step;
     bool period_step_was_set;
+    int id_limit;
+    bool id_limit_was_set;
 
+    // Stimulus current for each cell
     real *spatial_stim_currents;
-    set_spatial_stim_fn *set_spatial_stim;
+    //set_spatial_stim_fn *set_spatial_stim;
 };
 
 void init_stim_functions(struct stim_config *config, char* stim_name);

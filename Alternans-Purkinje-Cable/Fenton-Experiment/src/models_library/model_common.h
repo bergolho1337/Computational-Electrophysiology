@@ -10,9 +10,9 @@
 
 #include "../monodomain/constants.h"
 
-#include <cstdbool>
-#include <cstdint>
-#include <cstddef>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stddef.h>
 
 struct cell_model_data {
     int number_of_ode_equations;

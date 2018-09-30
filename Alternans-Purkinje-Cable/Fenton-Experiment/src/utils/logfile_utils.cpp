@@ -2,10 +2,10 @@
 // Created by sachetto on 18/10/17.
 //
 
-#include <stdarg.h>
+#include <cstdarg>
 
 #include "logfile_utils.h"
-#include <stdio.h>
+#include <cstdio>
 
 static FILE *logfile = NULL;
 

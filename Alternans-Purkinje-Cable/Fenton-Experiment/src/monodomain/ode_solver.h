@@ -36,5 +36,7 @@ struct ode_solver
 };
 
 struct ode_solver* new_ode_solver();
+void configure_ode_solver_from_options(struct ode_solver *solver, struct user_options *options);
+void init_ode_solver_with_cell_model(struct ode_solver* solver);
 
 #endif

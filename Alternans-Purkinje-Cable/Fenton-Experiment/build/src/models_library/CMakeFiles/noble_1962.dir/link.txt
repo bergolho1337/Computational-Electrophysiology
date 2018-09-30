@@ -1,0 +1,1 @@
+/usr/bin/g++53 -fPIC  -fopenmp -I "/usr/local/cuda-9.1/include" -DCOMPILE_CUDA  -shared  -o ../../../shared_libs/libnoble_1962.so CMakeFiles/noble_1962.dir/noble_1962.c.o CMakeFiles/noble_1962.dir/noble_1962_generated_noble_1962.cu.o /usr/local/cuda-9.1/lib64/libcudart_static.a -lpthread -ldl -lrt 

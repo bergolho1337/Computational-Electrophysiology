@@ -6,8 +6,8 @@
 #include <cstdbool>
 #include <cctype>
 #include <cmath>
+#include <getopt.h>
 #include "../../grid/grid.h"
-//#include "../../alg/grid/grid.h"
 
 #define SIGMA 1400              // Dummy values
 #define STIM_OPT 1500           // Dummy values
@@ -45,11 +45,18 @@ struct user_options
 
     char *config_file;
 
-    //struct stim_config_hash *stim_configs;
-    //struct purkinje_config *purkinje_config;
+    struct stim_config_hash *stim_configs;
+    struct purkinje_config *purkinje_config;
     
 };
 
 struct user_options * new_user_options();
+void get_config_file (int argc, char **argv, struct user_options *user_args);
+int parse_config_file (void *user, const char *section, const char *name, const char *value);
+void parse_options (int argc, char **argv, struct user_options *user_args);
+void display_usage (char **argv);
+void issue_overwrite_warning (const char *var, const char *old_value, const char *new_value, const char *config_file) ;
+
+void configure_grid_from_options(struct grid* grid, struct user_options *options);
 
 #endif
