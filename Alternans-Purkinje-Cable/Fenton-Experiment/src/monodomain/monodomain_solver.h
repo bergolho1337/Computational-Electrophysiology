@@ -6,6 +6,8 @@
 
 #include "config/config_parser.h"
 
+#include <Eigen/Sparse>
+
 struct monodomain_solver 
 {
 
@@ -32,4 +34,5 @@ void solve_monodomain (struct monodomain_solver *monodomain_solver, struct ode_s
 
 void set_spatial_purkinje (struct purkinje_config *pk_config, struct grid *grid);
 
+Eigen::SparseMatrix<double> assembly_matrix (struct monodomain_solver *monodomain_solver, struct grid *grid, struct purkinje_config *pk_config);
 #endif

@@ -9,6 +9,6 @@ set(SOURCE_FILES_SOLVER
         config/config_parser.cpp config/config_parser.h
         constants.h)
 
-#INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(${EIGEN3_INCLUDE_DIR})
 
 ADD_LIBRARY(solvers STATIC ${SOURCE_FILES_SOLVER})

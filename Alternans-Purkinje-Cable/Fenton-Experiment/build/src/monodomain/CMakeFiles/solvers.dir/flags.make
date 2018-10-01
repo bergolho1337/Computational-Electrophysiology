@@ -6,5 +6,5 @@ CXX_FLAGS =  -fopenmp -I "/usr/local/cuda-9.1/include" -DCOMPILE_CUDA   -std=gnu
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/usr/local/include/eigen3 
 

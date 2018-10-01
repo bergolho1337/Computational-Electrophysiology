@@ -11,7 +11,7 @@ extern "C" SET_ODE_INITIAL_CONDITIONS_GPU(set_model_initial_conditions_gpu)
     // execution configuration
     const int GRID  = (num_volumes + BLOCK_SIZE - 1)/BLOCK_SIZE;
 
-    size_t size = num_volumes*sizeof(real);
+    size_t size = num_volumes*sizeof(float);
 
     check_cuda_error(cudaMallocPitch((void **) &(*sv), &pitch_h, size, (size_t )NEQ));
     check_cuda_error(cudaMemcpyToSymbol(pitch, &pitch_h, sizeof(size_t)));
@@ -31,10 +31,10 @@ extern "C" SOLVE_MODEL_ODES_GPU(solve_model_odes_gpu) {
     const int GRID  = ((int)num_cells_to_solve + BLOCK_SIZE - 1)/BLOCK_SIZE;
 
 
-    size_t stim_currents_size = sizeof(real)*num_cells_to_solve;
+    size_t stim_currents_size = sizeof(float)*num_cells_to_solve;
     size_t cells_to_solve_size = sizeof(uint32_t)*num_cells_to_solve;
 
-    real *stims_currents_device;
+    float *stims_currents_device;
     check_cuda_error(cudaMalloc((void **) &stims_currents_device, stim_currents_size));
     check_cuda_error(cudaMemcpy(stims_currents_device, stim_currents, stim_currents_size, cudaMemcpyHostToDevice));
 
@@ -54,20 +54,20 @@ extern "C" SOLVE_MODEL_ODES_GPU(solve_model_odes_gpu) {
 
 }
 
-__global__ void kernel_set_model_inital_conditions(real *sv, int num_volumes) {
+__global__ void kernel_set_model_inital_conditions(float *sv, int num_volumes) {
     int threadID = blockDim.x * blockIdx.x + threadIdx.x;
 
     if (threadID < num_volumes) {
 
-         *((real * )((char *) sv + pitch * 0) + threadID) = -87.0f;    //V millivolt 
-         *((real * )((char *) sv + pitch * 1) + threadID) = 0.01f;     //m dimensionless
-         *((real * )((char *) sv + pitch * 2) + threadID) = 0.8f;      //h millivolt 
-         *((real * )((char *) sv + pitch * 3) + threadID) = 0.01f;     //n dimensionless 
+         *((float * )((char *) sv + pitch * 0) + threadID) = -87.0f;    //V millivolt 
+         *((float * )((char *) sv + pitch * 1) + threadID) = 0.01f;     //m dimensionless
+         *((float * )((char *) sv + pitch * 2) + threadID) = 0.8f;      //h millivolt 
+         *((float * )((char *) sv + pitch * 3) + threadID) = 0.01f;     //n dimensionless 
     }
 }
 
 // Solving the model for each cell in the tissue matrix ni x nj
-__global__ void solve_gpu(real dt, real *sv, real* stim_currents,
+__global__ void solve_gpu(float dt, float *sv, float* stim_currents,
                           uint32_t *cells_to_solve, uint32_t num_cells_to_solve,
                           int num_steps)
 {
@@ -81,14 +81,14 @@ __global__ void solve_gpu(real dt, real *sv, real* stim_currents,
         else
             sv_id = threadID;
 
-        real rDY[NEQ];
+        float rDY[NEQ];
 
         for (int n = 0; n < num_steps; ++n) {
 
             RHS_gpu(sv, rDY, stim_currents[threadID], sv_id);
 
             for(int i = 0; i < NEQ; i++) {
-                *((real *) ((char *) sv + pitch * i) + sv_id) = dt * rDY[i] + *((real *) ((char *) sv + pitch * i) + sv_id);
+                *((float *) ((char *) sv + pitch * i) + sv_id) = dt * rDY[i] + *((float *) ((char *) sv + pitch * i) + sv_id);
             }            
 
         }
@@ -96,39 +96,39 @@ __global__ void solve_gpu(real dt, real *sv, real* stim_currents,
     }
 }
 
-inline __device__ void RHS_gpu(real *sv_, real *rDY_, real stim_current, int threadID_) {
+inline __device__ void RHS_gpu(float *sv_, float *rDY_, float stim_current, int threadID_) {
 
     //State variables
-    const real V_old_ = *((real*)((char*)sv_ + pitch * 0) + threadID_);
-    const real m_old_ = *((real*)((char*)sv_ + pitch * 1) + threadID_);
-    const real h_old_ = *((real*)((char*)sv_ + pitch * 2) + threadID_);
-    const real n_old_ = *((real*)((char*)sv_ + pitch * 3) + threadID_);
+    const float V_old_ = *((float*)((char*)sv_ + pitch * 0) + threadID_);
+    const float m_old_ = *((float*)((char*)sv_ + pitch * 1) + threadID_);
+    const float h_old_ = *((float*)((char*)sv_ + pitch * 2) + threadID_);
+    const float n_old_ = *((float*)((char*)sv_ + pitch * 3) + threadID_);
 
     //___________________________________________________________________________
     //Parameters (miliseconds)
-    const real Cm = 12.0f;                                 // (microF)
-    const real g_na_max = 400.0f;                       // (microS)
-    const real E_na = 40.0f;                               // (millivolt)
-    const real g_L = 0.075f;                                // (microS)
-    const real E_L = -60.0f;                               // (millivolt)
+    const float Cm = 12.0f;                                 // (microF)
+    const float g_na_max = 400.0f;                       // (microS)
+    const float E_na = 40.0f;                               // (millivolt)
+    const float g_L = 0.075f;                                // (microS)
+    const float E_L = -60.0f;                               // (millivolt)
 
-    real calc_I_stim = stim_current;
+    float calc_I_stim = stim_current;
 
     // Algebraics
-    real g_na = m_old_*m_old_*m_old_*h_old_*g_na_max;
-    real alpha_m = (((1.0e-01*((-V_old_)-4.8e+01))/(exp((((-V_old_)-4.8e+01)/1.5e+01))-1.0e+00)));
-    real alpha_h =  ((1.7e-01*exp((((-V_old_)-9.0e+01)/2.0e+01))));
-    real alpha_n = (((1.0e-04*((-V_old_)-5.0e+01))/(exp((((-V_old_)-5.0e+01)/1.0e+01))-1.0e+00)));
-    real i_na =  (g_na+1.4e-01)*(V_old_ - E_na);
-    //real i_na_no_oscilation = (g_na+122.500)*(V_old_ - E_na);
-    real beta_m = (((1.2e-01*(V_old_+8.0e+00))/(exp(((V_old_+8.0e+00)/5.0e+00))-1.0e+00)));
-    real beta_h = ((1.0/(1.0e+00+exp((((-V_old_)-4.2e+01)/1.0e+01)))));
-    real beta_n =  ((2.0e-03*exp((((-V_old_)-9.0e+01)/8.0e+01))));
-    //real g_K1 =  1.3f*exp((- V_old_ - 90.0000)/50.0000)+ 0.015f*exp((V_old_+90.0000)/60.0000);
-    real g_K1 = (((1.2*exp((((-V_old_)-9.0e+01)/5.0e+01)))+(1.5e-02*exp(((V_old_+9.0e+01)/6.0e+01)))));
-    real g_K2 =  1.2f*n_old_*n_old_*n_old_*n_old_;
-    real i_k =  (g_K1+g_K2)*(V_old_+100.000);
-    real i_leak =  g_L*(V_old_ - E_L);
+    float g_na = m_old_*m_old_*m_old_*h_old_*g_na_max;
+    float alpha_m = (((1.0e-01*((-V_old_)-4.8e+01))/(exp((((-V_old_)-4.8e+01)/1.5e+01))-1.0e+00)));
+    float alpha_h =  ((1.7e-01*exp((((-V_old_)-9.0e+01)/2.0e+01))));
+    float alpha_n = (((1.0e-04*((-V_old_)-5.0e+01))/(exp((((-V_old_)-5.0e+01)/1.0e+01))-1.0e+00)));
+    float i_na =  (g_na+1.4e-01)*(V_old_ - E_na);
+    //float i_na_no_oscilation = (g_na+122.500)*(V_old_ - E_na);
+    float beta_m = (((1.2e-01*(V_old_+8.0e+00))/(exp(((V_old_+8.0e+00)/5.0e+00))-1.0e+00)));
+    float beta_h = ((1.0/(1.0e+00+exp((((-V_old_)-4.2e+01)/1.0e+01)))));
+    float beta_n =  ((2.0e-03*exp((((-V_old_)-9.0e+01)/8.0e+01))));
+    //float g_K1 =  1.3f*exp((- V_old_ - 90.0000)/50.0000)+ 0.015f*exp((V_old_+90.0000)/60.0000);
+    float g_K1 = (((1.2*exp((((-V_old_)-9.0e+01)/5.0e+01)))+(1.5e-02*exp(((V_old_+9.0e+01)/6.0e+01)))));
+    float g_K2 =  1.2f*n_old_*n_old_*n_old_*n_old_;
+    float i_k =  (g_K1+g_K2)*(V_old_+100.000);
+    float i_leak =  g_L*(V_old_ - E_L);
 
     // Rates
     rDY_[0] = ( - (i_na + i_k + i_leak + calc_I_stim)) / Cm;

@@ -25,7 +25,7 @@ struct ode_solver* new_ode_solver()
 void configure_ode_solver_from_options(struct ode_solver *solver, struct user_options *options) 
 {
     solver->gpu_id = options->gpu_id;
-    solver->dt = (real)options->dt;
+    solver->dt = (float)options->dt;
     solver->gpu = options->gpu;
 
     if(options->model_file_path) 

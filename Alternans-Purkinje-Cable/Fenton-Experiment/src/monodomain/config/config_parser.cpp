@@ -197,17 +197,17 @@ int parse_config_file (void *user, const char *section, const char *name, const 
 
         if(MATCH_NAME("stim_start")) 
         {
-            tmp->stim_start = (real)strtod(value, NULL);
+            tmp->stim_start = (float)strtod(value, NULL);
             tmp->stim_start_was_set = true;
         } 
         else if(MATCH_NAME("stim_duration")) 
         {
-            tmp->stim_duration = (real)strtod(value, NULL);
+            tmp->stim_duration = (float)strtod(value, NULL);
             tmp->stim_duration_was_set = true;
         }
         else if(MATCH_NAME("stim_current")) 
         {
-            tmp->stim_current = (real)strtod(value, NULL);
+            tmp->stim_current = (float)strtod(value, NULL);
             tmp->stim_current_was_set = true;
         }
         else if(MATCH_NAME("n_cycles")) 
@@ -217,17 +217,17 @@ int parse_config_file (void *user, const char *section, const char *name, const 
         }
         else if(MATCH_NAME("start_period")) 
         {
-            tmp->start_period = (real)strtod(value, NULL);
+            tmp->start_period = (float)strtod(value, NULL);
             tmp->start_period_was_set = true;
         }
         else if(MATCH_NAME("end_period")) 
         {
-            tmp->end_period = (real)strtod(value, NULL);
+            tmp->end_period = (float)strtod(value, NULL);
             tmp->end_period_was_set = true;
         }   
         else if(MATCH_NAME("period_step")) 
         {
-            tmp->period_step = (real)strtod(value, NULL);
+            tmp->period_step = (float)strtod(value, NULL);
             tmp->period_step_was_set = true;
         }
         else if(MATCH_NAME("function")) 

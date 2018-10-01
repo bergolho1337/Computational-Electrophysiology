@@ -16,7 +16,7 @@
 
 struct cell_model_data {
     int number_of_ode_equations;
-    real initial_v;
+    float initial_v;
     char *model_library_path;
 };
 
@@ -24,20 +24,20 @@ struct cell_model_data {
 typedef GET_CELL_MODEL_DATA (get_cell_model_data_fn);
 
 // CPU FUNCTIONS
-#define SET_ODE_INITIAL_CONDITIONS_CPU(name) EXPORT_FN void name (real *sv)
+#define SET_ODE_INITIAL_CONDITIONS_CPU(name) EXPORT_FN void name (float *sv)
 typedef SET_ODE_INITIAL_CONDITIONS_CPU (set_ode_initial_conditions_cpu_fn);
 
 #define SOLVE_MODEL_ODES_CPU(name)                                                                                     \
-EXPORT_FN void name (real dt, real *sv, real *stim_currents, const uint32_t *cells_to_solve, uint32_t num_cells_to_solve,          \
+EXPORT_FN void name (float dt, float *sv, float *stim_currents, const uint32_t *cells_to_solve, uint32_t num_cells_to_solve,          \
                int num_steps, void *extra_data)
 typedef SOLVE_MODEL_ODES_CPU (solve_model_ode_cpu_fn);
 
 // GPU FUNCTIONS
-#define SET_ODE_INITIAL_CONDITIONS_GPU(name) EXPORT_FN size_t name (real **sv, uint32_t num_volumes)
+#define SET_ODE_INITIAL_CONDITIONS_GPU(name) EXPORT_FN size_t name (float **sv, uint32_t num_volumes)
 typedef SET_ODE_INITIAL_CONDITIONS_GPU (set_ode_initial_conditions_gpu_fn);
 
 #define SOLVE_MODEL_ODES_GPU(name)                                                                                     \
-EXPORT_FN void name (real dt, real *sv, real *stim_currents, uint32_t *cells_to_solve, uint32_t num_cells_to_solve,          \
+EXPORT_FN void name (float dt, float *sv, float *stim_currents, uint32_t *cells_to_solve, uint32_t num_cells_to_solve,          \
                int num_steps, void *extra_data, size_t extra_data_bytes_size)
 typedef SOLVE_MODEL_ODES_GPU(solve_model_ode_gpu_fn);
 

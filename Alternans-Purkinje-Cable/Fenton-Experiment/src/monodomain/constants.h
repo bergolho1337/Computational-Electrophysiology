@@ -11,7 +11,7 @@
 #define BLOCK_SIZE 256
 
 // Precision to be used for the calculations
-typedef float real;
+//typedef float real;
 
 #define EXPORT_FN 
 

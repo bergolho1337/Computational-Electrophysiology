@@ -2,10 +2,17 @@
 #include "ode_solver.h"
 #include <cassert>
 #include <cinttypes>
+#include <vector>
 #include "../utils/logfile_utils.h"
 #include "../utils/stop_watch.h"
 #include "../purkinje/purkinje.h"
 //#include "config/purkinje_config.h"
+
+static inline double ALPHA (double beta, double cm, double dt, double h) 
+{
+    return (((beta * cm) / dt) * UM2_TO_CM2) * pow (h, 3.0);
+    //return (((beta * cm) / dt)) * pow (h, 3.0);
+}
 
 struct monodomain_solver *new_monodomain_solver ()
 {
@@ -90,5 +97,46 @@ void solve_monodomain (struct monodomain_solver *monodomain_solver, struct ode_s
         print_to_stdout_and_file ("No Purkinje configuration provided! Exiting!\n");
         exit (EXIT_FAILURE);
     }
+
+    // Assemble the matrix of the PDE
+    Eigen::SparseMatrix<double> A = assembly_matrix(monodomain_solver,grid,pk_config);
     
+}
+
+Eigen::SparseMatrix<double> assembly_matrix (struct monodomain_solver *monodomain_solver, struct grid *grid, struct purkinje_config *pk_config) 
+{
+    struct graph *pk_net = grid->the_purkinje_network;
+    int n = pk_net->total_nodes;
+    double cm = monodomain_solver->cm;
+    double beta = monodomain_solver->beta;
+    double sigma = monodomain_solver->sigma;
+    double dt = monodomain_solver->dt;
+    double h = pk_config->start_h;
+
+    Eigen::SparseMatrix<double> A(n,n);
+    std::vector< Eigen::Triplet<double> > coeff;
+
+    double alpha = ALPHA(beta,cm,dt,h);
+    
+    struct node *ptr = pk_net->list_nodes;
+    while (ptr != NULL)
+    {
+        int u = ptr->id;
+        double value = -sigma * h;
+        
+        struct edge *ptrl = ptr->list_edges;
+        while (ptrl != NULL)
+        {
+            int v = ptrl->dest->id;
+            coeff.push_back( Eigen::Triplet<double>(u,v,value) );
+            ptrl = ptrl->next;
+        }
+        value = (ptr->num_edges * sigma * h) + alpha;
+        coeff.push_back( Eigen::Triplet<double>(u,u,value) );
+        ptr = ptr->next;
+    }
+    A.setFromTriplets(coeff.begin(),coeff.end());
+    A.makeCompressed();
+
+    return A;
 }
