@@ -1,7 +1,9 @@
 #include "purkinje.h"
+#include "../grid/cell.h"
 #include "../utils/logfile_utils.h"
 #include <cfloat>
 #include <cmath>
+#include <cassert>
 #include <cstring>
 #include <ctime>
 
@@ -11,7 +13,11 @@ void set_spatial_purkinje (struct purkinje_config *pk_config, struct grid *grid)
     double diameter = pk_config->diameter;
     double side_length = pk_config->start_h;   
 
+    // Construct the Purkinje mesh based on the input 'network_file'
     set_custom_purkinje_network(grid, network_file, side_length, diameter);
+
+    // Populate the linked-list of cells using the Purkinje mesh
+    initialize_and_construct_grid_purkinje(grid);
 }
 
 // Set a a custom Purkinje network from a file that stores its graph structure
@@ -238,3 +244,6 @@ void write_purkinje_network_to_vtk (struct graph *the_purkinje_network)
 
     fclose(file);
 }
+
+
+

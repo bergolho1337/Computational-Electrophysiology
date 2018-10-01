@@ -6,7 +6,8 @@
 extern "C" SET_ODE_INITIAL_CONDITIONS_GPU(set_model_initial_conditions_gpu) 
 {
 
-    print_to_stdout_and_file("Using noble_1962 GPU model\n");
+    //print_to_stdout_and_file("Using noble_1962 GPU model\n");
+    fprintf(stdout,"Using noble_1962 GPU model\n");
 
     // execution configuration
     const int GRID  = (num_volumes + BLOCK_SIZE - 1)/BLOCK_SIZE;
@@ -59,10 +60,10 @@ __global__ void kernel_set_model_inital_conditions(float *sv, int num_volumes) {
 
     if (threadID < num_volumes) {
 
-         *((float * )((char *) sv + pitch * 0) + threadID) = -87.0f;    //V millivolt 
-         *((float * )((char *) sv + pitch * 1) + threadID) = 0.01f;     //m dimensionless
-         *((float * )((char *) sv + pitch * 2) + threadID) = 0.8f;      //h millivolt 
-         *((float * )((char *) sv + pitch * 3) + threadID) = 0.01f;     //n dimensionless 
+         *((float * )((char *) sv + pitch * 0) + threadID) = -75.5344986658f;    //V millivolt 
+         *((float * )((char *) sv + pitch * 1) + threadID) = 0.0605467272f;     //m dimensionless
+         *((float * )((char *) sv + pitch * 2) + threadID) = 0.7259001355f;      //h millivolt 
+         *((float * )((char *) sv + pitch * 3) + threadID) = 0.4709239708;     //n dimensionless 
     }
 }
 

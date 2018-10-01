@@ -1,2 +1,0 @@
-/usr/bin/ar qc libpurkinje.a  CMakeFiles/purkinje.dir/purkinje.cpp.o
-/usr/bin/ranlib libpurkinje.a

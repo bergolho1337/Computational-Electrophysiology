@@ -1,2 +1,0 @@
-/usr/bin/ar qc libstring.a  CMakeFiles/string.dir/sds.c.o
-/usr/bin/ranlib libstring.a

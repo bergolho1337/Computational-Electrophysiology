@@ -53,9 +53,9 @@ ADD_SUBDIRECTORY(src/purkinje)
 
 ADD_EXECUTABLE(FentonExperiment src/main.cpp)
 
-ADD_DEPENDENCIES(FentonExperiment utils grid solvers hashes ini_parser graph purkinje)
+ADD_DEPENDENCIES(FentonExperiment utils grid solvers hashes ini_parser graph purkinje ${OPT_DEPS})
 
-TARGET_LINK_LIBRARIES(FentonExperiment grid solvers utils hashes ini_parser graph purkinje Eigen3::Eigen ${CUDA_LIBRARIES} dl m)
+TARGET_LINK_LIBRARIES(FentonExperiment grid solvers utils hashes ini_parser graph purkinje ${OPT_DEPS} Eigen3::Eigen ${CUDA_LIBRARIES} dl m)
 
 ADD_SUBDIRECTORY(src/models_library)
 

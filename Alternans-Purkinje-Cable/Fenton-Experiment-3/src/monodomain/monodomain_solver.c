@@ -259,6 +259,7 @@ void solve_monodomain (struct monodomain_solver *the_monodomain_solver, struct o
     print_to_stdout_and_file ("Assembling Monodomain Matrix End\n");
     print_to_stdout_and_file (LOG_LINE_SEPARATOR);
 
+
     start_stop_watch (&solver_time);
 
     int print_rate = configs->print_rate;

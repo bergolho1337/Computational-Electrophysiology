@@ -15,6 +15,8 @@ struct element
 
 struct cell_node 
 {
+    bool active;
+
     // Cell position
     double center_x, center_y, center_z;
 
@@ -31,7 +33,7 @@ struct cell_node
     //______________________________________________________________________________
     /* The matrix row. The elements[0] corresponds to the diagonal element of the row. */
     //element_vector *elements;
-    struct element *elements;
+    //struct element *elements;
 
     //______________________________________________________________________________
     /* Variables used in solving the discretized system Ax = b through the 
@@ -45,5 +47,14 @@ struct cell_node
     double face_length;
 
 };
+
+struct cell_node* new_cell_node();
+void free_cell_node(struct cell_node *cell_node);
+void init_cell_node(struct cell_node *cell_node);
+void set_cell_node_data(struct cell_node *the_cell, double face_length, double half_face_length,
+                                void *previous, void *next,
+                                uint32_t grid_position,
+                                double center_x, double center_y, double center_z); 
+
 
 #endif

@@ -13,10 +13,14 @@ SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu) {
     // Original: -87,0.01,0.8,0.01
     // 500ms pacing steady state: -76.1302f, 0.0586201f, 0.741082f, 0.475923f 
     // 450ms pacing steady-state: -78.8607f, 0.050476f, 0.806294f, 0.518928f
-    sv[0] = -87.0f;    // V millivolt 
-    sv[1] = 0.01f;    // m dimensionless
-    sv[2] = 0.8f;    // h dimensionless
-    sv[3] = 0.01f;    // n dimensionless
+    //sv[0] = -87.0f;    // V millivolt 
+    //sv[1] = 0.01f;    // m dimensionless
+    //sv[2] = 0.8f;    // h dimensionless
+    //sv[3] = 0.01f;    // n dimensionless
+    sv[0] = -75.5344986658f;
+    sv[1] = 0.0605467272f;
+    sv[2] = 0.7259001355f;
+    sv[3] = 0.4709239708;
 }
 
 SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) {

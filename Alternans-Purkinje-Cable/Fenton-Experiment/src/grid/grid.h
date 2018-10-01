@@ -23,4 +23,13 @@ struct grid
 
 struct grid* new_grid();
 
+void initialize_and_construct_grid_purkinje (struct grid *grid);
+void initialize_grid_purkinje (struct grid *grid);
+void construct_grid_purkinje (struct grid *the_grid);
+
+void order_grid_cells (struct grid *the_grid);
+void save_old_cell_positions (struct grid *the_grid);
+
+bool print_grid_and_check_for_activity(const struct grid *the_grid, FILE *output_file, const int count, const bool binary);
+
 #endif
