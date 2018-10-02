@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/hash/hash_common.h
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/hash/point_hash.c
+point_hash.h
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/hash/point_hash.h
+stdlib.h
+-
+assert.h
+-
+stdbool.h
+-
+hash_common.h
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/hash/hash_common.h
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/hash/point_hash.h
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/hash/string_hash.c
+string_hash.h
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/hash/string_hash.h
+assert.h
+-
+stdlib.h
+-
+string.h
+-
+hash_common.h
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/hash/hash_common.h
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment/src/hash/string_hash.h
+
