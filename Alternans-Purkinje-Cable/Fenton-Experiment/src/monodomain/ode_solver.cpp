@@ -163,6 +163,53 @@ void set_ode_initial_conditions_for_all_volumes(struct ode_solver *solver, uint3
     }
 }
 
+void set_ode_initial_conditions_using_steady_state(struct ode_solver *the_ode_solver, const uint32_t n_active, char *input_steady_filename)
+{
+    print_to_stdout_and_file("Using a Steady State solution for the initial conditions ...\n");
+
+    int n_odes = the_ode_solver->model_data.number_of_ode_equations;
+    float *sv = the_ode_solver->sv;
+    size_t pitch = the_ode_solver->pitch;
+    bool use_gpu = the_ode_solver->gpu;
+    size_t mem_size = n_active * n_odes * sizeof (float);
+
+    // Reading steady state solution
+    FILE *file = fopen(input_steady_filename,"r");
+    float *sv_sst = (float*)malloc(mem_size);
+    for (int i = 0; i < n_active; i++)
+        for (int j = 0; j < n_odes; j++)
+            fscanf(file,"%f",&sv_sst[i*n_odes+j]);
+    fclose(file);
+
+    // Moving the steady-state solution to the CPU || GPU state-vector ...
+    if (use_gpu) 
+    {
+#ifdef COMPILE_CUDA
+        float *sv_cpu;
+        size_t mem_size = n_active * n_odes * sizeof (float);
+
+        sv_cpu = (float *)malloc (mem_size);
+        check_cuda_errors(cudaMemcpy2D(sv_cpu, n_active * sizeof(float), sv, pitch, n_active * sizeof(float), n_odes, cudaMemcpyDeviceToHost));		
+
+		for (int i = 0; i < n_active; i++) 
+            for (int j = 0; j < n_odes; j++)
+                sv_cpu[j*n_active+i] = sv_sst[i*n_odes+j];
+
+        check_cuda_errors(cudaMemcpy2D(sv, n_active * sizeof(float), sv_cpu, pitch, n_active * sizeof(float), n_odes, cudaMemcpyHostToDevice));
+        free (sv_cpu);
+#endif
+    } 
+    else 
+    {
+		for (int i = 0; i < n_active; i++) 
+            for (int j = 0; j < n_odes; j++)
+                sv[i*n_odes+j] = sv_sst[i*n_odes+j];
+    }
+
+    free(sv_sst);
+
+}
+
 void solve_all_volumes_odes(struct ode_solver *the_ode_solver, uint32_t n_active, double cur_time, int num_steps,
                             struct stim_config_hash *stim_configs) 
 {

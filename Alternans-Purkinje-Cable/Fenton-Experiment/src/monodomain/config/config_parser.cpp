@@ -38,8 +38,14 @@ struct user_options * new_user_options()
     user_args->out_steady_state_dir = NULL;
     user_args->out_steady_state_dir_was_set = false;
 
-    user_args->steady_state_filename = NULL;
-    user_args->steady_state_filename_was_set = false;
+    user_args->out_steady_state_filename = NULL;
+    user_args->out_steady_state_filename_was_set = false;
+
+    user_args->in_steady_state_filename = NULL;
+    user_args->in_steady_state_filename_was_set = false;
+
+    user_args->use_steady_state = false;
+    user_args->use_steady_state_was_set = false;
 
     user_args->num_threads = 1;
     user_args->num_threads_was_set = false;
@@ -150,10 +156,32 @@ int parse_config_file (void *user, const char *section, const char *name, const 
         pconfig->out_steady_state_dir = strdup(value);
         pconfig->out_steady_state_dir_was_set = true;
     }
-    else if (MATCH_SECTION_AND_NAME (MAIN_SECTION, "steady_state_filename")) 
+    else if (MATCH_SECTION_AND_NAME (MAIN_SECTION, "output_steady_state_filename")) 
     {
-        pconfig->steady_state_filename = strdup(value);
-        pconfig->steady_state_filename_was_set = true;
+        pconfig->out_steady_state_filename = strdup(value);
+        pconfig->out_steady_state_filename_was_set = true;
+    }
+    else if (MATCH_SECTION_AND_NAME (MAIN_SECTION, "input_steady_state_filename")) 
+    {
+        pconfig->in_steady_state_filename = strdup(value);
+        pconfig->in_steady_state_filename_was_set = true;
+    }
+    else if (MATCH_SECTION_AND_NAME (MAIN_SECTION, "steady_state_print_rate")) 
+    {
+        pconfig->steady_state_print_rate = (int)strtol (value, NULL, 10);
+        pconfig->steady_state_print_rate_was_set = true;
+    }
+    else if (MATCH_SECTION_AND_NAME (MAIN_SECTION, "use_steady_state")) 
+    {
+        if (strcmp(value, "true") == 0 || strcmp(value, "yes") == 0)
+        {
+            pconfig->use_steady_state = true;
+        }
+        else
+        {
+            pconfig->use_steady_state = false;
+        }
+        pconfig->use_steady_state_was_set = true;
     } 
     else if (MATCH_SECTION(ODE_SECTION)) 
     {

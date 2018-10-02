@@ -38,6 +38,8 @@ void print_solver_info (struct monodomain_solver *the_monodomain_solver, struct 
                         struct grid *the_grid, struct user_options *options);
 
 void set_initial_conditions_all_volumes (struct monodomain_solver *the_solver, struct grid *the_grid, double initial_v);
+void set_initial_conditions_all_volumes_using_steady_state(struct monodomain_solver *monodomain_solver, struct grid *grid,\
+                                                            int n_odes ,char *input_steady_state_filename);
 
 void set_spatial_stim(struct stim_config_hash *stim_configs, struct grid *the_grid);
 void set_stimulus (struct stim_config *tmp, struct grid *grid);
@@ -48,6 +50,8 @@ void update_monodomain (uint32_t initial_number_of_cells, uint32_t num_active_ce
                         double beta, double cm, double dt_edp, float *sv, int n_equations_cell_model, bool use_gpu);
 
 bool print_result(const struct grid *the_grid, const struct user_options *configs, int count, bool save_in_binary);
+
+bool print_steady_state (const struct grid *the_grid, const struct ode_solver *the_ode_solver, const struct user_options *configs, int count);
 
 Eigen::SparseMatrix<double> assembly_matrix (struct monodomain_solver *monodomain_solver, struct grid *grid, struct purkinje_config *pk_config);
 void assembly_load_vector (Eigen::VectorXd &b, struct cell_node **active_cells, uint32_t num_active_cells);

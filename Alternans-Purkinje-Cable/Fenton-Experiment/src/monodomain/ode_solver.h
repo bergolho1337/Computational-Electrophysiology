@@ -39,6 +39,7 @@ struct ode_solver* new_ode_solver();
 void configure_ode_solver_from_options(struct ode_solver *solver, struct user_options *options);
 void init_ode_solver_with_cell_model(struct ode_solver* solver);
 void set_ode_initial_conditions_for_all_volumes(struct ode_solver *solver, uint32_t num_cells);
+void set_ode_initial_conditions_using_steady_state(struct ode_solver *the_ode_solver, const uint32_t n_active, char *input_steady_filename);
 void solve_all_volumes_odes(struct ode_solver *the_ode_solver, uint32_t n_active, double cur_time, int num_steps,
                             struct stim_config_hash *stim_configs);
 

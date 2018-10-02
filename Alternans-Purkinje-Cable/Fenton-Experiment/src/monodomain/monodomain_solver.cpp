@@ -103,8 +103,10 @@ void solve_monodomain (struct monodomain_solver *monodomain_solver, struct ode_s
         exit (EXIT_FAILURE);
     }
 
-    bool gpu = ode_solver->gpu;
+    bool gpu = ode_solver->gpu; 
     int count = 0;
+
+    bool use_steady_state = configs->use_steady_state;
 
     bool save_to_file = (configs->out_dir_name != NULL);
 
@@ -136,6 +138,8 @@ void solve_monodomain (struct monodomain_solver *monodomain_solver, struct ode_s
 
     print_to_stdout_and_file ("Setting ODE's initial conditions\n");
     set_ode_initial_conditions_for_all_volumes (ode_solver, grid->num_active_cells);
+    if (use_steady_state)
+        set_ode_initial_conditions_using_steady_state(ode_solver,grid->num_active_cells,configs->in_steady_state_filename);
 
     double initial_v = ode_solver->model_data.initial_v;
 
@@ -160,6 +164,8 @@ void solve_monodomain (struct monodomain_solver *monodomain_solver, struct ode_s
     start_stop_watch (&part_mat);
 
     set_initial_conditions_all_volumes (monodomain_solver, grid, initial_v);
+    if (use_steady_state)
+        set_initial_conditions_all_volumes_using_steady_state(monodomain_solver, grid, ode_solver->model_data.number_of_ode_equations, configs->in_steady_state_filename);
 
     // Assemble the matrix of the PDE
     Eigen::SparseMatrix<double> A = assembly_matrix(monodomain_solver,grid,pk_config);
@@ -173,6 +179,7 @@ void solve_monodomain (struct monodomain_solver *monodomain_solver, struct ode_s
     start_stop_watch (&solver_time);
 
     int print_rate = configs->print_rate;
+    int steady_state_print_rate = configs->steady_state_print_rate;
 
     double solver_error;
     uint32_t solver_iterations = 0;
@@ -202,11 +209,11 @@ void solve_monodomain (struct monodomain_solver *monodomain_solver, struct ode_s
 
                 total_write_time += stop_stop_watch (&write_time);
             }
-
-            if (count % 60000 == 0)
-            {
-                //print_steady_state(grid,ode_solver,configs,count);
-            }
+        }
+        if (count == steady_state_print_rate)
+        {
+            if (!use_steady_state)
+                print_steady_state(grid,ode_solver,configs,count);
         }
 
         if (cur_time > 0.0) 
@@ -485,6 +492,7 @@ void print_solver_info (struct monodomain_solver *the_monodomain_solver, struct 
     print_to_stdout_and_file ("Simulation Final Time = %lf\n", the_monodomain_solver->final_time);
 
     print_to_stdout_and_file ("Print Rate = %d\n", options->print_rate);
+    print_to_stdout_and_file ("Steady State Print Rate = %d\n", options->steady_state_print_rate);
 
     if (options->out_dir_name != NULL) {
         print_to_stdout_and_file ("Saving to plain text output in %s dir\n", options->out_dir_name);
@@ -556,6 +564,67 @@ bool print_result(const struct grid *the_grid, const struct user_options *config
     return activity;
 }
 
+bool print_steady_state (const struct grid *the_grid, const struct ode_solver *the_ode_solver, const struct user_options *configs, int count)
+{
+    uint32_t n_active = the_grid->num_active_cells;
+    int n_odes = the_ode_solver->model_data.number_of_ode_equations;
+    float *sv = the_ode_solver->sv;
+    size_t pitch = the_ode_solver->pitch;
+    char *out_steady_state_dir = configs->out_steady_state_dir;
+    char *out_steady_filename = configs->out_steady_state_filename;
+    bool use_gpu = the_ode_solver->gpu;
+
+#ifdef COMPILE_CUDA
+    float *sv_cpu = NULL;
+    size_t mem_size = n_active * n_odes * sizeof (float);
+
+    if (use_gpu) 
+    {
+        sv_cpu = (float *)malloc (mem_size);
+        check_cuda_errors(cudaMemcpy2D(sv_cpu, n_active * sizeof(float), sv, pitch, n_active * sizeof(float), n_odes, cudaMemcpyDeviceToHost));
+    }
+#endif
+
+    std::stringstream ss; 
+    ss << out_steady_state_dir << "/" << out_steady_filename;
+
+    FILE *file = fopen(ss.str().c_str(),"w+");
+
+    for (int i = 0; i < n_active; i++)
+    {
+        for (int j = 0; j < n_odes-1; j++)
+        {
+            if (use_gpu) 
+            {
+            #ifdef COMPILE_CUDA
+                fprintf(file,"%.10f ",sv_cpu[j*n_active+i]);
+            #endif
+            } 
+            else 
+            {
+                fprintf(file,"%.10f ",sv[i*n_odes+j]);
+            }
+        }
+        if (use_gpu) 
+        {
+        #ifdef COMPILE_CUDA
+            fprintf(file,"%.10f\n",sv_cpu[(n_odes-1)*n_active+i]);
+        #endif
+        } 
+        else 
+        {
+            fprintf(file,"%.10f\n",sv[(n_odes-1)*n_odes+(n_odes-1)]);
+        }
+    }
+
+    fclose(file);
+    
+#ifdef COMPILE_CUDA
+    free (sv_cpu);
+#endif
+
+}
+
 void assembly_load_vector (Eigen::VectorXd &b, struct cell_node **active_cells, uint32_t num_active_cells)
 {
     struct cell_node **ac = active_cells;
@@ -574,4 +643,31 @@ void move_solution_to_cells (Eigen::VectorXd &x, struct cell_node **active_cells
     {
         ac[i]->v = x(i);
     }
+}
+
+void set_initial_conditions_all_volumes_using_steady_state(struct monodomain_solver *monodomain_solver, struct grid *grid,\
+                                                            int n_odes ,char *input_steady_state_filename)
+{
+    struct cell_node **ac = grid->active_cells;
+    uint32_t n_active = grid->num_active_cells;
+    uint32_t mem_size = n_active * n_odes *sizeof(float);
+    
+    // Reading steady state solution
+    FILE *file = fopen(input_steady_state_filename,"r");
+    float *sv_sst = (float*)malloc(mem_size);
+    for (int i = 0; i < n_active; i++)
+        for (int j = 0; j < n_odes; j++)
+            fscanf(file,"%f",&sv_sst[i*n_odes+j]);
+    fclose(file);
+
+	int i;
+
+    // Moving the transmembrane potential to the cells
+	#pragma omp parallel for
+    for (i = 0; i < n_active; i++) 
+    {
+        ac[i]->v = sv_sst[i*n_odes];
+    }    
+
+    free(sv_sst);
 }
