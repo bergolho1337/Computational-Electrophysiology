@@ -55,7 +55,7 @@ void SteadyState::solve ()
         printProgress(i,M);
         #endif
 
-        //if (i % 10 == 0) writeVTKFile(i);
+        if (i % 200 == 0) writeVTKFile(i);
         if (i == 60000) writeSteadyStateFile(sstFile);
 
         // Solve the PDE 
@@ -130,6 +130,8 @@ void SteadyState::setMatrix (SpMat &a)
     double D = (BETA*Cm*alfa) / (dt);
     double E = (BETA*Cm*dx*dx) / (dt);
     
+    double ALPHA = (BETA*Cm*dx*dx*dx) / dt;
+
     // Non-zero coefficients
     vector<T> coeff;
 
@@ -160,14 +162,14 @@ void SteadyState::setMatrix (SpMat &a)
             //Not link to a PMJ, so normal edge with a Purkinje cell
             if (isPMJ == false)
             {
-                double value = -SIGMA / E;
+                double value = -SIGMA * dx;
                 while (ptrl != NULL)
                 {
                     int v = ptrl->dest->id;
                     coeff.push_back(T(u,v,value));
                     ptrl = ptrl->next;
                 }
-                value = (ptr->num_edges*SIGMA + E) / E;
+                value = (ptr->num_edges*SIGMA*dx) + ALPHA;
                 coeff.push_back(T(u,u,value));
             }
             // Is a special link to a Purkinje cell - PMJ
@@ -293,9 +295,11 @@ void SteadyState::setMatrix2 (SpMat &a)
 
 void SteadyState::assembleLoadVector (VectorXd &b)
 {
+    double ALPHA = (BETA*Cm*dx*dx*dx) / dt;
+
     int np = b.size();
     for (int i = 0; i < np; i++)
-        b(i) = vol[i].yOld[0];
+        b(i) = vol[i].yOld[0] * ALPHA;
 }
 
 void SteadyState::setSensibilityParam (int argc, char *argv[])
@@ -320,7 +324,8 @@ void SteadyState::setSensibilityParam (int argc, char *argv[])
         d1 = atof(argv[8]);
         SIGMA = atof(argv[9]);
     }
-    BETA = 4.0 / d1 * 1.0e-04;
+    //BETA = 4.0 / d1 * 1.0e-04;
+    BETA = 0.14;
 }
 
 void SteadyState::setControlVolumes ()

@@ -205,7 +205,7 @@ void solve_monodomain (struct monodomain_solver *monodomain_solver, struct ode_s
 
             if (count % 60000 == 0)
             {
-                print_steady_state(grid,ode_solver,configs,count);
+                //print_steady_state(grid,ode_solver,configs,count);
             }
         }
 
@@ -290,6 +290,13 @@ Eigen::SparseMatrix<double> assembly_matrix (struct monodomain_solver *monodomai
         coeff.push_back( Eigen::Triplet<double>(u,u,value) );
         ptr = ptr->next;
     }
+
+    // Print non-zero coefficients
+    //FILE *file = fopen("matrix.txt","w+");
+    //for (int i = 0; i < coeff.size(); i++)
+    //    fprintf(file,"(%d,%d) = %.10lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
+    //fclose(file);
+
     A.setFromTriplets(coeff.begin(),coeff.end());
     A.makeCompressed();
 
@@ -552,6 +559,7 @@ bool print_result(const struct grid *the_grid, const struct user_options *config
 void assembly_load_vector (Eigen::VectorXd &b, struct cell_node **active_cells, uint32_t num_active_cells)
 {
     struct cell_node **ac = active_cells;
+    #pragma omp parallel for
     for (int i = 0; i < num_active_cells; i++)
     {
         b(i) = ac[i]->b;
@@ -561,6 +569,7 @@ void assembly_load_vector (Eigen::VectorXd &b, struct cell_node **active_cells, 
 void move_solution_to_cells (Eigen::VectorXd &x, struct cell_node **active_cells, uint32_t num_active_cells)
 {
     struct cell_node **ac = active_cells;
+    #pragma omp parallel for
     for (int i = 0; i < num_active_cells; i++)
     {
         ac[i]->v = x(i);

@@ -1,9 +1,0 @@
-/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/build/CMakeFiles/rebuild_cache.dir
-/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/build/CMakeFiles/ConvertToVTK.dir
-/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/build/CMakeFiles/edit_cache.dir
-/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/build/src/hash/CMakeFiles/rebuild_cache.dir
-/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/build/src/hash/CMakeFiles/hashes.dir
-/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/build/src/hash/CMakeFiles/edit_cache.dir
-/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/build/src/graph/CMakeFiles/rebuild_cache.dir
-/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/build/src/graph/CMakeFiles/graph.dir
-/home/bergolho/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/Fenton-Experiment-3/ConvertPurkinjeToVTK/build/src/graph/CMakeFiles/edit_cache.dir

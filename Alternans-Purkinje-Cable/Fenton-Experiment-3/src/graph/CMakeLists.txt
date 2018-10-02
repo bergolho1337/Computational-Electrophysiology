@@ -1,3 +1,0 @@
-set(SOURCE_FILES_DRAW graph.h graph.c)
-
-ADD_LIBRARY(graph STATIC ${SOURCE_FILES_DRAW})

@@ -87,6 +87,8 @@ void Solver::solve ()
 
     // Calculate the propagation velocity for the plot ids
     calcVelocity();
+
+    
 }
 
 void Solver::setSensibilityParam (int argc, char *argv[])
@@ -111,7 +113,9 @@ void Solver::setSensibilityParam (int argc, char *argv[])
         d1 = atof(argv[8]);
         SIGMA = atof(argv[9]);
     }
-    BETA = 4.0 / d1 * 1.0e-04;
+    //BETA = 4.0 / d1 * 1.0e-04;
+    BETA = 0.14;
+    cout << "Beta = " << BETA << endl;
 }
 
 void Solver::setControlVolumes ()
@@ -211,6 +215,8 @@ void Solver::setMatrix (SpMat &a)
     double D = (BETA*Cm*alfa) / (dt);
     double E = (BETA*Cm*dx*dx) / (dt);
 
+    double ALPHA = (BETA*Cm*dx*dx*dx) / dt;
+
     // Non-zero coefficients
     vector<T> coeff;
 
@@ -241,14 +247,16 @@ void Solver::setMatrix (SpMat &a)
             //Not link to a PMJ, so normal edge with a Purkinje cell
             if (isPMJ == false)
             {
-                double value = -SIGMA / E;
+                double value = -SIGMA * dx;
                 while (ptrl != NULL)
                 {
                     int v = ptrl->dest->id;
+                    //printf("(%d,%d) = %.10lf\n",u,v,value);
                     coeff.push_back(T(u,v,value));
                     ptrl = ptrl->next;
                 }
-                value = (ptr->num_edges*SIGMA + E) / E;
+                value = (ptr->num_edges*SIGMA*dx) + ALPHA;
+                //printf("(%d,%d) = %.10lf\n",u,u,value);
                 coeff.push_back(T(u,u,value));
             }
             // Is a special link to a Purkinje cell - PMJ
@@ -278,6 +286,13 @@ void Solver::setMatrix (SpMat &a)
         }
         ptr = ptr->next;
     }
+    
+    // Print non-zero coefficients
+    FILE *file = fopen("matrix.txt","w+");
+    for (int i = 0; i < coeff.size(); i++)
+        fprintf(file,"(%d,%d) = %.10lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
+    fclose(file);
+
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
 }
@@ -371,9 +386,11 @@ void Solver::setMatrix2 (SpMat &a)
 
 void Solver::assembleLoadVector (VectorXd &b)
 {
+    double ALPHA = (BETA*Cm*dx*dx*dx) / dt;
+
     int np = b.size();
     for (int i = 0; i < np; i++)
-        b(i) = vol[i].yOld[0];
+        b(i) = vol[i].yOld[0] * ALPHA;
 }
 
 void Solver::moveVstar (const VectorXd vm)
