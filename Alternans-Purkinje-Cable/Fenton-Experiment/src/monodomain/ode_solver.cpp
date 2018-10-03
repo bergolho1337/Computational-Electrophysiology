@@ -185,18 +185,9 @@ void set_ode_initial_conditions_using_steady_state(struct ode_solver *the_ode_so
     if (use_gpu) 
     {
 #ifdef COMPILE_CUDA
-        float *sv_cpu;
-        size_t mem_size = n_active * n_odes * sizeof (float);
 
-        sv_cpu = (float *)malloc (mem_size);
-        check_cuda_errors(cudaMemcpy2D(sv_cpu, n_active * sizeof(float), sv, pitch, n_active * sizeof(float), n_odes, cudaMemcpyDeviceToHost));		
-
-		for (int i = 0; i < n_active; i++) 
-            for (int j = 0; j < n_odes; j++)
-                sv_cpu[j*n_active+i] = sv_sst[i*n_odes+j];
-
-        check_cuda_errors(cudaMemcpy2D(sv, n_active * sizeof(float), sv_cpu, pitch, n_active * sizeof(float), n_odes, cudaMemcpyHostToDevice));
-        free (sv_cpu);
+        check_cuda_errors(cudaMemcpy2D(sv, n_active * sizeof(float), sv_sst, pitch, n_active * sizeof(float), n_odes, cudaMemcpyHostToDevice));
+        
 #endif
     } 
     else 

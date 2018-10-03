@@ -662,11 +662,18 @@ void set_initial_conditions_all_volumes_using_steady_state(struct monodomain_sol
 
 	int i;
 
+    double h, alpha;
+    double beta = monodomain_solver->beta;
+    double cm = monodomain_solver->cm;
+    double dt = monodomain_solver->dt;
     // Moving the transmembrane potential to the cells
-	#pragma omp parallel for
+	#pragma omp parallel for private(alpha, h)
     for (i = 0; i < n_active; i++) 
     {
+        h = ac[i]->face_length;
+        alpha = ALPHA (beta, cm, dt, h);
         ac[i]->v = sv_sst[i*n_odes];
+        ac[i]->b = sv_sst[i*n_odes] * alpha;
     }    
 
     free(sv_sst);
