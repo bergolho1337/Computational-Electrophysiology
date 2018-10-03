@@ -50,14 +50,14 @@ def main():
 
         plot_state_vector(out_filename,T,V,"V")        
 
-        plt.clf()
-        plot_state_vector(out_filename,T,M,"m")
+        #plt.clf()
+        #plot_state_vector(out_filename,T,M,"m")
 
-        plt.clf()
-        plot_state_vector(out_filename,T,H,"h")
+        #plt.clf()
+        #plot_state_vector(out_filename,T,H,"h")
 
-        plt.clf()
-        plot_state_vector(out_filename,T,N,"n")        
+        #plt.clf()
+        #plot_state_vector(out_filename,T,N,"n")        
 
 if __name__ == "__main__":
     main()

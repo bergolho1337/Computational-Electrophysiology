@@ -3,6 +3,8 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
+TOLERANCE = 1.0e-01
+
 def calc_maximum_derivative (t, v, start_time, end_time):
     max_t = 0
     max_dvdt = 0
@@ -51,40 +53,53 @@ def plot_state_vector (out_filename,t,sv,sv_name):
     plt.legend(loc=0,fontsize=14)
     plt.show()
 
+def calc_apd (t,v,start_time,end_time):
+    t1 = start_time
+    t2 = start_time
+    min_diff = 100
+    v_base = v[0]
+    for i in range(1,len(t)):
+        if (t[i] >= start_time and t[i] < end_time):
+            diff = abs(v[i]-v_base)
+            diff = np.sqrt(diff) 
+            if (diff < min_diff):
+                min_diff = diff
+                t2 = t[i]
+    return t2 - t1
+
+def calc_apds (output_dir,dir_files,cells_ids,start_time,end_time):
+    apds = []
+    for i in range(len(cells_ids)):
+        print "Cell = %d" % cells_ids[i]
+        T, V, M, H, N = get_state_vector_files(output_dir,dir_files,cells_ids[i])
+        apd = calc_apd(T,V,start_time,end_time)
+        apds.append(apd)
+    return apds
+
 def main():
 
-    if (len(sys.argv) != 5):
-        print("Usage:> %s <output_dir> <output_mesh> <cell_id_1> <cell_id_2>" % (sys.argv[0]))
+    if (len(sys.argv) != 8):
+        print("Usage:> %s <output_dir> <cell_id_1> <cell_id_2>\
+                          <cell_id_3> <cell_id_4> <cell_id_5> <cell_id_6>" % (sys.argv[0]))
         sys.exit(1)
     else:
         output_dir = sys.argv[1]
-        output_mesh = sys.argv[2]
-        cell_id_1 = int(sys.argv[3])
-        cell_id_2 = int(sys.argv[4])
-        out_filename = "Velocity between " + str(cell_id_1) + " and " + str(cell_id_2)
+        cells_ids = []
+        for i in range(6):
+            cells_ids.append(int(sys.argv[2+i]))
 
         dir_files = os.listdir(output_dir)
         dir_files.sort()
 
-        T1, V1, M1, H1, N1 = get_state_vector_files(output_dir,dir_files,cell_id_1)
-        T2, V2, M2, H2, N2 = get_state_vector_files(output_dir,dir_files,cell_id_2)
+        apds = calc_apds(output_dir,dir_files,cells_ids,0,300)
+        print apds
+
+
+        #T, V, M, H, N = get_state_vector_files(output_dir,dir_files,cell_id)
         
-        t1, dvdt1 = calc_maximum_derivative(T1,V1,0.0,300.0)
-        t2, dvdt2 = calc_maximum_derivative(T2,V2,0.0,300.0)
-        t = t2 - t1
+        #apd = calc_apd(T,V,0.0,300.0)
 
-        print ("t1 = %.10lf" % t1)
-        print ("dvdt1 = %.10lf" % dvdt1)
-        print ("t2 = %.10lf" % t2)
-        print ("dvdt2 = %.10lf" % dvdt2)
-
-        h = get_start_discretization(output_mesh)  
-        d = h*(cell_id_2 - cell_id_1)
-
-        v = d / t * 1.0e+03
-        print ("d = %.10lf" % d)
-        print ("t = %.10lf" % t)
-        print ("v = %.10lf" % v)
+        #print ("APD = %.10lf" % apd)
 
         #plot_state_vector(out_filename,T,V,"V")        
 
