@@ -118,7 +118,7 @@ void Solver::setSensibilityParam (int argc, char *argv[])
     }
     BETA = 4.0 / d1 * 1.0e-04;
     //BETA = 0.14;
-    //cout << "Beta = " << BETA << endl;
+    cout << "Beta = " << BETA << endl;
 }
 
 void Solver::setControlVolumes ()

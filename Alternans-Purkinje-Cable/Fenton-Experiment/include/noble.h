@@ -29,7 +29,7 @@ static const double start_period = 300.0f;
 static const double end_period = 300.0f;
 static const double period_step = 100.0f;
 static const int n_cycles = 10;
-static const int id_limit = 5;
+static const int id_limit = 20;
 
 // Cycle length
 static const double cycle_length = 300.0;  
