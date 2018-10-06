@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <cassert>
+#include "../config/user_config.h"
 
 using namespace std;
 
@@ -14,10 +16,11 @@ struct monodomain_solver
 
     double dt;
     double tmax;
-    int use_steady_state;
+    bool use_steady_state;
 
 };
 
 struct monodomain_solver* new_monodomain_solver ();
+void configure_monodomain_from_options (struct monodomain_solver *solver, struct user_options *options);
 
 #endif

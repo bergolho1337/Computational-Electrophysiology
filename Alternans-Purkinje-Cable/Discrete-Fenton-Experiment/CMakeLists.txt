@@ -23,10 +23,11 @@ ADD_SUBDIRECTORY(src/graph)
 ADD_SUBDIRECTORY(src/config)
 ADD_SUBDIRECTORY(src/monodomain)
 ADD_SUBDIRECTORY(src/purkinje)
+ADD_SUBDIRECTORY(src/cell_models)
 
 ADD_EXECUTABLE(FentonExperiment src/main.cpp)
 
-ADD_DEPENDENCIES(FentonExperiment graph config solvers purkinje ${OPT_DEPS})
+ADD_DEPENDENCIES(FentonExperiment graph config solvers purkinje cellmodels ${OPT_DEPS})
 
-TARGET_LINK_LIBRARIES(FentonExperiment graph config solvers purkinje ${OPT_DEPS} dl m)
+TARGET_LINK_LIBRARIES(FentonExperiment graph config solvers purkinje cellmodels ${OPT_DEPS} dl m)
 

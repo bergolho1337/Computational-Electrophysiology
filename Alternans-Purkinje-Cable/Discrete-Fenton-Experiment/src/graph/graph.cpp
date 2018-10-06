@@ -154,11 +154,13 @@ void print_graph (struct graph *g)
     while (n != NULL)
     {
         struct edge *e = n->list_edges;
-        fprintf(stdout,"|| %d (%.3lf,%.3lf,%.3lf) ||",n->id,n->x,n->y,n->z);
+        fprintf(stdout,"|| %d (%.5lf,%.5lf,%.5lf) ||",n->id,n->x,n->y,n->z);
 
         while (e != NULL)
         {
-            fprintf(stdout," --> || %d %.3lf (%.3lf,%.3lf,%.3lf) ||",e->id,e->w,e->dest->x,e->dest->y,e->dest->z);
+            fprintf(stdout," --> || %d %.5lf (%.5lf,%.5lf,%.5lf) *%d* ||",e->id,e->w,\
+                                                                e->dest->x,e->dest->y,e->dest->z,\
+                                                                e->link_type);
             e = e->next;
         }
         fprintf(stdout,"\n");

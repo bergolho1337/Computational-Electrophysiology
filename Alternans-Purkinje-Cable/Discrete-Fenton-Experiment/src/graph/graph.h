@@ -42,6 +42,7 @@ struct graph
     uint32_t total_edges;
 
     double dx;
+    uint32_t num_div_cell;
 };
 
 struct node* new_node (uint32_t id, const double pos[]);

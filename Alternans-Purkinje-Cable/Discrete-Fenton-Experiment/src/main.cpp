@@ -25,6 +25,8 @@ int main (int argc, char *argv[])
         struct ode_solver *the_ode_solver = new_ode_solver();
 
         configure_purkinje_network_from_options (the_purkinje_network,the_options);
+        configure_monodomain_from_options (the_monodomain_solver,the_options);
+        configure_ode_solver(the_ode_solver,the_purkinje_network->total_nodes);
 
         free_graph(the_purkinje_network);
         free_user_options(the_options);
