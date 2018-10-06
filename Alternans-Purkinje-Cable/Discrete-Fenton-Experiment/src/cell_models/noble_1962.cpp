@@ -8,10 +8,10 @@ void init_cell_model_data (uint32_t *num_equations)
 void set_model_initial_conditions_cpu (double *sv)
 {
     // Original: -75.5344986658,0.0605467272,0.7259001355,0.4709239708
-    sv[0] = -75.5344986658f;    // V millivolt 
-    sv[1] = 0.0605467272f;      // m dimensionless
-    sv[2] = 0.7259001355f;      // h dimensionless
-    sv[3] = 0.4709239708f;      // n dimensionless
+    sv[0] = -75.5344986658;    // V millivolt 
+    sv[1] = 0.0605467272;      // m dimensionless
+    sv[2] = 0.7259001355;      // h dimensionless
+    sv[3] = 0.4709239708;      // n dimensionless
 }
 
 void solve_model_odes_cpu (const double dt, double *sv, double *stim_currents, const uint32_t num_cells_to_solve) 
@@ -53,11 +53,11 @@ void RHS_cpu(const double *sv, double *rDY_, double stim_current)
 
     //___________________________________________________________________________
     //Parameters (miliseconds)
-    const double Cm = 12.0f;                                 // (microF)
-    const double g_na_max = 400.0f;                       // (microS)
-    const double E_na = 40.0f;                               // (millivolt)
-    const double g_L = 0.075f;                                // (microS)
-    const double E_L = -60.0f;                               // (millivolt)
+    const double Cm = 12.0;                                 // (microF)
+    const double g_na_max = 400.0;                       // (microS)
+    const double E_na = 40.0;                               // (millivolt)
+    const double g_L = 0.075;                                // (microS)
+    const double E_L = -60.0;                               // (millivolt)
 
     double calc_I_stim = stim_current;
 

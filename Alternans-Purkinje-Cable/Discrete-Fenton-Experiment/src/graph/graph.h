@@ -42,6 +42,7 @@ struct graph
     uint32_t total_edges;
 
     double dx;
+    double diameter;
     uint32_t num_div_cell;
 };
 

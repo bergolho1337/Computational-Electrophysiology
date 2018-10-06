@@ -62,8 +62,8 @@ void Solver::solve ()
 
         // Write the solution data to a file
         //writePlotData(t);
-        if (i % 10 == 0)
-            writeStateVectorToFile(i,max_num_digits,t);
+        //if (i % 10 == 0)
+        //    writeStateVectorToFile(i,max_num_digits,t);
 
         // Write the solution to .vtk file
         #ifdef VTK

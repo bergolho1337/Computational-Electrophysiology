@@ -5,7 +5,7 @@
 #include "model_common.h"
 
 #define NEQ 4
-#define INITIAL_V (-75.5344986658f)
+#define INITIAL_V (-75.5344986658)
 
 void init_cell_model_data (uint32_t *num_equations);
 void set_model_initial_conditions_cpu (double *sv);

@@ -28,6 +28,11 @@ int main (int argc, char *argv[])
         configure_monodomain_from_options (the_monodomain_solver,the_options);
         configure_ode_solver(the_ode_solver,the_purkinje_network->total_nodes);
 
+        print_solver_info(the_monodomain_solver,the_ode_solver,the_purkinje_network,the_options);
+
+        solve_monodomain(the_monodomain_solver,the_ode_solver,the_purkinje_network,the_options);
+
+
         free_graph(the_purkinje_network);
         free_user_options(the_options);
     }

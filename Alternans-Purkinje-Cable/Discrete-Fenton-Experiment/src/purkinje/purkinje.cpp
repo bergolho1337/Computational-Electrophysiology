@@ -9,25 +9,29 @@ void configure_purkinje_network_from_options (struct graph *the_purkinje_network
     double size_cell = config->start_h;
     int num_div_cell = config->num_div_cell;
     double size_volume = size_cell / num_div_cell;
+    double diameter = config->diameter;
 
-    fprintf(stdout,"Loading Purkinje Network: %s\n",network_filename);
-    fprintf(stdout,"Size cell = %.10lf cm\n",size_cell);
-    fprintf(stdout,"Size control volume = %.10lf\n",size_volume);
+    fprintf(stdout,"*********************************************************************************\n");
+    fprintf(stdout,"[Purkinje] Loading Purkinje Network: %s\n",network_filename);
+    fprintf(stdout,"[Purkinje] Size cell = %.10lf cm\n",size_cell);
+    fprintf(stdout,"[Purkinje] Size control volume = %.10lf cm\n",size_volume);
 
-    set_purkinje_network_from_file(the_purkinje_network,network_filename,size_volume,num_div_cell);
+    set_purkinje_network_from_file(the_purkinje_network,network_filename,size_volume,diameter,num_div_cell);
 
     set_gap_junctions(the_purkinje_network);
+
+    fprintf(stdout,"*********************************************************************************\n");
 
     //print_graph(the_purkinje_network);
 }
 
-void set_purkinje_network_from_file(struct graph *the_purkinje_network, char *network_filename, const double size_volume, const int num_div_cell)
+void set_purkinje_network_from_file(struct graph *the_purkinje_network, char *network_filename, const double size_volume, const double diameter, const int num_div_cell)
 {
     struct graph *skeleton_mesh = new_graph();
 
     build_skeleton_mesh(network_filename,skeleton_mesh);
 
-    build_mesh_purkinje(the_purkinje_network,skeleton_mesh,size_volume,num_div_cell);
+    build_mesh_purkinje(the_purkinje_network,skeleton_mesh,size_volume,diameter,num_div_cell);
 
     free_graph(skeleton_mesh);
 }
@@ -95,7 +99,7 @@ void build_skeleton_mesh (char *filename, struct graph *sk)
     fclose(file);
 }
 
-void build_mesh_purkinje (struct graph *the_purkinje_network, struct graph *the_skeleton, const double size_volume, const int num_div_cell)
+void build_mesh_purkinje (struct graph *the_purkinje_network, struct graph *the_skeleton, const double size_volume, const double diameter, const int num_div_cell)
 {
     assert(the_purkinje_network);
     assert(the_skeleton);
@@ -106,6 +110,7 @@ void build_mesh_purkinje (struct graph *the_purkinje_network, struct graph *the_
 
     // Initialize the size of a control volume and the number of divisions of a cell
     the_purkinje_network->dx = size_volume;
+    the_purkinje_network->diameter = diameter;
     the_purkinje_network->num_div_cell = num_div_cell;
 
     // Construct the first node
@@ -150,7 +155,7 @@ void grow_segment (struct graph *the_purkinje_network, struct node *u, struct ed
     d[1] = u->y;
     d[2] = u->z;
 
-    fprintf(stdout,"Node %d will grow %d points\n",u->id,n_points);
+    fprintf(stdout,"[Purkinje] Node %d will grow %d points\n",u->id,n_points);
 
     // Grow the number of points of size 'h' until reaches the size of the segment
     for (uint32_t k = 1; k <= n_points; k++)
