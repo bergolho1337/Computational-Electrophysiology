@@ -51,7 +51,6 @@ void set_ode_initial_condition_for_all_volumes (struct ode_solver *the_ode_solve
 
     uint32_t i;
 
-    #pragma omp parallel for
     for(i = 0; i < n_active; i++) 
     {
         soicf_fn_pt(the_ode_solver->sv + (i*n_odes));

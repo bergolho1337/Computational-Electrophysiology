@@ -77,8 +77,8 @@ void print_solver_info (struct monodomain_solver *the_monodomain_solver,\
 
 }
 
-Eigen::SparseMatrix<double> assemble_matrix (struct monodomain_solver *the_monodomain_solver,\
-                      struct graph *the_purkinje_network)
+void assemble_matrix (struct monodomain_solver *the_monodomain_solver,\
+                      struct graph *the_purkinje_network, Eigen::SparseMatrix<double> &a)
 {
     assert(the_monodomain_solver);
     assert(the_purkinje_network);
@@ -101,7 +101,6 @@ Eigen::SparseMatrix<double> assemble_matrix (struct monodomain_solver *the_monod
     double B = sigma_c*h;
     double C = sigma_c*h;
 
-    Eigen::SparseMatrix<double> a(nc,nc);
     std::vector< Eigen::Triplet<double> > coeff;
 
     struct node *ptr = the_purkinje_network->list_nodes;
@@ -137,12 +136,16 @@ Eigen::SparseMatrix<double> assemble_matrix (struct monodomain_solver *the_monod
         ptr = ptr->next;
     }
 
-    //for (int i = 0; i < coeff.size(); i++)
-    //    printf("(%d,%d) = %.10lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
+    /*
+    FILE *file = fopen("matrix2.txt","w+");
+    for (int i = 0; i < coeff.size(); i++)
+        fprintf(file,"(%d,%d) = %.20lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
+    fclose(file);
+    */
+
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
 
-    return a;
 }
 
 void solve_monodomain (struct monodomain_solver *the_monodomain_solver,\
@@ -160,40 +163,111 @@ void solve_monodomain (struct monodomain_solver *the_monodomain_solver,\
 
     // Assemble the matrix
     uint32_t nc = the_ode_solver->n_active_cells;
+    uint32_t n_odes = the_ode_solver->num_ode_equations;
 
     Eigen::SparseMatrix<double> A(nc,nc);
-    A = assemble_matrix(the_monodomain_solver,the_purkinje_network);
+    assemble_matrix(the_monodomain_solver,the_purkinje_network,A);
     Eigen::SparseLU< Eigen::SparseMatrix<double> > sparse_solver(A);
 
     // Declare RHS and the solution vector
     Eigen::VectorXd b(nc);
     Eigen::VectorXd x(nc);
+    double *vstar = (double*)malloc(sizeof(double)*nc);
 
     double tmax = the_monodomain_solver->tmax;
     double dt = the_monodomain_solver->dt;
+    double beta = the_monodomain_solver->beta;
+    double cm = the_monodomain_solver->cm;
+    double h = the_purkinje_network->dx; 
+    double *sv = the_ode_solver->sv;
+
+    double ALPHA = (beta*cm*h*h*h) / dt;
     uint32_t M = tmax / dt;
 
     // Time loop
-    for (int i = 0; i < M; i++)
+    for (int k = 0; k < M; k++)
     {
-        double t = i*dt;
+        double t = k*dt;
 
         // Write the solution to .vtk file
-        if (i % 100 == 0) 
-            write_to_VTK(the_purkinje_network,the_ode_solver,i);
+        if (k % 100 == 0) 
+            write_to_VTK(the_purkinje_network,the_ode_solver,k);
         
-        // Solve the PDE (diffusion phase)
-        //assembleLoadVector(b);
-        //x = sparseSolver.solve(b);
-        //moveVstar(x);
+        // Solve the PDE (diffusion phase) -> V*
+        assemble_load_vector(sv,nc,n_odes,ALPHA,b);
+        x = sparse_solver.solve(b);
+
+        // Move the V* of the PDE to the state vector
+        update_monodomain(vstar,x,nc);
 
         // Solve the ODEs (reaction phase)
-        //solveODE(t);
+        solve_all_volumes_odes(the_ode_solver,vstar,dt,t);
 
-        // Jump to the next iteration
-        //nextTimestep();
     }
 
+    free(vstar);
+}
+
+void assemble_load_vector (const double *sv, const uint32_t n_cells, const int n_odes,\
+                            const double A, Eigen::VectorXd &b)
+{
+    for (uint32_t i = 0; i < n_cells; i++)
+    {
+        b(i) = sv[i*n_odes] * A;
+    }
+}
+
+void update_monodomain (double *vstar, Eigen::VectorXd x, const uint32_t n_cells)
+{
+    for (uint32_t i = 0; i < n_cells; i++)
+    {
+        vstar[i] = x(i);
+    }
+}
+
+void set_stimulus (double *merged_stim, const uint32_t n_cells, const uint32_t cur_time)
+{
+    double stim_period;
+    double time = cur_time;
+    double new_time = 0.0;
+
+    // New Jhonny stimulus protocol for alternans simulations ...
+    for (double new_period = start_period; new_period >= end_period; new_period -= period_step)
+    {
+        if ( time >= new_time && (time < new_time + n_cycles*new_period || new_period == end_period) )
+        {
+            stim_period = new_period;
+            time -= new_time;
+            break;
+        }
+        new_time += n_cycles*new_period;
+
+    }
+    if( (time-floor(time/stim_period)*stim_period>=stim_start) && ( time - floor(time/stim_period)*stim_period <= stim_start + stim_duration ) )
+    {
+        for (uint32_t i = 0; i < n_cells; i++) 
+        {
+            if (i < id_limit)
+                merged_stim[i] = stim_current;
+            else
+                merged_stim[i] = 0.0;
+        }
+    }
+}
+
+void solve_all_volumes_odes (struct ode_solver *the_ode_solver, double *vstar, const double dt, const double cur_time)
+{
+    double *sv = the_ode_solver->sv;
+    uint32_t n_cells = the_ode_solver->n_active_cells;
+    uint32_t n_odes = the_ode_solver->num_ode_equations;
+    double *merged_stims = (double*)malloc(sizeof(double)*n_cells);
+
+    set_stimulus(merged_stims,n_cells,cur_time);
+
+    solve_model_ode_cpu_fn *solve_odes_pt = the_ode_solver->solve_model_ode_cpu;
+    solve_odes_pt(dt, sv, vstar, merged_stims, n_cells);
+
+    free(merged_stims);
 }
 
 void write_to_VTK (struct graph *the_purkinje_network, struct ode_solver *the_ode_solver, int iter)

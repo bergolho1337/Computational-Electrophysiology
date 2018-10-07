@@ -40,5 +40,13 @@ void print_solver_info (struct monodomain_solver *the_monodomain_solver,\
                         struct graph *the_purkinje_network,\
                         struct user_options *options);
 void write_to_VTK (struct graph *the_purkinje_network, struct ode_solver *the_ode_solver, int iter);
+void assemble_matrix (struct monodomain_solver *the_monodomain_solver,\
+                      struct graph *the_purkinje_network, Eigen::SparseMatrix<double> &A);
+void assemble_load_vector (const double *sv, const uint32_t n_cells, const int n_odes,\
+                            const double A, Eigen::VectorXd &b);
+void update_monodomain (double *vstar, Eigen::VectorXd x, const uint32_t n_cells);
+void solve_all_volumes_odes (struct ode_solver *the_ode_solver, double *vstar, const double dt, const double cur_time);
+void set_stimulus (double *merged_stim, const uint32_t n_cells, const uint32_t cur_time);
+                        
 
 #endif

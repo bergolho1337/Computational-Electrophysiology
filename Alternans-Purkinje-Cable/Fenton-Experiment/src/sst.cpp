@@ -46,6 +46,9 @@ void SteadyState::solve ()
     fflush(stdout);
     #endif
 
+    double ALPHA = (BETA*Cm*dx*dx*dx) / dt;
+    printf("alpha = %.10lf\n",ALPHA);
+
     // Time loop
     for (int i = 0; i < M; i++)
     {
@@ -55,8 +58,8 @@ void SteadyState::solve ()
         printProgress(i,M);
         #endif
 
-        //if (i % 200 == 0) writeVTKFile(i);
-        if (i == 60000) writeSteadyStateFile(sstFile);
+        if (i % 100 == 0) writeVTKFile(i);
+        //if (i == 60000) writeSteadyStateFile(sstFile);
 
         // Solve the PDE 
         assembleLoadVector(b);
@@ -64,7 +67,7 @@ void SteadyState::solve ()
         moveVstar(x);
 
         // Solve the ODE
-        solveODE(t);
+        solveODE(t);        
 
         nextTimestep();
     }
@@ -201,6 +204,14 @@ void SteadyState::setMatrix (SpMat &a)
         }
         ptr = ptr->next;
     }
+
+    /*
+    FILE *file = fopen("matrix2.txt","w+");
+    for (int i = 0; i < coeff.size(); i++)
+        fprintf(file,"(%d,%d) = %.20lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
+    fclose(file);
+    */
+
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
 }

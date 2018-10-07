@@ -73,7 +73,10 @@ void Solver::solve ()
         // Solve the PDE (diffusion phase)
         assembleLoadVector(b);
         x = sparseSolver.solve(b);
+
         moveVstar(x);
+
+
 
         // Solve the ODEs (reaction phase)
         solveODE(t);
@@ -291,7 +294,7 @@ void Solver::setMatrix (SpMat &a)
     }
     
     // Print non-zero coefficients
-    FILE *file = fopen("matrix.txt","w+");
+    FILE *file = fopen("matrix2.txt","w+");
     for (int i = 0; i < coeff.size(); i++)
         fprintf(file,"(%d,%d) = %.10lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
     fclose(file);

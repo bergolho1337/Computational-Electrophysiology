@@ -23,7 +23,8 @@ typedef GET_CELL_MODEL_DATA (get_cell_model_data_fn);
 typedef SET_ODE_INITIAL_CONDITIONS_CPU (set_ode_initial_conditions_cpu_fn);
 
 #define SOLVE_MODEL_ODES_CPU(name)                                                                                     \
-EXPORT_FN void name (const double dt, double *sv, double *stim_currents, const uint32_t num_cells_to_solve)
+EXPORT_FN void name (const double dt, double *sv, double *vstar,\
+                    double *stim_currents, const uint32_t num_cells_to_solve)
 typedef SOLVE_MODEL_ODES_CPU (solve_model_ode_cpu_fn);
 
 #endif // MONOALG3D_MODEL_COMMON_H
