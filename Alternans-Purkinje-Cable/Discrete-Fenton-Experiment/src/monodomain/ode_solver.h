@@ -8,6 +8,7 @@
 #include <cstring>
 #include "../cell_models/noble_1962.h"
 #include "../config/user_config.h"
+#include "../cell/cell.h"
 
 struct ode_solver
 {
@@ -16,11 +17,11 @@ struct ode_solver
     uint32_t num_ode_equations;
     uint32_t n_active_cells;
 
-    double *sv;
+    cell_data *volumes;
 
-    get_cell_model_data_fn *get_cell_model_data;
-    set_ode_initial_conditions_cpu_fn *set_ode_initial_conditions_cpu;
-    solve_model_ode_cpu_fn *solve_model_ode_cpu;
+    //get_cell_model_data_fn *get_cell_model_data;
+    //set_ode_initial_conditions_cpu_fn *set_ode_initial_conditions_cpu;
+    //solve_model_ode_cpu_fn *solve_model_ode_cpu;
 
 };
 

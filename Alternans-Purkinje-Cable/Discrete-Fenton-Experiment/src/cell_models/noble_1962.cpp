@@ -5,13 +5,13 @@ void init_cell_model_data (uint32_t *num_equations)
     *num_equations = NEQ;
 }
 
-void set_model_initial_conditions_cpu (double *sv)
+void set_model_initial_conditions_cpu (double *y_old)
 {
     // Original: -75.5344986658,0.0605467272,0.7259001355,0.4709239708
-    sv[0] = -75.5344986658;    // V millivolt 
-    sv[1] = 0.0605467272;      // m dimensionless
-    sv[2] = 0.7259001355;      // h dimensionless
-    sv[3] = 0.4709239708;      // n dimensionless
+    y_old[0] = -75.5344986658;    // V millivolt 
+    y_old[1] = 0.0605467272;      // m dimensionless
+    y_old[2] = 0.7259001355;      // h dimensionless
+    y_old[3] = 0.4709239708;      // n dimensionless
 }
 
 void solve_model_odes_cpu (const double dt, double *sv, double *vstar,\

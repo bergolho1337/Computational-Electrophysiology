@@ -1,0 +1,3 @@
+set(SOURCE_FILES_CELL cell.h cell.cpp)
+
+ADD_LIBRARY(cell STATIC ${SOURCE_FILES_CELL})

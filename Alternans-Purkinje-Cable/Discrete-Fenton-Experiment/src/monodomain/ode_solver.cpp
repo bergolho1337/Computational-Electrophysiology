@@ -7,10 +7,10 @@ struct ode_solver* new_ode_solver ()
     result->n_active_cells = 0;
     result->num_ode_equations = -1;
 
-    result->sv = NULL;
-    result->get_cell_model_data = NULL;
-    result->set_ode_initial_conditions_cpu = NULL;
-    result->solve_model_ode_cpu = NULL;
+    result->volumes = NULL;
+    //result->get_cell_model_data = NULL;
+    //result->set_ode_initial_conditions_cpu = NULL;
+    //result->solve_model_ode_cpu = NULL;
 
     return result;
 }
@@ -20,25 +20,32 @@ void configure_ode_solver (struct ode_solver *the_ode_solver, const uint32_t num
     assert(the_ode_solver);
 
     // Using Noble 1962 celular model
+    the_ode_solver->num_ode_equations = 4;
+    the_ode_solver->n_active_cells = num_volumes;
     strcpy(the_ode_solver->model_name,"Noble 1962");
 
     // Get the number of equations from the model
-    get_cell_model_data_fn *cell_model_data = the_ode_solver->get_cell_model_data;
-    cell_model_data = init_cell_model_data;
+    //get_cell_model_data_fn *cell_model_data = the_ode_solver->get_cell_model_data;
+    //cell_model_data = init_cell_model_data;
 
-    cell_model_data(&the_ode_solver->num_ode_equations);
-    the_ode_solver->n_active_cells = num_volumes;
+    //cell_model_data(&the_ode_solver->num_ode_equations);
 
     // Get the initial condition function
-    the_ode_solver->set_ode_initial_conditions_cpu = set_model_initial_conditions_cpu;
+    //the_ode_solver->set_ode_initial_conditions_cpu = set_model_initial_conditions_cpu;
 
     // Get the ODE solution function
-    the_ode_solver->solve_model_ode_cpu = solve_model_odes_cpu;
+    //the_ode_solver->solve_model_ode_cpu = solve_model_odes_cpu;
 
     // Allocate memory
     uint32_t n_odes = the_ode_solver->num_ode_equations;
-    the_ode_solver->sv = (double*)malloc(sizeof(double)*num_volumes*n_odes);
-
+    uint32_t n_volumes = the_ode_solver->n_active_cells;
+    the_ode_solver->volumes = (struct cell_data*)malloc(sizeof(struct cell_data)*n_volumes);
+    for (int i = 0; i < n_volumes; i++)
+    {   
+        the_ode_solver->volumes[i].yOld = (double*)malloc(sizeof(double)*n_odes);
+        the_ode_solver->volumes[i].yStar = (double*)malloc(sizeof(double)*n_odes);
+        the_ode_solver->volumes[i].yNew = (double*)malloc(sizeof(double)*n_odes);
+    }
 }
 
 void set_ode_initial_condition_for_all_volumes (struct ode_solver *the_ode_solver)
@@ -47,13 +54,13 @@ void set_ode_initial_condition_for_all_volumes (struct ode_solver *the_ode_solve
 
     uint32_t n_odes = the_ode_solver->num_ode_equations;
     uint32_t n_active = the_ode_solver->n_active_cells;
-    set_ode_initial_conditions_cpu_fn *soicf_fn_pt = the_ode_solver->set_ode_initial_conditions_cpu;
+    cell_data *volumes = the_ode_solver->volumes;
 
     uint32_t i;
 
     for(i = 0; i < n_active; i++) 
     {
-        soicf_fn_pt(the_ode_solver->sv + (i*n_odes));
+        set_model_initial_conditions_cpu(volumes[i].yOld);
     }
 }
 
@@ -61,14 +68,14 @@ void print_state_vector (struct ode_solver *the_ode_solver)
 {
     uint32_t n_odes = the_ode_solver->num_ode_equations;
     uint32_t n_active = the_ode_solver->n_active_cells;
-    double *sv = the_ode_solver->sv;
+    cell_data *volumes = the_ode_solver->volumes;
 
     for (uint32_t i = 0; i < n_active; i++)
     {
         for (uint32_t j = 0; j < n_odes-1; j++)
         {
-            printf("%.10lf ",sv[i*n_odes+j]);
+            printf("%.10lf ",volumes[i].yOld[j]);
         }
-        printf("%.10lf\n",sv[i*n_odes+(n_odes-1)]);
+        printf("%.10lf\n",volumes[i].yOld[(n_odes-1)]);
     }
 }

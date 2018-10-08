@@ -136,15 +136,13 @@ void assemble_matrix (struct monodomain_solver *the_monodomain_solver,\
         ptr = ptr->next;
     }
 
-    /*
-    FILE *file = fopen("matrix2.txt","w+");
+    a.setFromTriplets(coeff.begin(),coeff.end());
+    a.makeCompressed();
+
+    FILE *file = fopen("matrix.txt","w+");
     for (int i = 0; i < coeff.size(); i++)
         fprintf(file,"(%d,%d) = %.20lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
     fclose(file);
-    */
-
-    a.setFromTriplets(coeff.begin(),coeff.end());
-    a.makeCompressed();
 
 }
 
@@ -179,7 +177,6 @@ void solve_monodomain (struct monodomain_solver *the_monodomain_solver,\
     double beta = the_monodomain_solver->beta;
     double cm = the_monodomain_solver->cm;
     double h = the_purkinje_network->dx; 
-    double *sv = the_ode_solver->sv;
 
     double ALPHA = (beta*cm*h*h*h) / dt;
     uint32_t M = tmax / dt;
@@ -194,7 +191,7 @@ void solve_monodomain (struct monodomain_solver *the_monodomain_solver,\
             write_to_VTK(the_purkinje_network,the_ode_solver,k);
         
         // Solve the PDE (diffusion phase) -> V*
-        assemble_load_vector(sv,nc,n_odes,ALPHA,b);
+        assemble_load_vector(the_ode_solver,ALPHA,b);
         x = sparse_solver.solve(b);
 
         // Move the V* of the PDE to the state vector
@@ -206,22 +203,31 @@ void solve_monodomain (struct monodomain_solver *the_monodomain_solver,\
     }
 
     free(vstar);
+
 }
 
-void assemble_load_vector (const double *sv, const uint32_t n_cells, const int n_odes,\
-                            const double A, Eigen::VectorXd &b)
+void assemble_load_vector (struct ode_solver *the_ode_solver, const double A, Eigen::VectorXd &b)
 {
+    cell_data *volumes = the_ode_solver->volumes;
+    uint32_t n_cells = the_ode_solver->n_active_cells;
+
     for (uint32_t i = 0; i < n_cells; i++)
     {
-        b(i) = sv[i*n_odes] * A;
+        b(i) = volumes[i].yOld[0] * A;
     }
 }
 
-void update_monodomain (double *vstar, Eigen::VectorXd x, const uint32_t n_cells)
+void update_monodomain (struct ode_solver *the_ode_solver, const Eigen::VectorXd vm, const uint32_t n_cells)
 {
+    cell_data *volumes = the_ode_solver->volumes;
+    uint32_t n_cells = the_ode_solver->n_active_cells;
+    uint32_t n_odes = the_ode_solver->num_ode_equations;
+
     for (uint32_t i = 0; i < n_cells; i++)
     {
-        vstar[i] = x(i);
+        volumes[i].yStar[0] = vm(i);
+        for (uint32_t j = 1; j < n_odes; j++)
+            volumes[i].yStar[j] = volumes[i].yOld[j];
     }
 }
 
@@ -257,7 +263,7 @@ void set_stimulus (double *merged_stim, const uint32_t n_cells, const uint32_t c
 
 void solve_all_volumes_odes (struct ode_solver *the_ode_solver, double *vstar, const double dt, const double cur_time)
 {
-    double *sv = the_ode_solver->sv;
+    cell_data *volumes = the_ode_solver->volumes;
     uint32_t n_cells = the_ode_solver->n_active_cells;
     uint32_t n_odes = the_ode_solver->num_ode_equations;
     double *merged_stims = (double*)malloc(sizeof(double)*n_cells);
@@ -279,7 +285,7 @@ void write_to_VTK (struct graph *the_purkinje_network, struct ode_solver *the_od
     uint32_t np = the_purkinje_network->total_nodes;
     uint32_t ne = the_purkinje_network->total_edges;
     struct node *ptr = the_purkinje_network->list_nodes;
-    double *sv = the_ode_solver->sv;
+    cell_data *volumes = the_ode_solver->volumes;
 
     // Write the transmembrane potential
     sprintf(filename,"vtk/sol%d.vtk",iter);
@@ -312,7 +318,7 @@ void write_to_VTK (struct graph *the_purkinje_network, struct ode_solver *the_od
     fprintf(file,"LOOKUP_TABLE default\n");
 
     for (int i = 0; i < np; i++)
-        fprintf(file,"%.10lf\n",sv[i*n_odes]);
+        fprintf(file,"%.10lf\n",volumes[i].yOld[0]);
     
     fclose(file);
 }

@@ -204,16 +204,14 @@ void SteadyState::setMatrix (SpMat &a)
         }
         ptr = ptr->next;
     }
+    
+    a.setFromTriplets(coeff.begin(),coeff.end());
+    a.makeCompressed();
 
-    /*
-    FILE *file = fopen("matrix2.txt","w+");
+    FILE *file = fopen("matrix.txt","w+");
     for (int i = 0; i < coeff.size(); i++)
         fprintf(file,"(%d,%d) = %.20lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
     fclose(file);
-    */
-
-    a.setFromTriplets(coeff.begin(),coeff.end());
-    a.makeCompressed();
 }
 
 // Build the coefficient matrix considering cells with a different diameter
