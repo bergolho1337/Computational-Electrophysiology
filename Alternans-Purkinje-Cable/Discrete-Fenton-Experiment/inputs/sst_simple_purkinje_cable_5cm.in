@@ -1,0 +1,10 @@
+t
+0.1
+6600.0
+networks/cable-5cm.vtk
+0.01
+steady_state/cable-5cm-300ms.sst
+plot/cable-5cm.plt
+1.375
+0.003
+0.004

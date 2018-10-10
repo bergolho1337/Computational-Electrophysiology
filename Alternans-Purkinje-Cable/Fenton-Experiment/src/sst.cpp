@@ -47,7 +47,6 @@ void SteadyState::solve ()
     #endif
 
     double ALPHA = (BETA*Cm*dx*dx*dx) / dt;
-    printf("alpha = %.10lf\n",ALPHA);
 
     // Time loop
     for (int i = 0; i < M; i++)
@@ -58,8 +57,8 @@ void SteadyState::solve ()
         printProgress(i,M);
         #endif
 
-        if (i % 100 == 0) writeVTKFile(i);
-        //if (i == 60000) writeSteadyStateFile(sstFile);
+        //if (i % 100 == 0) writeVTKFile(i);
+        if (i == 60000) writeSteadyStateFile(sstFile);
 
         // Solve the PDE 
         assembleLoadVector(b);
@@ -70,6 +69,7 @@ void SteadyState::solve ()
         solveODE(t);        
 
         nextTimestep();
+
     }
     fclose(sstFile);
 
@@ -208,10 +208,6 @@ void SteadyState::setMatrix (SpMat &a)
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
 
-    FILE *file = fopen("matrix.txt","w+");
-    for (int i = 0; i < coeff.size(); i++)
-        fprintf(file,"(%d,%d) = %.20lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
-    fclose(file);
 }
 
 // Build the coefficient matrix considering cells with a different diameter
@@ -309,6 +305,14 @@ void SteadyState::assembleLoadVector (VectorXd &b)
     int np = b.size();
     for (int i = 0; i < np; i++)
         b(i) = vol[i].yOld[0] * ALPHA;
+    
+
+    FILE *file = fopen("rhs.txt","w+");
+    for (int i = 0; i < np; i++)
+    {
+        fprintf(file,"%.20lf\n",b(i));
+    }
+    fclose(file);
 }
 
 void SteadyState::setSensibilityParam (int argc, char *argv[])

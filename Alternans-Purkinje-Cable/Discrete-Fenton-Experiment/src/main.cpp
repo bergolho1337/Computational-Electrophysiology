@@ -1,41 +1,44 @@
-#include <iostream>
-#include "graph/graph.h"
-#include "monodomain/ode_solver.h"
-#include "monodomain/monodomain_solver.h"
-#include "config/user_config.h"
-#include "purkinje/purkinje.h"
+/*
+========= FINITE VOLUME METHOD ----- MONODOMAIN EQUATION (CABLE) =============================================
+  Problem: solve the cable equation using the monodomain equation applied to the FVM
+    { BETA*Cm*V_t = SIGMA*V_xx
+    { V'(0,t) = V'(1,t) = I_PMJ           Non-homogeneus Neumann condition at the terminal volumes
+    { V(x,0) = V_inf
+***********************************************************************************************************
+    BETA = Ratio surface-area per volume of the cell (cm^-1)
+    Cm = Membrane capacitance of the celullar membrane (uF/cm^2)
+    SIGMA = Conductivity of the celullar membrane (mS/cm^2) -- All the fiber has the same conductivity
+***********************************************************************************************************
+==============================================================================================================
+*/
+
+#include <cstdio>
+#include "../include/timer.h"
+#include "../include/model.h"
 
 using namespace std;
 
 int main (int argc, char *argv[])
 {
-    if (argc-1 != 1)
-    {
-        display_usage(argv[0]);
-        exit(EXIT_FAILURE);
-    }
-    else
-    {
-        struct user_options *the_options = new_user_options(argc,argv);
+  
+  if (argc-1 != 1)
+  {
+    Usage(argv[0]);
+    return 1;
+  }
+  else
+  {
+    double start, finish, elapsed;
 
-        struct graph *the_purkinje_network = new_graph();
+    GET_TIME(start);
+    solveModel(argc,argv);
+    GET_TIME(finish);
+    elapsed = finish - start;
+  
+    printf("==========================================================\n");
+    printf("[!] Time elapsed = %.10lf seconds\n",elapsed);
+    printf("==========================================================\n");
 
-        struct monodomain_solver *the_monodomain_solver = new_monodomain_solver();
-
-        struct ode_solver *the_ode_solver = new_ode_solver();
-
-        configure_purkinje_network_from_options (the_purkinje_network,the_options);
-        configure_monodomain_from_options (the_monodomain_solver,the_options);
-        configure_ode_solver(the_ode_solver,the_purkinje_network->total_nodes);
-
-        print_solver_info(the_monodomain_solver,the_ode_solver,the_purkinje_network,the_options);
-
-        solve_monodomain(the_monodomain_solver,the_ode_solver,the_purkinje_network,the_options);
-
-
-        free_graph(the_purkinje_network);
-        free_user_options(the_options);
-    }
-     
     return 0;
+  }
 }
