@@ -12,16 +12,15 @@ SteadyState::SteadyState (User_Options *options)
     M = nearbyint(tmax/dt);
     setSensibilityParam(options);
     
-    g = setPurkinjeMeshFromFile(mesh_filename,options->start_h);
-    dx = options->start_h;
+    dx = options->start_h / options->num_div_cell;
+    g = setPurkinjeMeshFromFile(mesh_filename,dx);
+    g->setGapJunctions(options->num_div_cell);
     
     setControlVolumes();
     setFunctions();
     setInitCondModel();
 
-    //g->printterm();
     //g->print();
-    //print();
 }
 
 void SteadyState::solve ()
@@ -129,81 +128,46 @@ void SteadyState::print ()
 void SteadyState::setMatrix (SpMat &a)
 {
     // Compute the coefficients values
-    double A = 4.0 / (RPMJ*M_PI*d1*d1*dx);
+    double A = (4.0*GGAP) / (M_PI*d1*d1*dx);
     double B = (SIGMA) / (dx*dx);
     double C = (BETA*Cm) / (dt);
-    double D = (BETA*Cm*alfa) / (dt);
     double E = (BETA*Cm*dx*dx) / (dt);
-    
-    double ALPHA = (BETA*Cm*dx*dx*dx) / dt;
 
     // Non-zero coefficients
     vector<T> coeff;
 
+    double diagonal_value;
     Node *ptr = g->get_list_nodes();
     while (ptr != NULL)
     {
         int u = ptr->id;
-        int type = ptr->type;
         Edge *ptrl = ptr->list_edges;
+        diagonal_value = C;
         
-        // PMJ
-        if (type == 1)
+        while (ptrl != NULL)
         {
-            double value = -1.0 / D;
-            while (ptrl != NULL)
+            double value;
+            int v = ptrl->id;
+            int link_type = ptrl->link_type;
+
+            // Citoplasm link
+            if (link_type == 0)
             {
-                int v = ptrl->dest->id;
-                coeff.push_back(T(u,v,value));
-                ptrl = ptrl->next;
+                value = -B;
+                diagonal_value += B;
             }
-            value = (1.0 + D) / D;
-            coeff.push_back(T(u,u,value)); 
-        }
-        // Purkinje cell
-        else
-        {
-            bool isPMJ = isConnToPMJ(ptr->list_edges);
-            //Not link to a PMJ, so normal edge with a Purkinje cell
-            if (isPMJ == false)
-            {
-                double value = -SIGMA * dx;
-                while (ptrl != NULL)
-                {
-                    int v = ptrl->dest->id;
-                    coeff.push_back(T(u,v,value));
-                    ptrl = ptrl->next;
-                }
-                value = (ptr->num_edges*SIGMA*dx) + ALPHA;
-                coeff.push_back(T(u,u,value));
-            }
-            // Is a special link to a Purkinje cell - PMJ
+            // Gap junction link
             else
             {
-                double sum = C;
-                while (ptrl != NULL)
-                {
-                    int v = ptrl->dest->id;
-                    // Purkinje cell - Purkinje cell
-                    if (ptrl->dest->type == 0)
-                    {
-                        double value = -B / C;
-                        sum += B;
-                        coeff.push_back(T(u,v,value));
-                    }
-                    // Purkinje cell - PMJ
-                    else
-                    {
-                        double value = -A / C;
-                        sum += A;
-                        coeff.push_back(T(u,v,value));
-                    }
-                    ptrl = ptrl->next;
-                }
-                sum /= C;
-                coeff.push_back(T(u,u,sum));
-            }  
+                value = -A;
+                diagonal_value += A;
+            }
+            coeff.push_back(T(u,v,value));
+
+            ptrl = ptrl->next;
         }
+        coeff.push_back(T(u,u,diagonal_value));
+
         ptr = ptr->next;
     }
     
@@ -214,11 +178,11 @@ void SteadyState::setMatrix (SpMat &a)
 
 void SteadyState::assembleLoadVector (VectorXd &b)
 {
-    double ALPHA = (BETA*Cm*dx*dx*dx) / dt;
+    double C = (BETA*Cm) / dt;
 
     int np = b.size();
     for (int i = 0; i < np; i++)
-        b(i) = vol[i].yOld[0] * ALPHA;
+        b(i) = vol[i].yOld[0] * C;
     
 }
 
@@ -227,6 +191,7 @@ void SteadyState::setSensibilityParam (User_Options *options)
     alfa = options->alfa;
     d1 = options->diameter;
     SIGMA = options->sigma_c;
+    GGAP = options->G_gap;
 
     BETA = 4.0 / d1 * 1.0e-04;
 }

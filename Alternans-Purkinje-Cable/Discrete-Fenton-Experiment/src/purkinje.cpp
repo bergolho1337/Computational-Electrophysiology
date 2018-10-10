@@ -2,7 +2,6 @@
 
 Graph* setPurkinjeMeshFromFile (const string network_filename, const double h)
 {
-    
     Graph *the_purkinje_network = initialize_purkinje_mesh(network_filename,h);
     
     return the_purkinje_network;

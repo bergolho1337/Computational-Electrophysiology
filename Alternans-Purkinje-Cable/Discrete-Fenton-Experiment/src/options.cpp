@@ -17,9 +17,9 @@ User_Options::User_Options (int argc, char *argv[])
     }
 
     in_file >> dt >> tmax;
-    in_file >> mesh_filename >> start_h;
+    in_file >> mesh_filename >> start_h >> num_div_cell;
     in_file >> sst_filename >> plot_filename;
-    in_file >> alfa >> diameter >> sigma_c;
+    in_file >> alfa >> diameter >> sigma_c >> G_gap;
 
     in_file.close();
 
@@ -34,6 +34,9 @@ void User_Options::print_user_options ()
     cout << "Steady state filename = " << sst_filename << endl;
     cout << "Plot filename = " << plot_filename << endl;
     cout << "alpha = " << alfa << endl;
+    cout << "start_h = " << start_h << endl;
+    cout << "num_div_cell = " << num_div_cell << endl;
     cout << "diameter = " << diameter << endl;
     cout << "sigma_c = " << sigma_c << endl;
+    cout << "G_gap = " << G_gap << endl;
 }

@@ -143,11 +143,15 @@ double calc_norm (const double x1, const double y1, const double z1,\
 
 void Graph::dijkstra (int s)
 {
-    printf("[!] Running Dijkstra ... ");
-    fflush(stdout);
+    printf("[!] Running Dijkstra ... \n");
 
-    for (int i = 0; i < total_nodes; i++) dist[i] = INF;
+    if (!dist)
+        dist = (double*)malloc(sizeof(double)*total_nodes);
+
+    for (int i = 0; i < total_nodes; i++) 
+        dist[i] = INF;
     dist[s] = 0;
+
     priority_queue< pair<double,int>, vector< pair<double,int> >, greater< pair<double,int> > > pq;
     pq.push(make_pair(0,s));
 
@@ -156,7 +160,8 @@ void Graph::dijkstra (int s)
         pair<double,int> front = pq.top(); pq.pop();
         double d = front.first;
         int u = front.second;
-        if (d > dist[u]) continue;
+        if (d > dist[u]) 
+            continue;
         Edge *ptrl = search_node(u)->list_edges;
         while (ptrl != NULL)
         {
@@ -181,16 +186,16 @@ void Graph::print ()
 	while (ptr != NULL)
 	{
         #ifdef DIAMETER
-	    printf("|| %d (%d) (%.4lf %.4lf %.4lf) [%.4lf] %d ||",ptr->id,ptr->type,ptr->x,ptr->y,ptr->z,ptr->d,ptr->num_edges);
+	    printf("|| %d (%.4lf %.4lf %.4lf) [%.4lf] %d ||",ptr->id,ptr->x,ptr->y,ptr->z,ptr->d,ptr->num_edges);
 		#else
-        printf("|| %d (%.4lf %.4lf %.4lf) %d ||",ptr->id,ptr->x,ptr->y,ptr->z,ptr->num_edges);
+        printf("|| %d (%.2lf %.2lf %.2lf) %d ||",ptr->id,ptr->x,ptr->y,ptr->z,ptr->num_edges);
 		#endif
 
         ptrl = ptr->list_edges;
 		while (ptrl != NULL)
 		{
-			printf(" --> || %d %.4lf (%.4lf %.4lf %.4lf) ||",ptrl->id,ptrl->w,ptrl->dest->x,ptrl->dest->y, \
-					ptrl->dest->z);
+			printf(" --> || %d %.2lf (%.2lf %.2lf %.2lf) * %d * ||",ptrl->id,ptrl->w,ptrl->link_type,\
+                                ptrl->dest->x,ptrl->dest->y,ptrl->dest->z);
 			ptrl = ptrl->next;
 		}
 		printf("\n");
@@ -199,6 +204,42 @@ void Graph::print ()
 	printf("=======================================================================\n");
     printf("Number of nodes = %d\n",total_nodes);
     printf("Number of edges = %d\n",total_edges);
+}
+
+void Graph::setGapJunctions (const int num_div_cell)
+{
+    int count = 0;
+    Node *ptr = list_nodes;
+
+    ptr->list_edges->link_type = 0;
+    ptr = ptr->next;
+    count++;
+
+    while (ptr != NULL)
+    {
+        int u = ptr->id;
+        Edge *ptrl = ptr->list_edges;
+        while (ptrl != NULL)
+        {
+            int v = ptrl->id;
+            // The volumes will be linked by a gap junction
+            if (v > u && count % num_div_cell == 0)
+            {
+                ptrl->link_type = 1;
+                count = 0;
+                ptr->next->list_edges->link_type = 1;
+            }
+            // The volumes will be linker by citoplasm
+            else
+            {
+                if (ptrl->link_type != 1)
+                    ptrl->link_type = 0;
+            }
+            ptrl = ptrl->next;
+        }
+        count++;
+        ptr = ptr->next;
+    }
 }
 
 /*

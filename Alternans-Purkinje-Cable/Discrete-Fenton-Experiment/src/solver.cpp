@@ -13,17 +13,17 @@ Solver::Solver (User_Options *options)
     setTypeCell();
     M = nearbyint(tmax/dt);
 
-    g = setPurkinjeMeshFromFile(mesh_filename,options->start_h);
-    dx = options->start_h;
+    dx = options->start_h / options->num_div_cell;
+    g = setPurkinjeMeshFromFile(mesh_filename,dx);
+    g->setGapJunctions(options->num_div_cell);
 
     setControlVolumes();
     setDerivative();
     setFunctions();
     setInitCondFromFile();
     setVelocityPoints();
-    //setPlot(); 
+    setPlot(); 
     setSensibilityParam(options);
-    //g->dijkstra()
 
     //g->print();   
 }
@@ -63,7 +63,8 @@ void Solver::solve ()
         #endif
 
         // Write the solution data to a file
-        //writePlotData(t);
+        writePlotData(t);
+        
         //if (i % 10 == 0)
         //    writeStateVectorToFile(i,max_num_digits,t);
 
@@ -78,13 +79,11 @@ void Solver::solve ()
 
         moveVstar(x);
 
-
-
         // Solve the ODEs (reaction phase)
         solveODE(t);
 
         // Calculate the maximum derivative for each volume
-        //calcMaxDerivative(t);
+        calcMaxDerivative(t);
 
         // Jump to the next iteration
         nextTimestep();
@@ -94,8 +93,7 @@ void Solver::solve ()
     #endif
 
     // Calculate the propagation velocity for the plot ids
-    //calcVelocity();
-
+    calcVelocity();
     
 }
 
@@ -104,6 +102,7 @@ void Solver::setSensibilityParam (User_Options *options)
     alfa = options->alfa;
     d1 = options->diameter;
     SIGMA = options->sigma_c;
+    GGAP = options->G_gap;
 
     BETA = 4.0 / d1 * 1.0e-04;
 }
@@ -196,6 +195,70 @@ void Solver::setDerivative ()
     for (int i = 0; i < np; i++) dvdt[i].value = 0;
 }
 
+// Build the coefficient matrix considering cells with the same diameter
+void Solver::setMatrix (SpMat &a)
+{
+    // Compute the coefficients values
+    //double A = (4.0*GGAP) / (M_PI*d1*d1*dx);
+    double A = (SIGMA) / (dx*dx);
+    double B = (SIGMA) / (dx*dx);
+    double C = (BETA*Cm) / (dt);
+    double E = (BETA*Cm*dx*dx) / (dt);
+
+    // Non-zero coefficients
+    vector<T> coeff;
+
+    double diagonal_value;
+    Node *ptr = g->get_list_nodes();
+    while (ptr != NULL)
+    {
+        int u = ptr->id;
+        Edge *ptrl = ptr->list_edges;
+        diagonal_value = C;
+
+        while (ptrl != NULL)
+        {
+            double value;
+            int v = ptrl->id;
+            int link_type = ptrl->link_type;
+
+            // Citoplasm link
+            if (link_type == 0)
+            {
+                value = -B;
+                diagonal_value += B;
+            }
+            // Gap junction link
+            else
+            {
+                value = -A;
+                diagonal_value += A;
+            }
+            coeff.push_back(T(u,v,value));
+
+            ptrl = ptrl->next;
+        }
+        coeff.push_back(T(u,u,diagonal_value));
+
+        ptr = ptr->next;
+    }
+    
+    a.setFromTriplets(coeff.begin(),coeff.end());
+    a.makeCompressed();
+
+}
+
+void Solver::assembleLoadVector (VectorXd &b)
+{
+    double C = (BETA*Cm) / dt;
+
+    int np = b.size();
+    for (int i = 0; i < np; i++)
+        b(i) = vol[i].yOld[0] * C;
+    
+}
+
+/*
 void Solver::setMatrix (SpMat &a)
 {
     // Compute the coefficients values
@@ -277,6 +340,9 @@ void Solver::setMatrix (SpMat &a)
         ptr = ptr->next;
     }
 
+    //for (int i = 0; i < coeff.size(); i++)
+    //    printf("(%d,%d) = %.10lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
+
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
 }
@@ -289,6 +355,7 @@ void Solver::assembleLoadVector (VectorXd &b)
     for (int i = 0; i < np; i++)
         b(i) = vol[i].yOld[0] * ALPHA;
 }
+*/
 
 void Solver::moveVstar (const VectorXd vm)
 {
@@ -436,12 +503,8 @@ void Solver::calcVelocity ()
     int nterm = g->get_nterm();
     int *term = g->get_term();
 
-    g->dijkstra(0);
     double *dist = g->get_dist();
-    for (int i = 0; i < np; i++)
-    {
-        printf("Dist = %.10lf\n",dist[vel->ids[i]]);
-    }
+    
     for (int i = 0; i < np; i++)
     {    
         // Compute the distance from the source

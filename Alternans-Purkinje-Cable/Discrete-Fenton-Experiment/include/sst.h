@@ -50,14 +50,17 @@ private:
     int M;                              // Number of timesteps in time
     double dt;                          // Size timestep in time
     double tmax;                        // Maximum time of the simulation
-    double dx;                          // Size timestep in space
+    double start_h;                     // Size of a cell
+    double dx;                          // Discretization size
+    int num_div_cell;                   // Number of divisions of a cell
     string mesh_filename;               // Mesh filename
     string steady_filename;             // Output Steady-State filename
 
     double alfa;                        // Parameter: R_pmj * Vol_pmj
     double d1;                          // Parameter: d1
     double BETA;                        // Surface / Volume ratio
-    double SIGMA;                       // Conductivity Gap + Citoplasm
+    double SIGMA;                       // Conductivity of the citoplasm
+    double GGAP;                        // Conductance of the gap junction
 
     void setSensibilityParam (User_Options *options);
     void setControlVolumes ();

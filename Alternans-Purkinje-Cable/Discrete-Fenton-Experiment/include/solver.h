@@ -89,7 +89,8 @@ private:
     double alfa;                        // Parameter: R_pmj * Vol_pmj
     double d1;                          // Parameter: d1
     double BETA;                        // Surface / Volume ratio
-    double SIGMA;                       // Conductivity Gap + Citoplasm
+    double SIGMA;                       // Conductivity citoplasm
+    double GGAP;                        // Conductance of the gap junction
 
     void setSensibilityParam (User_Options *options);
     void setTypeCell ();  

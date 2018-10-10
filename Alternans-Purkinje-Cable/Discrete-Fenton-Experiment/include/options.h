@@ -20,12 +20,14 @@ public:
     double dt;
     double tmax;
     double start_h;
+    int num_div_cell;
     string mesh_filename;
     string sst_filename;
     string plot_filename;
     double alfa;
     double diameter;
     double sigma_c;
+    double G_gap;
 };
 
 #endif
