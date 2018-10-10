@@ -128,10 +128,9 @@ void SteadyState::print ()
 void SteadyState::setMatrix (SpMat &a)
 {
     // Compute the coefficients values
-    double A = (4.0*GGAP) / (M_PI*d1*d1*dx);
-    double B = (SIGMA) / (dx*dx);
-    double C = (BETA*Cm) / (dt);
-    double E = (BETA*Cm*dx*dx) / (dt);
+    double A = (4.0*GGAP*dx) / (M_PI*d1*d1);
+    double B = (SIGMA);
+    double C = (BETA*Cm*dx*dx) / (dt);
 
     // Non-zero coefficients
     vector<T> coeff;
@@ -173,12 +172,11 @@ void SteadyState::setMatrix (SpMat &a)
     
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
-
 }
 
 void SteadyState::assembleLoadVector (VectorXd &b)
 {
-    double C = (BETA*Cm) / dt;
+    double C = (BETA*Cm*dx*dx) / (dt);
 
     int np = b.size();
     for (int i = 0; i < np; i++)

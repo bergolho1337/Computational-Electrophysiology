@@ -200,17 +200,6 @@ void solve_monodomain (struct monodomain_solver *the_monodomain_solver,\
         // Solve the ODEs (reaction phase)
         solve_all_volumes_odes(the_ode_solver,vstar,dt,t);
 
-        if (k == 1)
-        {
-            FILE *file = fopen("vm_1.txt","w+");
-            for (uint32_t i = 0; i < nc; i++)
-            {
-                fprintf(file,"%.20lf\n",x(i));
-            }
-            fclose(file);
-            exit(EXIT_FAILURE);
-        }
-
         next_timestep(the_ode_solver);
     }
 
@@ -228,12 +217,6 @@ void assemble_load_vector (struct ode_solver *the_ode_solver, const double A, Ei
         b(i) = volumes[i].yOld[0] * A;
     }
 
-    FILE *file = fopen("rhs.txt","w+");
-    for (uint32_t i = 0; i < n_cells; i++)
-    {
-        fprintf(file,"%.20lf\n",b(i));
-    }
-    fclose(file);
 }
 
 void update_monodomain (struct ode_solver *the_ode_solver, const Eigen::VectorXd vm)

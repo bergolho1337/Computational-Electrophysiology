@@ -199,11 +199,13 @@ void Solver::setDerivative ()
 void Solver::setMatrix (SpMat &a)
 {
     // Compute the coefficients values
-    //double A = (4.0*GGAP) / (M_PI*d1*d1*dx);
-    double A = (SIGMA) / (dx*dx);
-    double B = (SIGMA) / (dx*dx);
-    double C = (BETA*Cm) / (dt);
-    double E = (BETA*Cm*dx*dx) / (dt);
+    double A = (4.0*GGAP*dx) / (M_PI*d1*d1);
+    double B = (SIGMA);
+    double C = (BETA*Cm*dx*dx) / (dt);
+
+    //printf("A = %.10lf\n",A);
+    //printf("B = %.10lf\n",B);
+    //printf("C = %.10lf\n",C);
 
     // Non-zero coefficients
     vector<T> coeff;
@@ -242,7 +244,7 @@ void Solver::setMatrix (SpMat &a)
 
         ptr = ptr->next;
     }
-    
+
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
 
@@ -250,7 +252,7 @@ void Solver::setMatrix (SpMat &a)
 
 void Solver::assembleLoadVector (VectorXd &b)
 {
-    double C = (BETA*Cm) / dt;
+    double C = (BETA*Cm*dx*dx) / (dt);
 
     int np = b.size();
     for (int i = 0; i < np; i++)

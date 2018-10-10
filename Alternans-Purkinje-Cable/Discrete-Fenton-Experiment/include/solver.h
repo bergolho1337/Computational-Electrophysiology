@@ -65,7 +65,7 @@ class Solver
     static constexpr double h2 = 0.25;
     static constexpr double d2 = 0.002;
     static constexpr double RPMJ = 11000.0;
-    static constexpr int OFFSET = 20;
+    static constexpr int OFFSET = 50;
 public:
     Solver (User_Options *options);
     void solve ();
