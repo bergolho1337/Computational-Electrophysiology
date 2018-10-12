@@ -15,7 +15,9 @@ def plot_potential (sv):
 def main():
 
     if (len(sys.argv) != 2):
+        print("==========================================================")
         print("Usage:> %s <input_file>" % (sys.argv[0]))
+        print("==========================================================")
         sys.exit(1)
     else:
         input_file = sys.argv[1]
