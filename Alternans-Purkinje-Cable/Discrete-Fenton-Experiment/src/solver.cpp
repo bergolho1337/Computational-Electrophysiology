@@ -245,6 +245,14 @@ void Solver::setMatrix (SpMat &a)
         ptr = ptr->next;
     }
 
+    /*
+    FILE *file = fopen("matrix.txt","w+");
+    fprintf(file,"%d %d\n",g->get_total_nodes(),g->get_total_nodes());
+    for (size_t i = 0; i < coeff.size(); i++)
+        fprintf(file,"%d %d %.10lf\n",coeff[i].row(),coeff[i].col(),coeff[i].value());
+    fclose(file);
+    */
+
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
 
@@ -252,12 +260,21 @@ void Solver::setMatrix (SpMat &a)
 
 void Solver::assembleLoadVector (VectorXd &b)
 {
+
     double C = (BETA*Cm*dx*dx) / (dt);
 
     int np = b.size();
     for (int i = 0; i < np; i++)
         b(i) = vol[i].yOld[0] * C;
     
+    /*
+    FILE *file = fopen("rhs.txt","w+");
+    fprintf(file,"%d\n",b.size());
+    for (size_t i = 0; i < b.size(); i++)
+        fprintf(file,"%.10lf\n",b(i));
+    fclose(file);
+    */
+
 }
 
 /*

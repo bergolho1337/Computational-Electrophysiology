@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def read_solution (filename):
-    data = np.genfromtxt(filename, delimiter=',')
+    data = np.genfromtxt(filename, delimiter=' ')
     return data
 
 def show_solution (data):
@@ -14,7 +14,7 @@ def write_solution ():
     plt.grid()
     plt.xlabel(u"t (ms)",fontsize=15)
     plt.ylabel(u"V (mV)",fontsize=15)
-    plt.xlim([0,5000])
+    #plt.xlim([0,5000])
     #plt.xlim([10000,20000])
     #plt.xlim([20000,30000])
     #plt.xlim([30000,40000])
@@ -24,6 +24,12 @@ def write_solution ():
     #plt.savefig("output.pdf")
 
 def main():
+
+    if (len(sys.argv) != 2):
+        print("========================================================")
+        print("Usage:> python plot_ap.py <solution_file>")
+        print("========================================================")
+        sys.exit(1)
 
     solution_filename = sys.argv[1]
 

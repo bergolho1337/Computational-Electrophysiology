@@ -17,7 +17,7 @@ Stimulus library: ./shared_libs/libdefault_stimuli.so
 Stimulus function: stim_default
 ======================================================================
 Starting simulation
-Resolution Time: 175881 μs
-ODE Total Time: 10377 μs
-Write time: 163723 μs
-Initial configuration time: 188 μs
+Resolution Time: 8661 μs
+ODE Total Time: 5013 μs
+Write time: 2654 μs
+Initial configuration time: 276 μs

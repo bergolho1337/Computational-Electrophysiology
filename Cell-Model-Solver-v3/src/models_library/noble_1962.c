@@ -10,13 +10,98 @@ GET_CELL_MODEL_DATA(init_cell_model_data) {
 
 SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu) {
 
-    // Original: -87,0.01,0.8,0.01
-    // 500ms pacing steady state: -76.1302f, 0.0586201f, 0.741082f, 0.475923f 
-    // 450ms pacing steady-state: -78.8607f, 0.050476f, 0.806294f, 0.518928f
-    sv[0] = -87.0f;    // V millivolt 
-    sv[1] = 0.01f;    // m dimensionless
-    sv[2] = 0.8f;    // h dimensionless
-    sv[3] = 0.01f;    // n dimensionless
+    // Original: -75.5344986658,0.0605467272,0.7259001355,0.4709239708
+    // 300ms pacing steady state: -81.2427,0.0442248,0.852377,0.585062 
+    // 280ms pacing steady-state: -81.4871,0.0436287,0.854551,0.597253
+    // 260ms pacing steady-state: -81.582,0.043404,0.852091,0.608277
+    // 240ms pacing steady-state: -81.4022,0.0438335,0.854737,0.590963
+    // 230ms pacing steady-state: 
+    // 220ms pacing steady-state: -47.4012 0.246191 0.0436378 0.693487
+    // 200ms pacing steady-state: -80.0059,0.0473721,0.830419,0.546311
+    // 180ms pacing steady-state: -80.8008,0.0453256,0.845488,0.569096
+    // 160ms pacing steady-state: -81.5934,0.0433682,0.857897,0.597179
+    // 130ms pacing steady-state: -71.9473,0.0738602,0.429134,0.675337
+    // 120ms pacing steady-state: -80.8949,0.0451545,0.794726,0.650358
+    // 100ms pacing steady-state: -80.3817,0.0464561,0.791357,0.632244
+    // 80ms pacing steady-state:   -74.8952,0.0629502,0.553061,0.656434
+    
+    // Original
+    sv[0] = -75.5344986658;     // V millivolt 
+    sv[1] = 0.0605467272;       // m dimensionless
+    sv[2] = 0.7259001355;       // h dimensionless
+    sv[3] = 0.4709239708;       // n dimensionless
+
+    // 300 ms
+    //sv[0] = -81.2427;     // V millivolt 
+    //sv[1] = 0.0442248;       // m dimensionless
+    //sv[2] = 0.852377;       // h dimensionless
+    //sv[3] = 0.585062;       // n dimensionless
+
+    // 280 ms
+    //sv[0] = -81.4871;     // V millivolt 
+    //sv[1] = 0.0436287;       // m dimensionless
+    //sv[2] = 0.854551;       // h dimensionless
+    //sv[3] = 0.597253;       // n dimensionless
+
+    // 260 ms
+    //sv[0] = -81.582;     // V millivolt 
+    //sv[1] = 0.043404;       // m dimensionless
+    //sv[2] = 0.852091;       // h dimensionless
+    //sv[3] = 0.608277;       // n dimensionless
+
+    // 240 ms
+    //sv[0] = -81.4022;     // V millivolt 
+    //sv[1] = 0.0438335;       // m dimensionless
+    //sv[2] = 0.854737;       // h dimensionless
+    //sv[3] = 0.590963;       // n dimensionless
+
+    // 220 ms
+    //sv[0] = -47.4012;     // V millivolt 
+    //sv[1] = 0.246191;       // m dimensionless
+    //sv[2] = 0.0436378;       // h dimensionless
+    //sv[3] = 0.693487;       // n dimensionless
+
+    // 200 ms
+    //sv[0] = -80.0059;     // V millivolt 
+    //sv[1] = 0.0473721;       // m dimensionless
+    //sv[2] = 0.830419;       // h dimensionless
+    //sv[3] = 0.546311;       // n dimensionless
+
+    // 180 ms
+    //sv[0] = -80.8008;     // V millivolt 
+    //sv[1] = 0.0453256;       // m dimensionless
+    //sv[2] = 0.845488;       // h dimensionless
+    //sv[3] = 0.569096;       // n dimensionless
+
+    // 160 ms
+    //sv[0] = -81.5934;     // V millivolt 
+    //sv[1] = 0.0433682;       // m dimensionless
+    //sv[2] = 0.857897;       // h dimensionless
+    //sv[3] = 0.597179;       // n dimensionless
+
+    // 130 ms
+    //sv[0] = -71.9473;     // V millivolt 
+    //sv[1] = 0.0738602;       // m dimensionless
+    //sv[2] = 0.429134;       // h dimensionless
+    //sv[3] = 0.675337;       // n dimensionless
+
+    // 120 ms
+    //sv[0] = -80.8949;     // V millivolt 
+    //sv[1] = 0.0451545;       // m dimensionless
+    //sv[2] = 0.794726;       // h dimensionless
+    //sv[3] = 0.650358;       // n dimensionless
+
+    // 100 ms
+    //sv[0] = -80.3817;     // V millivolt 
+    //sv[1] = 0.0464561;       // m dimensionless
+    //sv[2] = 0.791357;       // h dimensionless
+    //sv[3] = 0.632244;       // n dimensionless
+
+    // 80 ms
+    //sv[0] = -74.8952;     // V millivolt 
+    //sv[1] = 0.0629502;       // m dimensionless
+    //sv[2] = 0.553061;       // h dimensionless
+    //sv[3] = 0.656434;       // n dimensionless
 }
 
 SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) {

@@ -6,6 +6,11 @@
 
 int main (int argc, char **argv) 
 {
+    if (argc-1 != 2)
+    {
+        display_usage(argv);
+        exit(EXIT_FAILURE);
+    }
 
     struct user_options *options;
     options = new_user_options ();

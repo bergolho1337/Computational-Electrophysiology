@@ -420,9 +420,9 @@ void print_cell (const struct ode_solver *solver, FILE *output_file, double cur_
     }
     else 
     {
-        fprintf(output_file,"%g,",cur_time);
+        fprintf(output_file,"%g ",cur_time);
         for (int i = 0; i < nedos-1; i++)
-            fprintf(output_file, "%g,", sv[i]);
+            fprintf(output_file,"%g ", sv[i]);
         fprintf(output_file,"%g\n",sv[nedos-1]);
     }
 }
