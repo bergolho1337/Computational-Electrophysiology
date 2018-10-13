@@ -1,10 +1,10 @@
 s
 0.1
-900.0
+4800.0
 networks/cable-5cm.vtk
 0.01
 4
-teste.sst
+steady_state/cable-5cm-250ms-Gap.sst
 plot/cable-5cm.plt
 1.375
 0.003

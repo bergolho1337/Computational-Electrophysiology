@@ -24,9 +24,13 @@ def calc_apd (sv):
     # Calculate the derivatives for each interval and sort then in decreasing order
     dvdt = calc_derivatives(t,vm)
     max_dvdt = sorted(dvdt.iteritems(), key=lambda (k,v): (v,k), reverse=True)
-    
+
+    for i in range(10):
+        print max_dvdt[i]
+
     # Get the peak times of each action potential
-    peak_times = max_dvdt[0:3]
+    #default: peak_times = max_dvdt[0:2]
+    peak_times = max_dvdt[3:5]
     peak_times.sort()
     
     for i in range(len(peak_times)):
@@ -48,6 +52,8 @@ def calc_apd (sv):
         for j in range(start_index,len(t)):
             # If the current time pass the start time of the next stimulus we break the loop
             if (i < len(peak_times)-1 and t[j] > peak_times[i+1][0]):
+                min_t = t[j]
+                end_index = j
                 break
             # Until then we find the minimum difference between the APD value and the potential
             diff = abs(APD_90_value - vm[j])
@@ -78,7 +84,7 @@ def main():
         input_file = sys.argv[1]
 
         data = np.genfromtxt(input_file)
-
+        
         calc_apd(data)        
     
 

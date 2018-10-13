@@ -2,6 +2,8 @@
 
 // Number of threads to solve the system of ODEs
 static constexpr int nthreads = 2;
+static constexpr int PRINT_RATE = 10;
+static constexpr int SST_RATE = 40000;
 
 Solver::Solver (User_Options *options)
 {
@@ -30,6 +32,8 @@ Solver::Solver (User_Options *options)
 
 void Solver::solve ()
 {
+    FILE *sstFile = fopen("output.sst","w+");
+
     #ifdef OUTPUT
     printf("[!] Solving transient problem ... \n");
     printf("[!] Progress\n");
@@ -70,7 +74,8 @@ void Solver::solve ()
 
         // Write the solution to .vtk file
         #ifdef VTK
-        if (i % 10 == 0) writeVTKFile(i);
+        if (i % PRINT_RATE == 0) writeVTKFile(i);
+        if (i == SST_RATE-1) writeSteadyStateFile(sstFile);
         #endif
 
         // Solve the PDE (diffusion phase)
@@ -91,6 +96,7 @@ void Solver::solve ()
     #ifdef OUTPUT
     printf("ok\n");
     #endif
+    fclose(sstFile);
 
     // Calculate the propagation velocity for the plot ids
     calcVelocity();
@@ -584,4 +590,16 @@ int get_num_digits (int num)
         num_digits++;
     }
     return num_digits;
+}
+
+void Solver::writeSteadyStateFile (FILE *sstFile)
+{
+    int neq = num_eq;
+    int np = g->get_total_nodes();
+    for (int i = 0; i < np; i++)
+    {
+        for (int j = 0; j < neq; j++)
+            fprintf(sstFile,"%.10lf ",vol[i].yOld[j]);
+        fprintf(sstFile,"\n");
+    }
 }

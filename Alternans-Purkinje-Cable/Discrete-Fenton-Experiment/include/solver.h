@@ -113,6 +113,7 @@ private:
     void writeVTKFile (int iter);
     void writePlotData (double t);
     void writeStateVectorToFile (int count, int max_count, double t);
+    void writeSteadyStateFile (FILE *sstFile);
 };
 
 
