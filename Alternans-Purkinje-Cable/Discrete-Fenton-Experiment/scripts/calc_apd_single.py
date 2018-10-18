@@ -1,6 +1,7 @@
 import os
 import sys
 import numpy as np
+from glob import glob
 import matplotlib.pyplot as plt
 
 # Build a tuple where: T{i} = (t_i,dvdt_i)
@@ -25,14 +26,22 @@ def calc_apd (sv):
     dvdt = calc_derivatives(t,vm)
     max_dvdt = sorted(dvdt.iteritems(), key=lambda (k,v): (v,k), reverse=True)
 
-    for i in range(10):
-        print max_dvdt[i]
+    #for i in range(10):
+    #    print max_dvdt[i]
 
     # Get the peak times of each action potential
     #default: peak_times = max_dvdt[0:2]
-    peak_times = max_dvdt[3:5]
+    peak_times = max_dvdt[0:2]
+    i = 1
+    while (abs(peak_times[0][0]-peak_times[1][0]) < 10.0):
+        peak_times[1] = max_dvdt[i]
+        i = i + 1
     peak_times.sort()
+
+    #print("Peak times")
+    #print peak_times
     
+    apds = []
     for i in range(len(peak_times)):
         start_index = 0
         end_index = 0
@@ -51,9 +60,9 @@ def calc_apd (sv):
         min_t = t1
         for j in range(start_index,len(t)):
             # If the current time pass the start time of the next stimulus we break the loop
-            if (i < len(peak_times)-1 and t[j] > peak_times[i+1][0]):
-                min_t = t[j]
-                end_index = j
+            if (i < len(peak_times)-1 and t[j]+5.0 > peak_times[i+1][0]):
+                #min_t = t[j]
+                #end_index = j
                 break
             # Until then we find the minimum difference between the APD value and the potential
             diff = abs(APD_90_value - vm[j])
@@ -64,29 +73,32 @@ def calc_apd (sv):
                 min_t = t[j]
         t2 = min_t
         
+        apd = t2-t1
+        apds.append(apd)
+        
+        print("------------------------------")
         print("APD %d" % i)
         print("t1 = %.10lf" % t1)
         print("t2 = %.10lf" % t2)
         print("start_index = %d" % start_index)
         print("end_index = %d" % end_index)
-        print("value = %.10lf" % (t2-t1))
-        print("-------------------------------------------------------")
-            
-
-
+        print("diff = %.10lf" % min_diff)
+        print("value = %.10lf" % (apd))
+        print("------------------------------")
+        
+    return apds[0], apds[1]
 
 def main():
 
     if (len(sys.argv) != 2):
-        print("Usage:> %s <input_file>" % (sys.argv[0]))
+        print("Usage:> %s <input_filename>" % (sys.argv[0]))
         sys.exit(1)
     else:
-        input_file = sys.argv[1]
+        input_filename = sys.argv[1]
 
-        data = np.genfromtxt(input_file)
-        
-        calc_apd(data)        
-    
+        data = np.genfromtxt(input_filename)
 
+        even_apd, odd_apd = calc_apd(data)
+            
 if __name__ == "__main__":
     main()

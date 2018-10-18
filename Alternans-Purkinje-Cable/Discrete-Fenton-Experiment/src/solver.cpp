@@ -189,7 +189,7 @@ void Solver::setPlot ()
     for (int i = 1; i < plot->np; i++)
     {
         plot->plotFile[i-1] = (FILE*)malloc(sizeof(FILE));
-        sprintf(filename,"output/data%d.dat",plot->ids[i]);
+        sprintf(filename,"output/data-%d.dat",plot->ids[i]);
         plot->plotFile[i-1] = fopen(filename,"w+");
     }
 }
