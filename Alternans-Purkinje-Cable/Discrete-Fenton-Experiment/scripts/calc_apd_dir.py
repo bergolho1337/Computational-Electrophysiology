@@ -97,7 +97,7 @@ def plot_apd_over_cable (cell_ids,even_apds,odd_apds,dir_name,output_filename):
     plt.plot(cell_ids,odd_apds,label="odd",c="red",marker='o')
     plt.xlabel("cell id",fontsize=15)
     plt.ylabel("APD",fontsize=15)
-    plt.ylim([100,250])
+    plt.ylim([50,250])
     plt.title("%s" % output_filename,fontsize=14)
     plt.legend(loc=0,fontsize=14)
     plt.savefig(dir_name+output_filename+".pdf")

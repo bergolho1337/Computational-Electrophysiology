@@ -3,7 +3,7 @@
 // Number of threads to solve the system of ODEs
 static constexpr int nthreads = 2;
 static constexpr int PRINT_RATE = 10;
-static constexpr int SST_RATE = 40000;
+static constexpr int SST_RATE = 20000;
 
 Solver::Solver (User_Options *options)
 {
