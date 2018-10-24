@@ -14,6 +14,8 @@
 #include "constants.h"
 #include "options.h"
 #include "stimulus.h"
+#include "purkinje.h"
+#include "noble.h"
 
 //#include "../include/purkinje.h"
 //#include "../include/noble.h"
@@ -73,46 +75,46 @@ class Solver
     //static constexpr int OFFSET = 50;
 public:
     Solver (Options *user_options);
-    //void solve ();
-    //void print ();
+    void solve ();
+    void print ();
     //void error (const char msg[]);
 private:
-    //Graph *g;                           // Graph representing the Purkinje network
-    //CVolume *vol;                       // Vector of control volumes
-    //Derivative *dvdt;                   // Vector with the maximum derivative for each volume
-    //Velocity *vel;                      // Vector with the propagation velocity of the plot ids
-    //Func *func;                         // Vector of function of the celullar model
     int M;                              // Number of timesteps in time
     double dt;                          // Size timestep in time
     double tmax;                        // Maximum time of the simulation
     double dx;                          // Size timestep in space
-    string network_filename;               // Network filename
+    string network_filename;            // Network filename
     string steady_filename;             // Input Steady-State filename
     string plot_filename;               // Plot id filename
     int nthreads;                       // Number of threads
     int print_rate;                     // Rate which the VTK files will be saved
     int sst_rate;                       // Rate which the SST file will be saved
+
+    double diameter;                    // Diameter of the Purkinje cell
+    double beta;                        // Surface per Volume ratio
+    double sigma_c;                     // Conductivity citoplasm
+    double g_GAP;                       // Conductance of the gap junction
     
+    Graph *the_purkinje_network;        // Graph representing the Purkinje network
+    CVolume *vol;                       // Vector of control volumes
+    Func *func;                         // Vector of function of the celular model
+    Derivative *dvdt;                   // Vector with the maximum derivative for each volume
     Plot *plot;                         // Vector with the plot ids
+    Velocity *vel;                      // Vector with the propagation velocity of the plot ids
     Stimulus *stim_config;              // Stimulus configuration
 
     void set_plot_cells ();
+    void set_control_volumes ();
+    void set_derivative ();
+    void set_functions ();
+    void set_velocity_points ();
+    void set_plot_points ();
+    void set_initial_conditions_from_file ();
+    void set_initial_conditions_from_default ();
 
-    //double alfa;                        // Parameter: R_pmj * Vol_pmj
-    //double d1;                          // Parameter: d1
-    //double BETA;                        // Surface / Volume ratio
-    //double SIGMA;                       // Conductivity citoplasm
-    //double GGAP;                        // Conductance of the gap junction
+    void set_matrix (SpMat &A);
 
     /*
-    void setSensibilityParam (User_Options *options);
-    void setTypeCell ();  
-    void setControlVolumes ();
-    void setFunctions ();
-    void setInitCondFromFile ();
-    void setVelocityPoints ();
-    void setDerivative ();
-    void setPlot ();
     void setTerm ();
     void setMatrix (SpMat &a);
     void setMatrix2 (SpMat &a);
@@ -131,7 +133,7 @@ private:
 };
 
 void swap (double **a, double **b);
-void printProgress (int iter, int max_iter);
+void print_progress (int iter, int max_iter);
 int get_num_digits (int num);
 
 #endif

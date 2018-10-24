@@ -14,7 +14,7 @@
 
 using namespace std;
 
-Graph* setPurkinjeMeshFromFile (const string network_filename, const double h);
+Graph* set_purkinje_mesh_from_file (const string network_filename, const double h);
 Graph* initialize_purkinje_mesh (const string filename, const double h);
 void build_skeleton_purkinje (Graph *sk, const string filename);
 void build_mesh_purkinje (Graph *mesh, Graph *sk, const double h);

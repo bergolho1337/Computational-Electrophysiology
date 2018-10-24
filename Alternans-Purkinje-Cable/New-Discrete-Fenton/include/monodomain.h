@@ -13,7 +13,6 @@ class Monodomain
 public:
     Monodomain (int argc, char *argv[]);
     void solve ();
-    void error (const char msg[]);
 private:
     Options *user_options;
     Solver *solver;

@@ -12,6 +12,8 @@ void Usage (const char pName[])
 void solve_monodomain (int argc, char *argv[])
 {
     Monodomain *monodomain = new Monodomain(argc,argv);
+
+    monodomain->solve();
 }
 
 Monodomain::Monodomain (int argc, char *argv[])
@@ -20,5 +22,13 @@ Monodomain::Monodomain (int argc, char *argv[])
     //user_options->print_user_options();
 
     solver = new Solver(user_options);
+    //solver->print();
 
+}
+
+void Monodomain::solve ()
+{
+    cout << "[Solver] Solving monodomain equation" << endl;
+    
+    solver->solve();
 }
