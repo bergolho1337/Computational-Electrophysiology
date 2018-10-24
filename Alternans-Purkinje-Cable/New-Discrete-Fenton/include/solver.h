@@ -113,6 +113,16 @@ private:
     void set_initial_conditions_from_default ();
 
     void set_matrix (SpMat &A);
+    void assemble_load_vector (VectorXd &b);
+    void move_Vstar (const VectorXd vm);
+    void solve_ODE (double t);
+    void calc_max_derivative (double t, double current_period);
+    void calc_velocity ();
+    void next_timestep ();
+
+    void write_plot_data (double t);
+    void write_VTK_file (int iter);
+    void write_steady_state_file (FILE *sstFile);
 
     /*
     void setTerm ();

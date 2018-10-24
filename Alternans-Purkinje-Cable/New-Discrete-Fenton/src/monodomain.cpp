@@ -14,6 +14,9 @@ void solve_monodomain (int argc, char *argv[])
     Monodomain *monodomain = new Monodomain(argc,argv);
 
     monodomain->solve();
+
+    // TO DO: Need to implement the desconstructor
+    //delete monodomain;
 }
 
 Monodomain::Monodomain (int argc, char *argv[])

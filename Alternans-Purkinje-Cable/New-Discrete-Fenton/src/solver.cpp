@@ -59,12 +59,12 @@ void Solver::solve ()
     VectorXd b(np);
     VectorXd x(np);
     
+    cout << "[Solver] Time loop" << endl;
+    
     // Time loop
     for (int i = 0; i < M; i++)
     {
         double t = i*dt;
-
-        for (int k = 0; k < 100; k++)
 
         // Print the progress of the solution
         #ifdef OUTPUT
@@ -72,33 +72,34 @@ void Solver::solve ()
         #endif
 
         // Write the solution data to a file
-        //writePlotData(t);
+        write_plot_data(t);
         
         //if (i % 10 == 0)
         //    writeStateVectorToFile(i,max_num_digits,t);
 
         // Write the solution to .vtk file
         #ifdef VTK
-        //if (i % PRINT_RATE == 0) writeVTKFile(i);
-        //if (i == SST_RATE-1) writeSteadyStateFile(sstFile);
+        if (i % print_rate == 0) write_VTK_file(i);
+        if (i == sst_rate-1) write_steady_state_file(sst_file);
         #endif
 
         // Solve the PDE (diffusion phase)
-        //assembleLoadVector(b);
-        //x = sparseSolver.solve(b);
+        assemble_load_vector(b);
+        x = sparseSolver.solve(b);
 
-        //moveVstar(x);
+        move_Vstar(x);
 
         // Solve the ODEs (reaction phase)
-        //solveODE(t);
+        solve_ODE(t);
 
         // Calculate the maximum derivative for each volume
-        //calcMaxDerivative(t);
+        calc_max_derivative(t,stim_config->start_period);
 
         // Jump to the next iteration
-        //nextTimestep();
+        next_timestep();
     }
 
+    calc_velocity();
 
     fclose(sst_file);
 }
@@ -163,6 +164,113 @@ void Solver::set_matrix (SpMat &a)
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
 
+}
+
+void Solver::assemble_load_vector (VectorXd &b)
+{
+
+    double C = (beta*Cm*dx*dx) / (dt);
+
+    int np = b.size();
+    for (int i = 0; i < np; i++)
+        b(i) = vol[i].yOld[0] * C;
+    
+    /*
+    FILE *file = fopen("rhs.txt","w+");
+    fprintf(file,"%d\n",b.size());
+    for (size_t i = 0; i < b.size(); i++)
+        fprintf(file,"%.10lf\n",b(i));
+    fclose(file);
+    */
+
+}
+
+void Solver::move_Vstar (const VectorXd vm)
+{
+    int neq = NUM_EQ;
+    int np = vm.size();
+    for (int i = 0; i < np; i++)
+    {
+        vol[i].yStar[0] = vm(i);
+        for (int j = 1; j < neq; j++)
+            vol[i].yStar[j] = vol[i].yOld[j];
+    }
+}
+
+void Solver::solve_ODE (double t)
+{
+    int neq = NUM_EQ;
+    int ncells = the_purkinje_network->get_total_nodes();
+    #pragma omp parallel for num_threads(nthreads)
+    for (int id = 0; id < ncells; id++)
+    {
+        // V^n+1 = V^n+1/2 + f*dt
+        double f = func[0](vol[id].type,id,t,vol[id].yStar);
+        vol[id].yNew[0] = vol[id].yStar[0] + f*dt;
+        // gate^n+1 = gate^n + dt*f
+        for (int j = 1; j < neq; j++)
+        {
+            f = func[j](vol[id].type,id,t,vol[id].yOld);
+            vol[id].yNew[j] = vol[id].yOld[j] + f*dt;
+        } 
+    }
+}
+
+void Solver::calc_max_derivative (double t, double current_period)
+{
+    int np = the_purkinje_network->get_total_nodes();
+    for (int i = 0; i < np; i++)
+    {
+        double diff = vol[i].yNew[0] - vol[i].yOld[0];
+        // Considering the calculus after the first stimulus
+        if (diff > dvdt[i].value && t > 0.0 && t < current_period)
+        {
+            dvdt[i].value = diff;
+            dvdt[i].t = t;
+        }
+    }
+}
+
+void Solver::calc_velocity ()
+{
+    cout << "[Solver] Calculating propagation velocity" << endl;
+
+    FILE *vFile = fopen("output/v.txt","w+");
+    int np = vel->np;
+    double *dist = the_purkinje_network->get_dist();
+    
+    for (int i = 0; i < np; i++)
+    {    
+        // Compute the distance from the source
+        the_purkinje_network->dijkstra(vel->ids[i]);
+        dist = the_purkinje_network->get_dist();
+        double t = dvdt[vel->ids[i]].t - dvdt[vel->ids[i] - OFFSET].t;
+        double velocity = dist[vel->ids[i] - OFFSET] / t;
+
+        // Check if the value is beyond the tolerance
+	    if (t < 0 || fabs(dvdt[vel->ids[i]].value - dvdt[vel->ids[i] - OFFSET].value) > 16.0)
+            velocity = 0.0;
+        fprintf(vel->velocityFile,"\n\n[!] Propagation velocity! Id = %d\n",vel->ids[i]);
+        fprintf(vel->velocityFile,"t1 = %.10lf\n",dvdt[vel->ids[i] - OFFSET].t);
+        fprintf(vel->velocityFile,"dvdt[%d] = %.10lf\n\n",vel->ids[i]- OFFSET ,dvdt[vel->ids[i] - OFFSET].value);
+        fprintf(vel->velocityFile,"t2 = %.10lf\n",dvdt[vel->ids[i]].t);
+        fprintf(vel->velocityFile,"dvdt[%d] = %.10lf\n",vel->ids[i],dvdt[vel->ids[i]].value);
+        fprintf(vel->velocityFile,"delta_x = %.10lf\n",dist[vel->ids[i] - OFFSET]);
+        fprintf(vel->velocityFile,"delta_t = %.10lf\n",t);
+        fprintf(vel->velocityFile,"\n!!!!!!!! Propagation velocity = %lf cm/s !!!!!!!!!!\n",velocity*1000.0);
+        fprintf(vel->velocityFile,"\n=============================================================\n\n");
+
+        fprintf(vFile,"%lf\n",velocity*1000.0);
+    }
+    fclose(vel->velocityFile);
+    fclose(vFile);
+}
+
+void Solver::next_timestep ()
+{
+    int np = the_purkinje_network->get_total_nodes();
+    for (int i = 0; i < np; i++) 
+        swap(&vol[i].yOld,&vol[i].yNew);
 }
 
 void Solver::set_plot_cells ()
@@ -292,6 +400,71 @@ void Solver::set_plot_points ()
     }
 }
 
+void Solver::write_plot_data (double t)
+{
+    for (int i = 1; i < plot->np; i++)
+        fprintf(plot->plotFile[i-1],"%.10lf %.10lf\n",t,vol[plot->ids[i]].yOld[0]);
+}
+
+void Solver::write_VTK_file (int iter)
+{
+    FILE *file;
+    int np, ne;
+    char filename[50];
+    Node *ptr = the_purkinje_network->get_list_nodes();
+    np = the_purkinje_network->get_total_nodes();
+    ne = the_purkinje_network->get_total_edges();
+
+    // Write the transmembrane potential
+    sprintf(filename,"vtk/sol%d.vtk",iter);
+    file = fopen(filename,"w+");
+    fprintf(file,"# vtk DataFile Version 3.0\n");
+    fprintf(file,"Monodomain MVF\n");
+    fprintf(file,"ASCII\n");
+    fprintf(file,"DATASET POLYDATA\n");
+    fprintf(file,"POINTS %d float\n",np);
+    while (ptr != NULL)
+    {
+        fprintf(file,"%e %e %e\n",ptr->x,ptr->y,ptr->z);
+        ptr = ptr->next;
+    }
+    fprintf(file,"LINES %d %d\n",ne,ne*3);
+    ptr = the_purkinje_network->get_list_nodes();
+    while (ptr != NULL)
+    {
+        Edge *ptrl = ptr->list_edges;
+        while (ptrl != NULL)
+        {
+            fprintf(file,"2 %d %d\n",ptr->id,ptrl->dest->id);
+            ptrl = ptrl->next;
+        }
+        ptr = ptr->next;
+    }
+
+    fprintf(file,"POINT_DATA %d\n",np);
+    fprintf(file,"SCALARS vm float 1\n");
+    fprintf(file,"LOOKUP_TABLE default\n");
+    ptr = the_purkinje_network->get_list_nodes();
+    while (ptr != NULL)
+    {
+        fprintf(file,"%e\n",vol[ptr->id].yOld[0]);
+        ptr = ptr->next;
+    }
+    fclose(file);
+}
+
+void Solver::write_steady_state_file (FILE *sstFile)
+{
+    int neq = NUM_EQ;
+    int np = the_purkinje_network->get_total_nodes();
+    for (int i = 0; i < np; i++)
+    {
+        for (int j = 0; j < neq; j++)
+            fprintf(sstFile,"%.10lf ",vol[i].yOld[j]);
+        fprintf(sstFile,"\n");
+    }
+}
+
 void Solver::print ()
 {
     cout << "////////////////////////////////////////////////////////////////" << endl;
@@ -319,4 +492,11 @@ void print_progress (int iter, int max_iter)
     
     cout << "Progress: " << int(progress * 100.0) << " %\r";
     cout.flush();
+}
+
+void swap (double **a, double **b)
+{
+    double *tmp = *a;
+    *a = *b;
+    *b = tmp;
 }
