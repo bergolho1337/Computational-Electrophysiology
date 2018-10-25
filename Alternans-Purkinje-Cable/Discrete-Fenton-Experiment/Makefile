@@ -4,8 +4,6 @@ OBJECT_DIR = obj
 CC = g++
 #PROGRAM_FLAGS = -DPMJ -DVTK -DOUTPUT -DDIAMETER
 PROGRAM_FLAGS = -DOUTPUT -DVTK
-#PROGRAM_FLAGS = -DVTK -DOUTPUT
-#PROGRAM_FLAGS = 
 CFLAGS = -std=c++11 -fopenmp -O2 -I$(INCLUDE_DIR) $(PROGRAM_FLAGS)
 CC_SOURCES = $(wildcard src/*)
 STRING_OBJ_AUX = $(CC_SOURCES:.cpp=.o)
@@ -25,18 +23,13 @@ clean:
 	rm -f $(OBJECT_DIR)/*.o $(PROGRAM_NAME)
 	rm -f vtk/*.vtk
 	rm -f output/*
-	rm -f tmp/*
 
 clcResults:
 	rm -f vtk/*.vtk
 	rm -f output/*
-	rm -f tmp/*
 
 remade:
 	$(MAKE) clean
 	$(MAKE)
-
-plot:
-	cd Output; python makePlot.py
 
 print-%  : ; @echo $* = $($*)

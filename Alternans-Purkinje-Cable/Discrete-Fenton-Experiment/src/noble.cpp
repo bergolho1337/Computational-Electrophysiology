@@ -1,31 +1,19 @@
 #include "../include/noble.h"
 
-/* ====================================================================================================== */
+Stimulus *stim;
 
-// Old stimulus current
-double I_Stim__Nob_Old (int point, double t)
-{
-    // The first 5 volumes will generate a stimulus current
-    if (point <= 5)
-    {
-        double min_time, max_time;
-        for (int k = 0; k < 20; k++)
-        {
-            min_time = k*cycle_length;
-            max_time = k*cycle_length + 2.0;
-            // The stimulus will be sustained only between this period of time
-            if (t >= min_time && t < max_time)
-                return stim_current;
-        }
-        return 0;
-    }
-    else
-        return 0;
-}
-
-// // New Jhonny stimulus protocol for alternans simulations ...
+// New Jhonny stimulus protocol for alternans simulations ...
 double I_Stim__Nob (int point, double t)
 {
+    double stim_current = stim->stim_current;
+    double stim_start = stim->stim_start;
+    double stim_duration = stim->stim_duration;
+    double start_period = stim->start_period;
+    double end_period = stim->end_period;
+    double period_step = stim->period_step;
+    int n_cycles = stim->n_cycles;
+    int id_limit = stim->id_limit;
+
     double stim_period;
     double new_time = 0.0f;
     double time = t; 
@@ -166,3 +154,8 @@ double dndt__Nob (int type, int point, double t, double y[])
 }
 
 /* ====================================================================================================== */
+
+void set_celular_model (Stimulus *stim_config)
+{
+    stim = stim_config;
+}

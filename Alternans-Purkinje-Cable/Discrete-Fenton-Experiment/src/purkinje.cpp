@@ -1,6 +1,6 @@
 #include "purkinje.h"
 
-Graph* setPurkinjeMeshFromFile (const string network_filename, const double h)
+Graph* set_purkinje_mesh_from_file (const string network_filename, const double h)
 {
     Graph *the_purkinje_network = initialize_purkinje_mesh(network_filename,h);
     
@@ -69,7 +69,7 @@ void grow_segment (Graph *mesh, Node *u, Edge *v, int *map_skeleton_to_mesh, con
     d[1] = u->y;
     d[2] = u->z;
 
-    fprintf(stdout,"Node %d will grow %d points\n",u->id,n_points);
+    fprintf(stdout,"[Purkinje] Node %d will grow %d points\n",u->id,n_points);
 
     // Grow the number of points of size 'h' until reaches the size of the segment
     for (int k = 1; k <= n_points; k++)

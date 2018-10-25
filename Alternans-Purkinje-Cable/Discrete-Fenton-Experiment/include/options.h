@@ -9,25 +9,40 @@
 
 using namespace std;
 
-class User_Options
+class Options
 {
 public:
-    User_Options (int argc, char *argv[]);
+    Options (int argc, char *argv[]);
     void print_user_options ();
     
 public:
-    bool steady_state;
+    // Main section
+    int num_threads;
     double dt;
     double tmax;
-    double start_h;
-    int num_div_cell;
-    string mesh_filename;
+    bool steady_state;
+    int print_rate;
+    int sst_rate;
+    string network_filename;
     string sst_filename;
     string plot_filename;
-    double alfa;
-    double diameter;
+
+    // Cell section
+    double start_h;
+    int num_div_cell;
+    double start_diameter;
     double sigma_c;
     double G_gap;
+
+    // Stimulus section
+    double stim_current;
+    double stim_start;
+    double stim_duration;
+    double start_period;
+    double end_period;
+    double period_step;
+    int n_cycles;
+    int id_limit;
 };
 
 #endif

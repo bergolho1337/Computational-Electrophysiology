@@ -206,7 +206,7 @@ void Graph::print ()
     printf("Number of edges = %d\n",total_edges);
 }
 
-void Graph::setGapJunctions (const int num_div_cell)
+void Graph::set_gap_junctions (const int num_div_cell)
 {
     int count = 0;
     Node *ptr = list_nodes;
