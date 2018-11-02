@@ -6,6 +6,8 @@
 #include <cmath>
 #include <cstring>
 
+#include "stimulus.h"
+
 // Maximum time = 2000 ms
 // dt = 0.1 ms
 // y[0] = vm
@@ -19,23 +21,10 @@ typedef double (*Func) (int type, int point, double t, double y[]);
 /* ============================== CONSTANTS ========================================== */
 
 // Number of equations
-static const int num_eq = 4;
-
-// Stimulus configuration
-static const double stim_current = 1000.0f;
-static const double stim_start = 0.0f;
-static const double stim_duration = 2.0f;
-static const double start_period = 100.0f;
-static const double end_period = 100.0f;
-static const double period_step = 100.0f;
-static const int n_cycles = 20;
-static const int id_limit = 20;
-
-// Cycle length
-static const double cycle_length = 300.0;  
+static const int NUM_EQ = 4;
 
 // Initial conditions (default)
-static const double y0__Nob[4] = {-75.5344986658,0.0605467272,0.7259001355,0.4709239708};
+static const double YO__NOBLE[4] = {-75.5344986658,0.0605467272,0.7259001355,0.4709239708};
 
 // Steady state
 // -79.0666103401 0.0499158420 0.8049140578 0.2603110528
@@ -79,5 +68,7 @@ double beta_n__Nob (double t, double vm, double m, double h, double n);
 double alpha_n__Nob (double t, double vm, double m, double h, double n);
 double dndt__Nob (int type, int point, double t, double y[]);
 /* ********************************************************************************************************************** */
+
+void set_celular_model (Stimulus *stim_config);
 
 #endif

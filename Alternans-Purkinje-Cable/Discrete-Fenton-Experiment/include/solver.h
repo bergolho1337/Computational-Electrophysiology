@@ -10,9 +10,16 @@
 #include <iomanip>
 #include <omp.h>
 #include <Eigen/Sparse>
-#include "../include/purkinje.h"
-#include "../include/noble.h"
-#include "../include/options.h"
+
+#include "constants.h"
+#include "options.h"
+#include "stimulus.h"
+#include "purkinje.h"
+#include "noble.h"
+
+//#include "../include/purkinje.h"
+//#include "../include/noble.h"
+//#include "../include/options.h"
 
 using namespace std;
 using namespace Eigen;
@@ -60,46 +67,64 @@ class Solver
 {
     // Constants of the monodomain equation
     //static constexpr double BETA = 0.14;
-    static constexpr double Cm = 1.2;
+    //static constexpr double Cm = 1.2;
     //static constexpr double SIGMA = 0.004;
-    static constexpr double h2 = 0.25;
-    static constexpr double d2 = 0.002;
-    static constexpr double RPMJ = 11000.0;
-    static constexpr int OFFSET = 50;
+    //static constexpr double h2 = 0.25;
+    //static constexpr double d2 = 0.002;
+    //static constexpr double RPMJ = 11000.0;
+    //static constexpr int OFFSET = 50;
 public:
-    Solver (User_Options *options);
+    Solver (Options *user_options);
     void solve ();
     void print ();
-    void error (const char msg[]);
+    //void error (const char msg[]);
 private:
-    Graph *g;                           // Graph representing the Purkinje network
-    CVolume *vol;                       // Vector of control volumes
-    Derivative *dvdt;                   // Vector with the maximum derivative for each volume
-    Plot *plot;                         // Vector with the plot ids
-    Velocity *vel;                      // Vector with the propagation velocity of the plot ids
-    Func *func;                         // Vector of function of the celullar model
     int M;                              // Number of timesteps in time
     double dt;                          // Size timestep in time
     double tmax;                        // Maximum time of the simulation
     double dx;                          // Size timestep in space
-    string mesh_filename;               // Mesh filename
+    string network_filename;            // Network filename
     string steady_filename;             // Input Steady-State filename
     string plot_filename;               // Plot id filename
+    int nthreads;                       // Number of threads
+    int print_rate;                     // Rate which the VTK files will be saved
+    int sst_rate;                       // Rate which the SST file will be saved
 
-    double alfa;                        // Parameter: R_pmj * Vol_pmj
-    double d1;                          // Parameter: d1
-    double BETA;                        // Surface / Volume ratio
-    double SIGMA;                       // Conductivity citoplasm
-    double GGAP;                        // Conductance of the gap junction
+    double diameter;                    // Diameter of the Purkinje cell
+    double beta;                        // Surface per Volume ratio
+    double sigma_c;                     // Conductivity citoplasm
+    double g_GAP;                       // Conductance of the gap junction
+    
+    Graph *the_purkinje_network;        // Graph representing the Purkinje network
+    CVolume *vol;                       // Vector of control volumes
+    Func *func;                         // Vector of function of the celular model
+    Derivative *dvdt;                   // Vector with the maximum derivative for each volume
+    Plot *plot;                         // Vector with the plot ids
+    Velocity *vel;                      // Vector with the propagation velocity of the plot ids
+    Stimulus *stim_config;              // Stimulus configuration
 
-    void setSensibilityParam (User_Options *options);
-    void setTypeCell ();  
-    void setControlVolumes ();
-    void setFunctions ();
-    void setInitCondFromFile ();
-    void setVelocityPoints ();
-    void setDerivative ();
-    void setPlot ();
+    void set_plot_cells ();
+    void set_control_volumes ();
+    void set_derivative ();
+    void set_functions ();
+    void set_velocity_points ();
+    void set_plot_points ();
+    void set_initial_conditions_from_file ();
+    void set_initial_conditions_from_default ();
+
+    void set_matrix (SpMat &A);
+    void assemble_load_vector (VectorXd &b);
+    void move_Vstar (const VectorXd vm);
+    void solve_ODE (double t);
+    void calc_max_derivative (double t, double current_period);
+    void calc_velocity ();
+    void next_timestep ();
+
+    void write_plot_data (double t);
+    void write_VTK_file (int iter);
+    void write_steady_state_file (FILE *sstFile);
+
+    /*
     void setTerm ();
     void setMatrix (SpMat &a);
     void setMatrix2 (SpMat &a);
@@ -114,12 +139,11 @@ private:
     void writePlotData (double t);
     void writeStateVectorToFile (int count, int max_count, double t);
     void writeSteadyStateFile (FILE *sstFile);
+    */
 };
 
-
-
 void swap (double **a, double **b);
-void printProgress (int iter, int max_iter);
+void print_progress (int iter, int max_iter);
 int get_num_digits (int num);
 
 #endif
