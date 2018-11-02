@@ -24,3 +24,11 @@ ADD_LIBRARY(ten_tusscher_2006 ${LIB_TYPE} ${COMMON_HEADERS} ${MODEL_FILE_CPU})
 
 #########################################################
 
+############## BEELER REUTER 1977 ##############################
+set(MODEL_FILE_CPU "beeler_reuter_1977.c")
+set(COMMON_HEADERS model_common.h beeler_reuter_1977.h)
+
+ADD_LIBRARY(beeler_reuter_1977 ${LIB_TYPE} ${COMMON_HEADERS} ${MODEL_FILE_CPU})
+
+#########################################################
+
