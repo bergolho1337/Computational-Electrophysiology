@@ -1,3 +1,0 @@
-set(SOURCE_FILES_PURKINJE purkinje.h purkinje.cpp)
-
-ADD_LIBRARY(purkinje STATIC ${SOURCE_FILES_PURKINJE})

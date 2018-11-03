@@ -1,1 +1,3 @@
-vtk
+vtk/
+tmp_*/
+shared_libs/
