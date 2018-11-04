@@ -116,6 +116,10 @@ int parse_config_file (void *user, const char *section, const char *name, const 
     {
         pconfig->G_gap = strtod(value, NULL);
     }
+    else if (MATCH_SECTION_AND_NAME (CELL_SECTION, "library_file")) 
+    {
+        pconfig->model_file_path = value;
+    }
 
     else if(SECTION_STARTS_WITH(STIM_SECTION)) 
     {
@@ -183,16 +187,19 @@ int parse_config_file (void *user, const char *section, const char *name, const 
         else 
         {
             //name is a reserved word in stim config
-            if(MATCH_NAME("name")) {
+            if(MATCH_NAME("name")) 
+            {
                 fprintf(stderr, "name is a reserved word and should not be used inside a stimulus config section. Found in %s. Exiting!\n", section);
                 exit(EXIT_FAILURE);
             }
-            else {
+            else 
+            {
                 string_hash_insert(tmp->config_data.config, name, value);
             }
         }
     }
-    else {
+    else 
+    {
         fprintf(stderr, "Invalid name %s in section %s on the config file!\n", name, section);
         return 0;
     }
@@ -218,7 +225,8 @@ void print_user_options (struct user_options *user_args)
     std::cout << "num_div_cell = " << user_args->num_div_cell << std::endl;
     std::cout << "start diameter = " << user_args->start_diameter << std::endl;
     std::cout << "sigma_c = " << user_args->sigma_c << std::endl;
-    std::cout << "G_gap = " << user_args->G_gap << std::endl << std::endl;
+    std::cout << "G_gap = " << user_args->G_gap << std::endl;
+    std::cout << "Model file path = " << user_args->model_file_path << std::endl << std::endl;
 
     if (user_args->stim_configs) 
     {
@@ -242,8 +250,7 @@ void print_user_options (struct user_options *user_args)
                 printf ("End period: %lf\n", e->value->end_period);
                 printf ("Period step: %lf\n", e->value->period_step);
                 printf ("Number of cycles: %d\n", e->value->n_cycles);
-                //printf ("Stimulus library: %s\n", e->value->config_data.library_file_path);
-                //printf ("Stimulus function: %s\n", e->value->config_data.function_name);
+                printf ("Stimulus function: %s\n", e->value->config_data.function_name);
                 struct string_hash *tmp = e->value->config_data.config;
                 if (tmp->n == 1) 
                 {
@@ -258,17 +265,6 @@ void print_user_options (struct user_options *user_args)
             }
         }
     }
-    /*
-    std::cout << "[stimulus]" << std::endl;
-    std::cout << "stim_current = " << stim_current << std::endl;
-    std::cout << "stim_start = " << stim_start << std::endl;
-    std::cout << "stim_duration = " << stim_duration << std::endl;
-    std::cout << "start_period = " << start_period << std::endl;
-    std::cout << "end_period = " << end_period << std::endl;
-    std::cout << "period_step = " << period_step << std::endl;
-    std::cout << "n_cycles = " << n_cycles << std::endl;
-    std::cout << "id_limit = " << id_limit << std::endl;
-    */
 
 }
 

@@ -9,7 +9,7 @@ set(SOURCE_FILES_SOLVER
         #config/extra_data_config.c config/extra_data_config.h
         #config/linear_system_solver_config.c config/linear_system_solver_config.h
         #ode_solver.c ode_solver.h
-        #monodomain_solver.h monodomain_solver.c
+        monodomain_solver.h monodomain_solver.cpp
         config/config_parser.cpp config/config_parser.h
         constants.h
         )

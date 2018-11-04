@@ -38,6 +38,7 @@ struct user_options
     double start_diameter;
     double sigma_c;
     double G_gap;
+    std::string model_file_path;
 
     // Stimulus
     struct stim_config_hash *stim_configs;

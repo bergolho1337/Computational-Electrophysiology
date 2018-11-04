@@ -16,6 +16,9 @@ struct stim_config;
 //#define SET_SPATIAL_STIM(name) EXPORT_FN void name(struct stim_config *config, struct grid *the_grid)
 //typedef SET_SPATIAL_STIM(set_spatial_stim_fn);
 
+#define SET_SPATIAL_STIM(name) EXPORT_FN void name(struct stim_config *config)
+typedef SET_SPATIAL_STIM(set_spatial_stim_fn);
+
 struct stim_config {
 
     struct config_common config_data;
@@ -37,7 +40,7 @@ struct stim_config {
     bool period_step_was_set;
 
     real *spatial_stim_currents;
-    //set_spatial_stim_fn *set_spatial_stim;
+    set_spatial_stim_fn *set_spatial_stim;
 };
 
 void init_stim_functions(struct stim_config *config, char* stim_name);

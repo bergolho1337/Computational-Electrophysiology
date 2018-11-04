@@ -52,7 +52,7 @@ void init_stim_functions(struct stim_config *config, char* stim_name) {
 struct stim_config* new_stim_config() {
     struct stim_config *result = (struct stim_config*) malloc(sizeof(struct stim_config));
     init_config_common_data(&(result->config_data));
-    //result->set_spatial_stim = NULL;
+    result->set_spatial_stim = NULL;
     result->spatial_stim_currents = NULL;
 
     result->stim_current_was_set = false;
@@ -69,7 +69,7 @@ void print_stim_config_values(struct stim_config* s) {
     printf("end_period %lf\n", s->end_period);
     printf("period_step %lf\n", s->period_step);
     printf("n_cycles %d\n", s->n_cycles);
-    //printf("stim_function %s\n", s->config_data.function_name);
+    printf("stim_function %s\n", s->config_data.function_name);
 }
 
 void free_stim_config(struct stim_config* s) {

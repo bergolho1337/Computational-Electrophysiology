@@ -1,6 +1,8 @@
 #include <iostream>
 #include "monodomain/config/config_parser.h"
 #include "ini_parser/ini.h"
+#include "grid/grid.h"
+#include "monodomain/monodomain_solver.h"
 
 using namespace std;
 
@@ -17,13 +19,13 @@ int main (int argc, char *argv[])
         struct user_options *options;
         options = new_user_options ();
         
-        /*
         struct grid *the_grid;
         the_grid = new_grid ();
 
         struct monodomain_solver *monodomain_solver;
         monodomain_solver = new_monodomain_solver ();
 
+        /*
         struct ode_solver *ode_solver;
         ode_solver = new_ode_solver ();
         */
@@ -40,20 +42,10 @@ int main (int argc, char *argv[])
                 return EXIT_FAILURE;
             }
         }
-        print_user_options(options);
+        configure_monodomain_solver_from_options(monodomain_solver,options);
+        configure_grid_from_options(the_grid,options);
 
-        /*
-        double start, finish, elapsed;
-
-        GET_TIME(start);
-        solve_monodomain(argc,argv);
-        GET_TIME(finish);
-        elapsed = finish - start;
-
-        printf("==========================================================\n");
-        printf("[!] Time elapsed = %.10lf seconds\n",elapsed);
-        printf("==========================================================\n");
-        */
+        solve_monodomain(monodomain_solver,the_grid,options);
 
         return 0;
     }

@@ -42,17 +42,18 @@ ADD_SUBDIRECTORY(src/monodomain)
 ADD_SUBDIRECTORY(src/hash)
 ADD_SUBDIRECTORY(src/ini_parser)
 #ADD_SUBDIRECTORY(src/string)
-#ADD_SUBDIRECTORY(src/graph)
+ADD_SUBDIRECTORY(src/grid)
+ADD_SUBDIRECTORY(src/purkinje)
 
 ADD_EXECUTABLE(FentonExperiment src/main.cpp)
 
 #ADD_DEPENDENCIES(FentonExperiment utils alg solvers hashes ini_parser string graph ${OPT_DEPS})
-ADD_DEPENDENCIES(FentonExperiment solvers ini_parser hashes ${OPT_DEPS})
+ADD_DEPENDENCIES(FentonExperiment solvers ini_parser hashes grid purkinje ${OPT_DEPS})
 
 #TARGET_LINK_LIBRARIES(FentonExperiment alg solvers utils hashes ini_parser string graph ${OPT_DEPS} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} ${CUDA_LIBRARIES} dl m)
-TARGET_LINK_LIBRARIES(FentonExperiment solvers ini_parser hashes ${OPT_DEPS} ${CUDA_LIBRARIES} dl m)
+TARGET_LINK_LIBRARIES(FentonExperiment solvers ini_parser hashes grid purkinje ${OPT_DEPS} ${CUDA_LIBRARIES} dl m)
 
-#ADD_SUBDIRECTORY(src/models_library)
+ADD_SUBDIRECTORY(src/models_library)
 
 #SET(COMMON_SRC ../libraries_common/config_helpers.c ../libraries_common/config_helpers.h)
 
