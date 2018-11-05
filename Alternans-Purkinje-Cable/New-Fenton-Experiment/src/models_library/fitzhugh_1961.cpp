@@ -8,11 +8,8 @@ extern "C" GET_CELL_MODEL_DATA (get_cell_model_data)
 
 extern "C" SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu) 
 {
-    // Pass a control volume structure ...
-
-    //sv[0] = 0.000000f; //V millivolt 
-    //sv[1] = 0.000000f; //h dimensionless 
-    printf("[FitzHugh-Nagumo] Setting ode initial conditions\n");
+    y_0[0] = 0.000000f; //V millivolt 
+    y_0[1] = 0.000000f; //h dimensionless 
 }
 
 extern "C" SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) 

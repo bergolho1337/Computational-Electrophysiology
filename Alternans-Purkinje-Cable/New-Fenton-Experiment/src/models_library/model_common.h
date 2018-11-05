@@ -21,14 +21,11 @@ struct cell_model_data {
     char *model_library_path;
 };
 
-#define GET_SIMPLE_FUNCTION(name) EXPORT_FN void name ()
-typedef GET_SIMPLE_FUNCTION (get_simple_function_fn);
-
 #define GET_CELL_MODEL_DATA(name) EXPORT_FN void name (struct cell_model_data *cell_model)
 typedef GET_CELL_MODEL_DATA (get_cell_model_data_fn);
 
 // CPU FUNCTIONS
-#define SET_ODE_INITIAL_CONDITIONS_CPU(name) EXPORT_FN void name (real *sv)
+#define SET_ODE_INITIAL_CONDITIONS_CPU(name) EXPORT_FN void name (double *y_0)
 typedef SET_ODE_INITIAL_CONDITIONS_CPU (set_ode_initial_conditions_cpu_fn);
 
 #define SOLVE_MODEL_ODES_CPU(name)                                                                                     \

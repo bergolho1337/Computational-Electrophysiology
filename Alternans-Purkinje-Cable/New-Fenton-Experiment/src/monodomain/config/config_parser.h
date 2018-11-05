@@ -28,7 +28,7 @@ struct user_options
     bool use_steady_state;          
     uint32_t print_rate;	            	
     uint32_t sst_rate;	            	
-    std::string network_filename;
+    char* network_filename;
     std::string sst_filename;
     std::string plot_filename;
 

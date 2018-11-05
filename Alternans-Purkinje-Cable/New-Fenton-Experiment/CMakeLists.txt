@@ -57,7 +57,7 @@ ADD_SUBDIRECTORY(src/models_library)
 
 #SET(COMMON_SRC ../libraries_common/config_helpers.c ../libraries_common/config_helpers.h)
 
-#ADD_SUBDIRECTORY(src/stimuli_library)
+ADD_SUBDIRECTORY(src/stimuli_library)
 #ADD_SUBDIRECTORY(src/domains_library)
 #ADD_SUBDIRECTORY(src/purkinje_library)
 #ADD_SUBDIRECTORY(src/matrix_assembly_library)

@@ -14,6 +14,8 @@
 #include <cstdlib>
 #include <cassert>
 #include <cinttypes>
+
+#include "../grid/grid.h"
 //#include "../string/sds.h"
 
 
@@ -56,6 +58,7 @@ void configure_monodomain_solver_from_options (struct monodomain_solver *the_mon
     the_monodomain_solver->sigma_c = options->sigma_c;
     the_monodomain_solver->G_gap = options->G_gap;
     
+    the_monodomain_solver->M = nearbyint(options->final_time/options->dt);
     the_monodomain_solver->beta = 4.0 / options->start_diameter * 1.0e-04;
 
     configure_plot_cells(the_monodomain_solver,options);
@@ -103,40 +106,156 @@ void solve_monodomain(struct monodomain_solver *the_monodomain_solver,
 
     // Main configuration
     set_celular_model(the_monodomain_solver,configs);
+    set_control_volumes(the_monodomain_solver,the_grid);
+    set_derivative(the_monodomain_solver,the_grid);
+    set_velocity_points(the_monodomain_solver,the_grid);
+    set_plot_points(the_monodomain_solver);
+
+    // Get a reference of the stimulus
+    struct stim_config_hash *stimuli_configs = configs->stim_configs;
+
+    double last_stimulus_time = -1.0;
+
+    if (stimuli_configs) 
+    {
+        // Init all stimuli
+        STIM_CONFIG_HASH_FOR_EACH_KEY_APPLY_FN_IN_VALUE_AND_KEY (stimuli_configs, init_stim_functions);
+
+        //Find last stimuli
+        size_t s_size = stimuli_configs->size;
+        double s_end;
+        for (int i = 0; i < s_size; i++) 
+        {
+            for (struct stim_config_elt *e = stimuli_configs->table[i % s_size]; e != 0; e = e->next) 
+            {
+                s_end = e->value->stim_start + e->value->stim_duration;
+                if(s_end > last_stimulus_time) last_stimulus_time = s_end;
+            }
+        }
+    }
+
+    if (the_monodomain_solver->use_steady_state)
+        set_initial_conditions_from_file(the_monodomain_solver,configs);
+    else
+        set_initial_conditions_default(the_monodomain_solver);
+
+    // Print out information about the simulation to be solved
+    print_solver_info (the_monodomain_solver, the_grid, configs);
+
+
 }
 
-void set_celular_model (struct monodomain_solver *solver, 
-                        struct user_options *configs)
+void set_initial_conditions_from_file (struct monodomain_solver *solver, struct user_options *options)
 {
-    void *handle = dlopen (configs->model_file_path.c_str(), RTLD_LAZY);
-    if (!handle) 
-    {
-        fprintf(stderr, "%s\n", dlerror());
-        exit(EXIT_FAILURE);
-    }
-    char *error;
-    solver->get_cell_model_data = (get_cell_model_data_fn*)dlsym(handle,"get_cell_model_data");
-    if ((error = dlerror()) != NULL)  
-    {
-        fprintf(stderr, "%s\n", error);
-        fprintf(stderr, "'get_cell_model_data' not found in the provided model library\n");
-        exit(EXIT_FAILURE);
-    }
+    std::cout << "[Solver] Setting initial conditions from SST file: " << options->sst_filename << std::endl;
     
-    solver->set_ode_initial_conditions_cpu = (set_ode_initial_conditions_cpu_fn*)dlsym(handle,"set_model_initial_conditions_cpu");
-    if ((error = dlerror()) != NULL)  
+    // Initialize the solver with the 'initial_v' and 'number_quations' from the celular model
+    (*(solver->get_cell_model_data))(&(solver->model_data));
+    int n_odes = solver->model_data.number_of_ode_equations;
+
+    FILE *sst_file = fopen(options->sst_filename.c_str(),"r");
+    if (!sst_file)
     {
-        fprintf(stderr, "%s\n", error);
-        fprintf(stderr, "'set_ode_initial_conditions_cpu' not found in the provided model library\n");
+        cerr << "[-] ERROR! Could not open SST file!" << endl;
         exit(EXIT_FAILURE);
     }
 
-    solver->solve_model_ode_cpu = (solve_model_ode_cpu_fn*)dlsym(handle,"solve_model_odes_cpu");
-    if ((error = dlerror()) != NULL)  
+    int np = solver->num_volumes;
+    // Iterate over all the control volumes
+    for (int i = 0; i < np; i++)
     {
-        fprintf(stderr, "%s\n", error);
-        fprintf(stderr, "'solve_model_ode_cpu' not found in the provided model library\n");
-        exit(EXIT_FAILURE);
+        // Iterate over all the ODEs equations
+        for (int j = 0; j < n_odes; j++)
+        {
+            if (!fscanf(sst_file,"%lf",&solver->volumes[i].y_old[j]))
+            {
+                cerr << "[-] ERROR! Could not open SST file!" << endl;
+                exit(EXIT_FAILURE); 
+            }
+        }
+    }
+    fclose(sst_file);
+}
+
+void set_initial_conditions_default (struct monodomain_solver *solver)
+{
+    std::cout << "[Solver] Setting default initial conditions" << std::endl;
+
+    // Initialize the solver with the 'initial_v' and 'number_quations' from the celular model
+    (*(solver->get_cell_model_data))(&(solver->model_data));
+    int n_odes = solver->model_data.number_of_ode_equations;
+
+    set_ode_initial_conditions_cpu_fn *soicc_fn_pt = solver->set_ode_initial_conditions_cpu;
+
+    if(!soicc_fn_pt) 
+    {
+        fprintf(stderr, "The ode solver was set to use the CPU, \n "
+                "but no function called set_model_initial_conditions_cpu "
+                "was provided in the %s shared library file\n", solver->model_data.model_library_path);
+        exit(11);
+    }
+    //#pragma omp parallel for
+    for(int i = 0; i < solver->num_volumes; i++) 
+    {
+        soicc_fn_pt(solver->volumes[i].y_old);
+    }
+}
+
+void print_solver_info (struct monodomain_solver *the_monodomain_solver,\
+                        struct grid *the_grid,\
+                        struct user_options *configs)
+{
+    std::cout << "////////////////////////////////////////////////////////////////" << std::endl;
+    std::cout << "number of threads = " << the_monodomain_solver->num_threads << std::endl;
+    std::cout << "dt = " << the_monodomain_solver->dt << std::endl;
+    std::cout << "tmax = " << the_monodomain_solver->final_time << std::endl;
+    std::cout << "number of timesteps = " << the_monodomain_solver->M << std::endl;
+    std::cout << "dx = " << the_grid->dx << std::endl;
+    std::cout << "network_filename = " << configs->network_filename << std::endl;
+    std::cout << "steady_state_filename = " << configs->sst_filename << std::endl;
+    std::cout << "plot_filename = " << configs->plot_filename << std::endl;
+    std::cout << "print_rate = " << configs->print_rate << std::endl;
+    std::cout << "sst_rate = " << configs->sst_rate << std::endl;
+    std::cout << "diameter = " << configs->start_diameter << std::endl;
+    std::cout << "beta = " << the_monodomain_solver->beta << std::endl;
+    std::cout << "Cm = " << the_monodomain_solver->cm << std::endl;
+    std::cout << "sigma_c = " << the_monodomain_solver->sigma_c << std::endl;
+    std::cout << "G_gap = " << the_monodomain_solver->G_gap << std::endl;
+    std::cout << "////////////////////////////////////////////////////////////////" << std::endl;
+    
+    if (configs->stim_configs) 
+    {
+
+        if (configs->stim_configs->size == 1)
+            std::cout << "Stimulus configuration:" << std::endl;
+        else
+            std::cout << "Stimuli configuration:" << std::endl;
+
+        for (int i = 0; i < configs->stim_configs->size; i++) 
+        {
+            for (struct stim_config_elt *e = configs->stim_configs->table[i % configs->stim_configs->size]; e != 0;
+                 e = e->next) 
+            {
+
+                std::cout << "Stimulus name: " << e->key << std::endl;
+                std::cout << "Stimulus start: " << e->value->stim_start << std::endl;
+                std::cout << "Stimulus duration: " << e->value->stim_duration << std::endl;
+                std::cout << "Stimulus current: " << e->value->stim_current << std::endl;
+                std::cout << "Stimulus start period: " << e->value->start_period << std::endl;
+                std::cout << "Stimulus end period: " << e->value->end_period << std::endl;
+                std::cout << "Stimulus period step: " << e->value->period_step << std::endl;
+                std::cout << "Stimulus function: " << e->value->config_data.function_name << std::endl;
+                std::cout << "Number of cycles: " << e->value->n_cycles << std::endl;
+                struct string_hash *tmp = e->value->config_data.config;
+                if (tmp->n == 1) 
+                    std::cout << "Stimulus extra parameter:" << std::endl;
+                else if (tmp->n > 1) 
+                    std::cout << "Stimulus extra parameters:" << std::endl;
+
+                STRING_HASH_PRINT_KEY_VALUE_LOG (tmp);
+
+            }
+        }
     }
 }
 

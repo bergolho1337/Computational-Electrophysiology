@@ -11,7 +11,7 @@ struct grid* new_grid()
 
 void configure_grid_from_options (struct grid *the_grid, struct user_options *options)
 {
-    std::string network_filename = options->network_filename;
+    char* network_filename = options->network_filename;
 
     the_grid->dx = options->start_h / options->num_div_cell;
 

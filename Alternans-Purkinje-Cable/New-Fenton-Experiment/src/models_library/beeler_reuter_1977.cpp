@@ -8,22 +8,20 @@ extern "C" GET_CELL_MODEL_DATA(get_cell_model_data)
 
 extern "C" SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu) 
 {
-    /*
-    sv[0] = -84.624;        // V
-    sv[1] = 0.011;          // m
-    sv[2] = 0.988;          // h
-    sv[3] = 0.975;          // j
-    sv[4] = 1e-4;           // Cai
-    sv[5] = 0.003;          // d
-    sv[6] = 0.994;          // f
-    sv[7] = 0.0001;         // x1
-    */
-   printf("[Beeler-Reuter] Setting ode initial conditions\n");
+    y_0[0] = -84.624;        // V
+    y_0[1] = 0.011;          // m
+    y_0[2] = 0.988;          // h
+    y_0[3] = 0.975;          // j
+    y_0[4] = 1e-4;           // Cai
+    y_0[5] = 0.003;          // d
+    y_0[6] = 0.994;          // f
+    y_0[7] = 0.0001;         // x1
 }
 
-/*
-SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) {
+extern "C" SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) 
+{
 
+/*
     uint32_t sv_id;
 
 	int i;
@@ -42,6 +40,7 @@ SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) {
 
         }
     }
+*/
 }
 
 void solve_model_ode_cpu(real dt, real *sv, real stim_current)  {
@@ -115,4 +114,3 @@ void RHS_cpu(const real *sv, real *rDY_, real stim_current) {
     rDY_[7] = alpha_x1*(1.00000 - x1_old_) -  beta_x1*x1_old_;
 
 }
-*/

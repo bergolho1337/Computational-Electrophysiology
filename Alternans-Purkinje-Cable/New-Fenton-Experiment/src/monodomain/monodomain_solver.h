@@ -7,9 +7,10 @@
 
 //#include "../alg/grid/grid.h"
 //#include "ode_solver.h"
-//#include "config/stim_config_hash.h"
 //#include "config/extra_data_config.h"
+#include "config/stim_config_hash.h"
 #include "config/config_parser.h"
+#include "config/config_helper.h"
 
 #include <cstdbool>
 #include <cstdint>
@@ -25,24 +26,53 @@ struct plot
   int *ids;                                   // Identifier of the plot volume
 };
 
+struct control_volume
+{
+  double *y_old;
+  double *y_star;
+  double *y_new;
+};
+
+struct derivative
+{
+  double t;                                   // Time of the maximum derivative
+  double value;                               // Derivative value
+};
+
+struct velocity
+{
+  FILE *velocity_file;                         // Reference to the file where the velocity will be stored
+  int np;                                     // Number of volumes that the velocity will be calculated
+  int id_source;                              // Identifier of the source volume
+  int *ids;                                   // Identifier of the sink points (ids[0] -> source) 
+  double t1;                                  // Time when the despolarization occur on the source volume 
+  double *t2;                                 // Time when the despolarization occur on the sink volumes
+};
+
+
 struct monodomain_solver 
 {
 
     bool use_steady_state;
     int num_threads;
-    double final_time;
 
     double beta, cm; // micrometers
     double sigma_c;
     double G_gap;
 
     double dt;
+    double final_time;
+    int M;
 
     double start_h;
     double start_diameter;
 
+    int num_volumes;
 
     struct plot *plot;
+    struct derivative *dvdt;
+    struct velocity *vel;
+    struct control_volume *volumes;
 
     void *handle;
     struct cell_model_data model_data;
@@ -65,7 +95,11 @@ void configure_plot_cells (struct monodomain_solver *the_monodomain_solver,
 void solve_monodomain(struct monodomain_solver *the_monodomain_solver,
                       struct grid *the_grid, struct user_options *configs);
 
-void set_celular_model (struct monodomain_solver *solver, 
+void set_initial_conditions_from_file (struct monodomain_solver *solver, struct user_options *options);
+void set_initial_conditions_default (struct monodomain_solver *solver);
+
+void print_solver_info (struct monodomain_solver *the_monodomain_solver,\
+                        struct grid *the_grid,\
                         struct user_options *configs);
 /*
 void save_old_cell_positions (struct grid *the_grid);

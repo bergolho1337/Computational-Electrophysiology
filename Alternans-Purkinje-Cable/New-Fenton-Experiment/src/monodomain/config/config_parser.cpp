@@ -85,7 +85,7 @@ int parse_config_file (void *user, const char *section, const char *name, const 
     } 
     else if (MATCH_SECTION_AND_NAME (MAIN_SECTION, "network_filename")) 
     {
-        pconfig->network_filename = value;
+        pconfig->network_filename = strdup(value);
     } 
     else if (MATCH_SECTION_AND_NAME (MAIN_SECTION, "sst_filename")) 
     {

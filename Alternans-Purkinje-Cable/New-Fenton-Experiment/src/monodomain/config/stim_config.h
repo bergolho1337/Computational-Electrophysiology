@@ -5,18 +5,16 @@
 #ifndef MONOALG3D_STIM_CONFIG_H
 #define MONOALG3D_STIM_CONFIG_H
 
-//#include "../../alg/grid/grid.h"
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 #include "../constants.h"
 #include "config_common.h"
+#include "../../grid/grid.h"
 
 struct stim_config;
 
-//#define SET_SPATIAL_STIM(name) EXPORT_FN void name(struct stim_config *config, struct grid *the_grid)
-//typedef SET_SPATIAL_STIM(set_spatial_stim_fn);
-
-#define SET_SPATIAL_STIM(name) EXPORT_FN void name(struct stim_config *config)
+#define SET_SPATIAL_STIM(name) EXPORT_FN void name(struct stim_config *config, struct grid *the_grid)
 typedef SET_SPATIAL_STIM(set_spatial_stim_fn);
 
 struct stim_config {
