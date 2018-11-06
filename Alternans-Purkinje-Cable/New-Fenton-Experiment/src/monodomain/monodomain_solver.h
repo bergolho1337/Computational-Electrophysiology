@@ -16,6 +16,9 @@
 #include <cstdint>
 #include <dlfcn.h>
 
+#include <Eigen/Sparse>
+#include <vector>
+
 #include "../models_library/model_common.h"
 
 // Structure for the ploting of the volumes
@@ -24,13 +27,6 @@ struct plot
   FILE **plotFile;                            // Reference to the file of the plot volume
   int np;                                     // Number of plot volumes
   int *ids;                                   // Identifier of the plot volume
-};
-
-struct control_volume
-{
-  double *y_old;
-  double *y_star;
-  double *y_new;
 };
 
 struct derivative
@@ -98,9 +94,39 @@ void solve_monodomain(struct monodomain_solver *the_monodomain_solver,
 void set_initial_conditions_from_file (struct monodomain_solver *solver, struct user_options *options);
 void set_initial_conditions_default (struct monodomain_solver *solver);
 
+void set_matrix (Eigen::SparseMatrix<double> &a,\
+                struct monodomain_solver *solver,\
+                struct grid *the_grid);
+void assemble_load_vector (Eigen::VectorXd &b,\
+                            struct monodomain_solver *solver,\
+                            struct grid *the_grid);
+void move_v_star (const Eigen::VectorXd vm,\
+                    struct monodomain_solver *solver);
+
+void set_spatial_stim(struct stim_config_hash *stim_configs,\
+                      struct grid *the_grid);
+
+void solve_odes (const double t,\
+                 struct monodomain_solver *solver,
+                 struct stim_config_hash *stim_configs);
+
+double* merge_stimulus (struct stim_config_hash *stim_configs,\
+                    const int np, const double cur_time);
+
+void next_timestep (struct monodomain_solver *solver);
+void swap (double **a, double **b);
+
 void print_solver_info (struct monodomain_solver *the_monodomain_solver,\
                         struct grid *the_grid,\
                         struct user_options *configs);
+void print_progress (int iter, int max_iter);
+
+void write_plot_data (struct monodomain_solver *solver, double t);
+void write_steady_state_to_file (FILE *sst_file,\
+                                struct monodomain_solver *solver);
+void write_VTK_to_file (struct monodomain_solver *solver,\
+                        struct grid *the_grid, int iter);
+
 /*
 void save_old_cell_positions (struct grid *the_grid);
 void update_cells_to_solve (struct grid *the_grid, struct ode_solver *solver);

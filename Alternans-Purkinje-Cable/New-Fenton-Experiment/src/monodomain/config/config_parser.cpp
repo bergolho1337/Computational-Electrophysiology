@@ -89,11 +89,11 @@ int parse_config_file (void *user, const char *section, const char *name, const 
     } 
     else if (MATCH_SECTION_AND_NAME (MAIN_SECTION, "sst_filename")) 
     {
-        pconfig->sst_filename = value;
+        pconfig->sst_filename = strdup(value);
     }
     else if (MATCH_SECTION_AND_NAME (MAIN_SECTION, "plot_filename")) 
     {
-        pconfig->plot_filename = value;
+        pconfig->plot_filename = strdup(value);
     }
 
     else if (MATCH_SECTION_AND_NAME (CELL_SECTION, "start_h")) 
@@ -118,7 +118,7 @@ int parse_config_file (void *user, const char *section, const char *name, const 
     }
     else if (MATCH_SECTION_AND_NAME (CELL_SECTION, "library_file")) 
     {
-        pconfig->model_file_path = value;
+        pconfig->model_file_path = strdup(value);
     }
 
     else if(SECTION_STARTS_WITH(STIM_SECTION)) 
@@ -141,17 +141,17 @@ int parse_config_file (void *user, const char *section, const char *name, const 
 
         if(MATCH_NAME("stim_start")) 
         {
-            tmp->stim_start = (real)strtod(value, NULL);
+            tmp->stim_start = (double)strtod(value, NULL);
             tmp->stim_start_was_set = true;
         } 
         else if(MATCH_NAME("stim_duration")) 
         {
-            tmp->stim_duration = (real)strtod(value, NULL);
+            tmp->stim_duration = (double)strtod(value, NULL);
             tmp->stim_duration_was_set = true;
         }
         else if(MATCH_NAME("stim_current")) 
         {
-            tmp->stim_current = (real)strtod(value, NULL);
+            tmp->stim_current = (double)strtod(value, NULL);
             tmp->stim_current_was_set = true;
         }
         else if(MATCH_NAME("n_cycles")) 
@@ -161,17 +161,17 @@ int parse_config_file (void *user, const char *section, const char *name, const 
         }
         else if(MATCH_NAME("start_period")) 
         {
-            tmp->start_period = (real)strtod(value, NULL);
+            tmp->start_period = (double)strtod(value, NULL);
             tmp->start_period_was_set = true;
         }
         else if(MATCH_NAME("end_period")) 
         {
-            tmp->end_period = (real)strtod(value, NULL);
+            tmp->end_period = (double)strtod(value, NULL);
             tmp->end_period_was_set = true;
         }   
         else if(MATCH_NAME("period_step")) 
         {
-            tmp->period_step = (real)strtod(value, NULL);
+            tmp->period_step = (double)strtod(value, NULL);
             tmp->period_step_was_set = true;
         }
         else if(MATCH_NAME("function")) 

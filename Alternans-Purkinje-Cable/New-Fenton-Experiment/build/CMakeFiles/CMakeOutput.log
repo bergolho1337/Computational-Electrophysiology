@@ -1,0 +1,913 @@
+The system is: Linux - 4.17.6-200.fc28.x86_64 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /usr/bin/gcc53 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/3.11.2/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /usr/bin/g++53 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/3.11.2/CompilerIdCXX/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_02d2d/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_02d2d.dir/build.make CMakeFiles/cmTC_02d2d.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_02d2d.dir/testCCompiler.c.o
+/usr/bin/gcc53    -o CMakeFiles/cmTC_02d2d.dir/testCCompiler.c.o   -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_02d2d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_02d2d.dir/link.txt --verbose=1
+/usr/bin/gcc53      -rdynamic CMakeFiles/cmTC_02d2d.dir/testCCompiler.c.o  -o cmTC_02d2d 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_1cf7b/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_1cf7b.dir/build.make CMakeFiles/cmTC_1cf7b.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_1cf7b.dir/CMakeCCompilerABI.c.o
+/usr/bin/gcc53    -o CMakeFiles/cmTC_1cf7b.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_1cf7b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1cf7b.dir/link.txt --verbose=1
+/usr/bin/gcc53     -v -rdynamic CMakeFiles/cmTC_1cf7b.dir/CMakeCCompilerABI.c.o  -o cmTC_1cf7b 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/gcc53
+COLLECT_LTO_WRAPPER=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/lto-wrapper
+Target: x86_64-unknown-linux-gnu
+Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared
+Thread model: posix
+gcc version 5.3.0 (GCC) 
+COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/
+LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_1cf7b' '-mtune=generic' '-march=x86-64'
+ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2 --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_1cf7b /lib/../lib64/crt1.o /lib/../lib64/crti.o /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../.. CMakeFiles/cmTC_1cf7b.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o /lib/../lib64/crtn.o
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_1cf7b/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_1cf7b.dir/build.make CMakeFiles/cmTC_1cf7b.dir/build]
+  ignore line: [gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_1cf7b.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/gcc53    -o CMakeFiles/cmTC_1cf7b.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_1cf7b]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1cf7b.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/gcc53     -v -rdynamic CMakeFiles/cmTC_1cf7b.dir/CMakeCCompilerABI.c.o  -o cmTC_1cf7b ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/gcc53]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/lto-wrapper]
+  ignore line: [Target: x86_64-unknown-linux-gnu]
+  ignore line: [Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 5.3.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_1cf7b' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2 --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_1cf7b /lib/../lib64/crt1.o /lib/../lib64/crti.o /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../.. CMakeFiles/cmTC_1cf7b.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o /lib/../lib64/crtn.o]
+    arg [/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_1cf7b] ==> ignore
+    arg [/lib/../lib64/crt1.o] ==> ignore
+    arg [/lib/../lib64/crti.o] ==> ignore
+    arg [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o] ==> ignore
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0]
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64]
+    arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+    arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..]
+    arg [CMakeFiles/cmTC_1cf7b.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o] ==> ignore
+    arg [/lib/../lib64/crtn.o] ==> ignore
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0] ==> [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0]
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64] ==> [/usr/local/gcc53/lib64]
+  collapse library dir [/lib/../lib64] ==> [/lib64]
+  collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..] ==> [/usr/local/gcc53/lib]
+  implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+  implicit dirs: [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0;/usr/local/gcc53/lib64;/lib64;/usr/lib64;/usr/local/gcc53/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_e7c6d/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_e7c6d.dir/build.make CMakeFiles/cmTC_e7c6d.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e7c6d.dir/feature_tests.c.o
+/usr/bin/gcc53   -std=c11 -o CMakeFiles/cmTC_e7c6d.dir/feature_tests.c.o   -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_e7c6d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e7c6d.dir/link.txt --verbose=1
+/usr/bin/gcc53      -rdynamic CMakeFiles/cmTC_e7c6d.dir/feature_tests.c.o  -o cmTC_e7c6d 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_23aed/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_23aed.dir/build.make CMakeFiles/cmTC_23aed.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_23aed.dir/feature_tests.c.o
+/usr/bin/gcc53   -std=c99 -o CMakeFiles/cmTC_23aed.dir/feature_tests.c.o   -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_23aed
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_23aed.dir/link.txt --verbose=1
+/usr/bin/gcc53      -rdynamic CMakeFiles/cmTC_23aed.dir/feature_tests.c.o  -o cmTC_23aed 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_30d42/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_30d42.dir/build.make CMakeFiles/cmTC_30d42.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_30d42.dir/feature_tests.c.o
+/usr/bin/gcc53   -std=c90 -o CMakeFiles/cmTC_30d42.dir/feature_tests.c.o   -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_30d42
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30d42.dir/link.txt --verbose=1
+/usr/bin/gcc53      -rdynamic CMakeFiles/cmTC_30d42.dir/feature_tests.c.o  -o cmTC_30d42 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_bd8ab/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_bd8ab.dir/build.make CMakeFiles/cmTC_bd8ab.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_bd8ab.dir/testCXXCompiler.cxx.o
+/usr/bin/g++53     -o CMakeFiles/cmTC_bd8ab.dir/testCXXCompiler.cxx.o -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_bd8ab
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bd8ab.dir/link.txt --verbose=1
+/usr/bin/g++53       -rdynamic CMakeFiles/cmTC_bd8ab.dir/testCXXCompiler.cxx.o  -o cmTC_bd8ab 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_b509b/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_b509b.dir/build.make CMakeFiles/cmTC_b509b.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_b509b.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/g++53     -o CMakeFiles/cmTC_b509b.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_b509b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b509b.dir/link.txt --verbose=1
+/usr/bin/g++53      -v -rdynamic CMakeFiles/cmTC_b509b.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_b509b 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/g++53
+COLLECT_LTO_WRAPPER=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/lto-wrapper
+Target: x86_64-unknown-linux-gnu
+Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared
+Thread model: posix
+gcc version 5.3.0 (GCC) 
+COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/
+LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_b509b' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2 --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_b509b /lib/../lib64/crt1.o /lib/../lib64/crti.o /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../.. CMakeFiles/cmTC_b509b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o /lib/../lib64/crtn.o
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_b509b/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_b509b.dir/build.make CMakeFiles/cmTC_b509b.dir/build]
+  ignore line: [gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_b509b.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/g++53     -o CMakeFiles/cmTC_b509b.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_b509b]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b509b.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/g++53      -v -rdynamic CMakeFiles/cmTC_b509b.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_b509b ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/g++53]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/lto-wrapper]
+  ignore line: [Target: x86_64-unknown-linux-gnu]
+  ignore line: [Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 5.3.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_b509b' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2 --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_b509b /lib/../lib64/crt1.o /lib/../lib64/crti.o /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../.. CMakeFiles/cmTC_b509b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o /lib/../lib64/crtn.o]
+    arg [/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_b509b] ==> ignore
+    arg [/lib/../lib64/crt1.o] ==> ignore
+    arg [/lib/../lib64/crti.o] ==> ignore
+    arg [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o] ==> ignore
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0]
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64]
+    arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+    arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..]
+    arg [CMakeFiles/cmTC_b509b.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o] ==> ignore
+    arg [/lib/../lib64/crtn.o] ==> ignore
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0] ==> [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0]
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64] ==> [/usr/local/gcc53/lib64]
+  collapse library dir [/lib/../lib64] ==> [/lib64]
+  collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..] ==> [/usr/local/gcc53/lib]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit dirs: [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0;/usr/local/gcc53/lib64;/lib64;/usr/lib64;/usr/local/gcc53/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++1z] compiler features compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_6fac4/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_6fac4.dir/build.make CMakeFiles/cmTC_6fac4.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_6fac4.dir/feature_tests.cxx.o
+/usr/bin/g++53    -std=c++1z -o CMakeFiles/cmTC_6fac4.dir/feature_tests.cxx.o -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_6fac4
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6fac4.dir/link.txt --verbose=1
+/usr/bin/g++53       -rdynamic CMakeFiles/cmTC_6fac4.dir/feature_tests.cxx.o  -o cmTC_6fac4 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_fea34/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_fea34.dir/build.make CMakeFiles/cmTC_fea34.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_fea34.dir/feature_tests.cxx.o
+/usr/bin/g++53    -std=c++14 -o CMakeFiles/cmTC_fea34.dir/feature_tests.cxx.o -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_fea34
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fea34.dir/link.txt --verbose=1
+/usr/bin/g++53       -rdynamic CMakeFiles/cmTC_fea34.dir/feature_tests.cxx.o  -o cmTC_fea34 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++11] compiler features compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_de685/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_de685.dir/build.make CMakeFiles/cmTC_de685.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_de685.dir/feature_tests.cxx.o
+/usr/bin/g++53    -std=c++11 -o CMakeFiles/cmTC_de685.dir/feature_tests.cxx.o -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_de685
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_de685.dir/link.txt --verbose=1
+/usr/bin/g++53       -rdynamic CMakeFiles/cmTC_de685.dir/feature_tests.cxx.o  -o cmTC_de685 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_e13bc/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_e13bc.dir/build.make CMakeFiles/cmTC_e13bc.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e13bc.dir/feature_tests.cxx.o
+/usr/bin/g++53    -std=c++98 -o CMakeFiles/cmTC_e13bc.dir/feature_tests.cxx.o -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_e13bc
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e13bc.dir/link.txt --verbose=1
+/usr/bin/g++53       -rdynamic CMakeFiles/cmTC_e13bc.dir/feature_tests.cxx.o  -o cmTC_e13bc 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates
+Detecting C OpenMP compiler ABI info compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_f77fe/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_f77fe.dir/build.make CMakeFiles/cmTC_f77fe.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o
+/usr/bin/gcc53   -fopenmp -v   -o CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o   -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c
+Using built-in specs.
+COLLECT_GCC=/usr/bin/gcc53
+Target: x86_64-unknown-linux-gnu
+Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared
+Thread model: posix
+gcc version 5.3.0 (GCC) 
+COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o' '-c' '-mtune=generic' '-march=x86-64' '-pthread'
+ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/cc1 -quiet -v -D_REENTRANT /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c -quiet -dumpbase OpenMPTryFlag.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o -version -fopenmp -o /tmp/cc88XBV0.s
+GNU C11 (GCC) version 5.3.0 (x86_64-unknown-linux-gnu)
+	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.3, MPC version 1.0.3
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../x86_64-unknown-linux-gnu/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include
+ /usr/local/include
+ /usr/local/gcc53/include
+ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include-fixed
+ /usr/include
+End of search list.
+GNU C11 (GCC) version 5.3.0 (x86_64-unknown-linux-gnu)
+	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.3, MPC version 1.0.3
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: c9ce9c1f2152fb45ad5f6c177ecd8f81
+COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o' '-c' '-mtune=generic' '-march=x86-64' '-pthread'
+ as -v --64 -o CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o /tmp/cc88XBV0.s
+GNU assembler version 2.29.1 (x86_64-redhat-linux) using BFD version version 2.29.1-23.fc28
+COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/
+LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o' '-c' '-mtune=generic' '-march=x86-64' '-pthread'
+Linking C executable cmTC_f77fe
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f77fe.dir/link.txt --verbose=1
+/usr/bin/gcc53  -fopenmp -v    -rdynamic CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o  -o cmTC_f77fe -v 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/gcc53
+COLLECT_LTO_WRAPPER=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/lto-wrapper
+Target: x86_64-unknown-linux-gnu
+Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared
+Thread model: posix
+gcc version 5.3.0 (GCC) 
+COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/
+LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/
+Reading specs from /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/libgomp.spec
+COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-rdynamic' '-o' 'cmTC_f77fe' '-v' '-mtune=generic' '-march=x86-64' '-pthread'
+ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2 --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_f77fe /lib/../lib64/crt1.o /lib/../lib64/crti.o /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../.. CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o -lgomp -lgcc --as-needed -lgcc_s --no-as-needed -lpthread -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o /lib/../lib64/crtn.o
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+Parsed C OpenMP implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_f77fe/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_f77fe.dir/build.make CMakeFiles/cmTC_f77fe.dir/build]
+  ignore line: [gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o]
+  ignore line: [/usr/bin/gcc53   -fopenmp -v   -o CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o   -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/gcc53]
+  ignore line: [Target: x86_64-unknown-linux-gnu]
+  ignore line: [Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 5.3.0 (GCC) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o' '-c' '-mtune=generic' '-march=x86-64' '-pthread']
+  ignore line: [ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/cc1 -quiet -v -D_REENTRANT /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.c -quiet -dumpbase OpenMPTryFlag.c -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o -version -fopenmp -o /tmp/cc88XBV0.s]
+  ignore line: [GNU C11 (GCC) version 5.3.0 (x86_64-unknown-linux-gnu)]
+  ignore line: [	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.3, MPC version 1.0.3]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring nonexistent directory "/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../x86_64-unknown-linux-gnu/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include]
+  ignore line: [ /usr/local/include]
+  ignore line: [ /usr/local/gcc53/include]
+  ignore line: [ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include-fixed]
+  ignore line: [ /usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C11 (GCC) version 5.3.0 (x86_64-unknown-linux-gnu)]
+  ignore line: [	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.3, MPC version 1.0.3]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: c9ce9c1f2152fb45ad5f6c177ecd8f81]
+  ignore line: [COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o' '-c' '-mtune=generic' '-march=x86-64' '-pthread']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o /tmp/cc88XBV0.s]
+  ignore line: [GNU assembler version 2.29.1 (x86_64-redhat-linux) using BFD version version 2.29.1-23.fc28]
+  ignore line: [COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o' '-c' '-mtune=generic' '-march=x86-64' '-pthread']
+  ignore line: [Linking C executable cmTC_f77fe]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f77fe.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/gcc53  -fopenmp -v    -rdynamic CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o  -o cmTC_f77fe -v ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/gcc53]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/lto-wrapper]
+  ignore line: [Target: x86_64-unknown-linux-gnu]
+  ignore line: [Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 5.3.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/]
+  ignore line: [Reading specs from /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/libgomp.spec]
+  ignore line: [COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-rdynamic' '-o' 'cmTC_f77fe' '-v' '-mtune=generic' '-march=x86-64' '-pthread']
+  link line: [ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2 --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_f77fe /lib/../lib64/crt1.o /lib/../lib64/crti.o /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../.. CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o -lgomp -lgcc --as-needed -lgcc_s --no-as-needed -lpthread -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o /lib/../lib64/crtn.o]
+    arg [/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_f77fe] ==> ignore
+    arg [/lib/../lib64/crt1.o] ==> ignore
+    arg [/lib/../lib64/crti.o] ==> ignore
+    arg [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o] ==> ignore
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0]
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64]
+    arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+    arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..]
+    arg [CMakeFiles/cmTC_f77fe.dir/OpenMPTryFlag.c.o] ==> ignore
+    arg [-lgomp] ==> lib [gomp]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [-lpthread] ==> lib [pthread]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o] ==> ignore
+    arg [/lib/../lib64/crtn.o] ==> ignore
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0] ==> [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0]
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64] ==> [/usr/local/gcc53/lib64]
+  collapse library dir [/lib/../lib64] ==> [/lib64]
+  collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..] ==> [/usr/local/gcc53/lib]
+  implicit libs: [gomp;gcc;gcc_s;pthread;c;gcc;gcc_s]
+  implicit dirs: [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0;/usr/local/gcc53/lib64;/lib64;/usr/lib64;/usr/local/gcc53/lib]
+  implicit fwks: []
+
+
+Detecting CXX OpenMP compiler ABI info compiled with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_6727f/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_6727f.dir/build.make CMakeFiles/cmTC_6727f.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o
+/usr/bin/g++53    -fno-strict-aliasing -Wall -Wno-unused-function -fopenmp -v   -o CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp
+Using built-in specs.
+COLLECT_GCC=/usr/bin/g++53
+Target: x86_64-unknown-linux-gnu
+Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared
+Thread model: posix
+gcc version 5.3.0 (GCC) 
+COLLECT_GCC_OPTIONS='-fno-strict-aliasing' '-Wall' '-Wno-unused-function' '-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread'
+ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/cc1plus -quiet -v -D_GNU_SOURCE -D_REENTRANT /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp -quiet -dumpbase OpenMPTryFlag.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o -Wall -Wno-unused-function -version -fno-strict-aliasing -fopenmp -o /tmp/cctSTRPc.s
+GNU C++ (GCC) version 5.3.0 (x86_64-unknown-linux-gnu)
+	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.3, MPC version 1.0.3
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring nonexistent directory "/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../x86_64-unknown-linux-gnu/include"
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../include/c++/5.3.0
+ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../include/c++/5.3.0/x86_64-unknown-linux-gnu
+ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../include/c++/5.3.0/backward
+ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include
+ /usr/local/include
+ /usr/local/gcc53/include
+ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include-fixed
+ /usr/include
+End of search list.
+GNU C++ (GCC) version 5.3.0 (x86_64-unknown-linux-gnu)
+	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.3, MPC version 1.0.3
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: e3438fb2df255950d9a2e8a19c299503
+COLLECT_GCC_OPTIONS='-fno-strict-aliasing' '-Wall' '-Wno-unused-function' '-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread'
+ as -v --64 -o CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o /tmp/cctSTRPc.s
+GNU assembler version 2.29.1 (x86_64-redhat-linux) using BFD version version 2.29.1-23.fc28
+COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/
+LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/
+COLLECT_GCC_OPTIONS='-fno-strict-aliasing' '-Wall' '-Wno-unused-function' '-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread'
+Linking CXX executable cmTC_6727f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6727f.dir/link.txt --verbose=1
+/usr/bin/g++53   -fno-strict-aliasing -Wall -Wno-unused-function -fopenmp -v    -rdynamic CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o  -o cmTC_6727f -v 
+Using built-in specs.
+COLLECT_GCC=/usr/bin/g++53
+COLLECT_LTO_WRAPPER=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/lto-wrapper
+Target: x86_64-unknown-linux-gnu
+Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared
+Thread model: posix
+gcc version 5.3.0 (GCC) 
+COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/
+LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/
+Reading specs from /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/libgomp.spec
+COLLECT_GCC_OPTIONS='-fno-strict-aliasing' '-Wall' '-Wno-unused-function' '-fopenmp' '-v' '-rdynamic' '-o' 'cmTC_6727f' '-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread'
+ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2 --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_6727f /lib/../lib64/crt1.o /lib/../lib64/crti.o /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../.. CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o -lstdc++ -lm -lgomp -lgcc_s -lgcc -lpthread -lc -lgcc_s -lgcc /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o /lib/../lib64/crtn.o
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX OpenMP implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/gmake" "cmTC_6727f/fast"]
+  ignore line: [/usr/bin/gmake -f CMakeFiles/cmTC_6727f.dir/build.make CMakeFiles/cmTC_6727f.dir/build]
+  ignore line: [gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o]
+  ignore line: [/usr/bin/g++53    -fno-strict-aliasing -Wall -Wno-unused-function -fopenmp -v   -o CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/g++53]
+  ignore line: [Target: x86_64-unknown-linux-gnu]
+  ignore line: [Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 5.3.0 (GCC) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-fno-strict-aliasing' '-Wall' '-Wno-unused-function' '-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread']
+  ignore line: [ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/cc1plus -quiet -v -D_GNU_SOURCE -D_REENTRANT /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp -quiet -dumpbase OpenMPTryFlag.cpp -mtune=generic -march=x86-64 -auxbase-strip CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o -Wall -Wno-unused-function -version -fno-strict-aliasing -fopenmp -o /tmp/cctSTRPc.s]
+  ignore line: [GNU C++ (GCC) version 5.3.0 (x86_64-unknown-linux-gnu)]
+  ignore line: [	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.3, MPC version 1.0.3]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring nonexistent directory "/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../x86_64-unknown-linux-gnu/include"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../include/c++/5.3.0]
+  ignore line: [ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../include/c++/5.3.0/x86_64-unknown-linux-gnu]
+  ignore line: [ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../include/c++/5.3.0/backward]
+  ignore line: [ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include]
+  ignore line: [ /usr/local/include]
+  ignore line: [ /usr/local/gcc53/include]
+  ignore line: [ /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/include-fixed]
+  ignore line: [ /usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++ (GCC) version 5.3.0 (x86_64-unknown-linux-gnu)]
+  ignore line: [	compiled by GNU C version 5.3.0, GMP version 6.1.0, MPFR version 3.1.3, MPC version 1.0.3]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: e3438fb2df255950d9a2e8a19c299503]
+  ignore line: [COLLECT_GCC_OPTIONS='-fno-strict-aliasing' '-Wall' '-Wno-unused-function' '-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread']
+  ignore line: [ as -v --64 -o CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o /tmp/cctSTRPc.s]
+  ignore line: [GNU assembler version 2.29.1 (x86_64-redhat-linux) using BFD version version 2.29.1-23.fc28]
+  ignore line: [COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-fno-strict-aliasing' '-Wall' '-Wno-unused-function' '-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread']
+  ignore line: [Linking CXX executable cmTC_6727f]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6727f.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/g++53   -fno-strict-aliasing -Wall -Wno-unused-function -fopenmp -v    -rdynamic CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o  -o cmTC_6727f -v ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/usr/bin/g++53]
+  ignore line: [COLLECT_LTO_WRAPPER=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/lto-wrapper]
+  ignore line: [Target: x86_64-unknown-linux-gnu]
+  ignore line: [Configured with: ../gcc-5.3.0/configure --prefix=/usr/local/gcc53 --program-suffix=53 --enable-languages=c,c++ --disable-libstdcxx-pch --disable-multilib --with-system-zlib --enable-static --enable-shared]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 5.3.0 (GCC) ]
+  ignore line: [COMPILER_PATH=/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/]
+  ignore line: [LIBRARY_PATH=/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../:/lib/:/usr/lib/]
+  ignore line: [Reading specs from /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64/libgomp.spec]
+  ignore line: [COLLECT_GCC_OPTIONS='-fno-strict-aliasing' '-Wall' '-Wno-unused-function' '-fopenmp' '-v' '-rdynamic' '-o' 'cmTC_6727f' '-v' '-shared-libgcc' '-mtune=generic' '-march=x86-64' '-pthread']
+  link line: [ /usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2 --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_6727f /lib/../lib64/crt1.o /lib/../lib64/crti.o /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../.. CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o -lstdc++ -lm -lgomp -lgcc_s -lgcc -lpthread -lc -lgcc_s -lgcc /usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o /lib/../lib64/crtn.o]
+    arg [/usr/local/gcc53/libexec/gcc/x86_64-unknown-linux-gnu/5.3.0/collect2] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-m] ==> ignore
+    arg [elf_x86_64] ==> ignore
+    arg [-export-dynamic] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_6727f] ==> ignore
+    arg [/lib/../lib64/crt1.o] ==> ignore
+    arg [/lib/../lib64/crti.o] ==> ignore
+    arg [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtbegin.o] ==> ignore
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0]
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64]
+    arg [-L/lib/../lib64] ==> dir [/lib/../lib64]
+    arg [-L/usr/lib/../lib64] ==> dir [/usr/lib/../lib64]
+    arg [-L/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..] ==> dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..]
+    arg [CMakeFiles/cmTC_6727f.dir/OpenMPTryFlag.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgomp] ==> lib [gomp]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lpthread] ==> lib [pthread]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/crtend.o] ==> ignore
+    arg [/lib/../lib64/crtn.o] ==> ignore
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0] ==> [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0]
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../../../lib64] ==> [/usr/local/gcc53/lib64]
+  collapse library dir [/lib/../lib64] ==> [/lib64]
+  collapse library dir [/usr/lib/../lib64] ==> [/usr/lib64]
+  collapse library dir [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0/../../..] ==> [/usr/local/gcc53/lib]
+  implicit libs: [stdc++;m;gomp;gcc_s;gcc;pthread;c;gcc_s;gcc]
+  implicit dirs: [/usr/local/gcc53/lib/gcc/x86_64-unknown-linux-gnu/5.3.0;/usr/local/gcc53/lib64;/lib64;/usr/lib64;/usr/local/gcc53/lib]
+  implicit fwks: []
+
+
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_5a11c/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_5a11c.dir/build.make CMakeFiles/cmTC_5a11c.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5a11c.dir/CheckIncludeFile.c.o
+/usr/bin/gcc53   -fPIC    -o CMakeFiles/cmTC_5a11c.dir/CheckIncludeFile.c.o   -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_5a11c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5a11c.dir/link.txt --verbose=1
+/usr/bin/gcc53 -fPIC     -rdynamic CMakeFiles/cmTC_5a11c.dir/CheckIncludeFile.c.o  -o cmTC_5a11c 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_fbd90/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_fbd90.dir/build.make CMakeFiles/cmTC_fbd90.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_fbd90.dir/CheckFunctionExists.c.o
+/usr/bin/gcc53   -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_fbd90.dir/CheckFunctionExists.c.o   -c /usr/share/cmake/Modules/CheckFunctionExists.c
+Linking C executable cmTC_fbd90
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fbd90.dir/link.txt --verbose=1
+/usr/bin/gcc53 -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_fbd90.dir/CheckFunctionExists.c.o  -o cmTC_fbd90 -lpthread 
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+
+

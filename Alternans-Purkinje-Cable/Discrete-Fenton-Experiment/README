@@ -1,0 +1,10 @@
+To get the original simulation just rename the folders
+
+e.g:
+
+example_configs:
+    '5cm-original' -> '5cm'
+plot:
+    'cable-5cm-original.plt' -> 'cable-5cm.plt'
+steady_state:
+    '5cm-original' -> '5cm'

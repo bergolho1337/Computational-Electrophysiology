@@ -21,7 +21,7 @@ ENDIF()
 SET( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin )
 SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/shared_libs )
 
-SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-strict-aliasing -Wall -Wno-unused-function")
+SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -fno-strict-aliasing -Wall -Wno-unused-function")
 
 FIND_PACKAGE(OpenMP)
 IF (OPENMP_FOUND)
@@ -35,6 +35,8 @@ IF (CUDA_FOUND)
     ADD_SUBDIRECTORY(src/gpu_utils)
     SET(OPT_DEPS gpu_utils)
 ENDIF(CUDA_FOUND)
+
+FIND_PACKAGE(Eigen3 3.3 REQUIRED NO_MODULE)
 
 #ADD_SUBDIRECTORY(src/utils)
 #ADD_SUBDIRECTORY(src/alg)
@@ -51,11 +53,11 @@ ADD_EXECUTABLE(FentonExperiment src/main.cpp)
 ADD_DEPENDENCIES(FentonExperiment solvers ini_parser hashes grid purkinje ${OPT_DEPS})
 
 #TARGET_LINK_LIBRARIES(FentonExperiment alg solvers utils hashes ini_parser string graph ${OPT_DEPS} ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} ${CUDA_LIBRARIES} dl m)
-TARGET_LINK_LIBRARIES(FentonExperiment solvers ini_parser hashes grid purkinje ${OPT_DEPS} ${CUDA_LIBRARIES} dl m)
+TARGET_LINK_LIBRARIES(FentonExperiment solvers ini_parser hashes grid purkinje ${OPT_DEPS} ${CUDA_LIBRARIES} dl m Eigen3::Eigen)
 
 ADD_SUBDIRECTORY(src/models_library)
 
-#SET(COMMON_SRC ../libraries_common/config_helpers.c ../libraries_common/config_helpers.h)
+SET(COMMON_SRC ../libraries_common/helpers.cpp ../libraries_common/helpers.h)
 
 ADD_SUBDIRECTORY(src/stimuli_library)
 #ADD_SUBDIRECTORY(src/domains_library)

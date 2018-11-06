@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/ini_parser/ini.cpp
+cstdio
+-
+cctype
+-
+cstring
+-
+ini.h
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/ini_parser/ini.h
+cstdlib
+-
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/ini_parser/ini.h
+stdio.h
+-
+

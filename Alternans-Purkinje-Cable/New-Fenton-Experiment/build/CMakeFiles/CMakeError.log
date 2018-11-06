@@ -1,0 +1,51 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_e681b/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_e681b.dir/build.make CMakeFiles/cmTC_e681b.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e681b.dir/CheckSymbolExists.c.o
+/usr/bin/gcc53   -fPIC    -o CMakeFiles/cmTC_e681b.dir/CheckSymbolExists.c.o   -c /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_e681b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e681b.dir/link.txt --verbose=1
+/usr/bin/gcc53 -fPIC     -rdynamic CMakeFiles/cmTC_e681b.dir/CheckSymbolExists.c.o  -o cmTC_e681b 
+CMakeFiles/cmTC_e681b.dir/CheckSymbolExists.c.o: In function `main':
+CheckSymbolExists.c:(.text+0x1b): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+gmake[1]: *** [CMakeFiles/cmTC_e681b.dir/build.make:87: cmTC_e681b] Error 1
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:126: cmTC_e681b/fast] Error 2
+
+File /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/gmake" "cmTC_30d18/fast"
+/usr/bin/gmake -f CMakeFiles/cmTC_30d18.dir/build.make CMakeFiles/cmTC_30d18.dir/build
+gmake[1]: Entering directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_30d18.dir/CheckFunctionExists.c.o
+/usr/bin/gcc53   -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_30d18.dir/CheckFunctionExists.c.o   -c /usr/share/cmake/Modules/CheckFunctionExists.c
+Linking C executable cmTC_30d18
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30d18.dir/link.txt --verbose=1
+/usr/bin/gcc53 -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_30d18.dir/CheckFunctionExists.c.o  -o cmTC_30d18 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+gmake[1]: *** [CMakeFiles/cmTC_30d18.dir/build.make:87: cmTC_30d18] Error 1
+gmake[1]: Leaving directory '/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/build/CMakeFiles/CMakeTmp'
+gmake: *** [Makefile:126: cmTC_30d18/fast] Error 2
+
+

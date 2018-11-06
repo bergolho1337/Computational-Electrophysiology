@@ -29,8 +29,8 @@ struct user_options
     uint32_t print_rate;	            	
     uint32_t sst_rate;	            	
     char* network_filename;
-    std::string sst_filename;
-    std::string plot_filename;
+    char* sst_filename;
+    char* plot_filename;
 
     // Cell section
     double start_h;
@@ -38,7 +38,7 @@ struct user_options
     double start_diameter;
     double sigma_c;
     double G_gap;
-    std::string model_file_path;
+    char* model_file_path;
 
     // Stimulus
     struct stim_config_hash *stim_configs;

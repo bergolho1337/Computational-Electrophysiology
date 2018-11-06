@@ -3,6 +3,7 @@
 #include "ini_parser/ini.h"
 #include "grid/grid.h"
 #include "monodomain/monodomain_solver.h"
+#include "monodomain/timer.h"
 
 using namespace std;
 
@@ -25,11 +26,6 @@ int main (int argc, char *argv[])
         struct monodomain_solver *monodomain_solver;
         monodomain_solver = new_monodomain_solver ();
 
-        /*
-        struct ode_solver *ode_solver;
-        ode_solver = new_ode_solver ();
-        */
-        
         // First we have to get the config file path
         get_config_file (argc, argv, options);
 
@@ -45,7 +41,17 @@ int main (int argc, char *argv[])
         configure_monodomain_solver_from_options(monodomain_solver,options);
         configure_grid_from_options(the_grid,options);
 
+        double start, finish, elapsed;
+        GET_TIME(start);
+        
         solve_monodomain(monodomain_solver,the_grid,options);
+        
+        GET_TIME(finish);
+        elapsed = finish - start;
+        printf("==========================================================\n");
+        printf("[!] Time elapsed = %.10lf seconds\n",elapsed);
+        printf("==========================================================\n");
+
 
         return 0;
     }

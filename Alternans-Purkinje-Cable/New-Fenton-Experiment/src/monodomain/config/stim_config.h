@@ -21,11 +21,11 @@ struct stim_config {
 
     struct config_common config_data;
 
-    real stim_start;
+    double stim_start;
     bool stim_start_was_set;
-    real stim_duration;
+    double stim_duration;
     bool stim_duration_was_set;
-    real stim_current;
+    double stim_current;
     bool stim_current_was_set;
     // Variables related to Jhonny's stimulus protocol ...
     int n_cycles;
@@ -37,7 +37,7 @@ struct stim_config {
     double period_step;
     bool period_step_was_set;
 
-    real *spatial_stim_currents;
+    double *spatial_stim_currents;
     set_spatial_stim_fn *set_spatial_stim;
 };
 

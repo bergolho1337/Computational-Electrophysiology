@@ -14,3 +14,9 @@ set(COMMON_HEADERS model_common.h beeler_reuter_1977.h)
 ADD_LIBRARY(beeler_reuter_1977 ${LIB_TYPE} ${COMMON_HEADERS} ${MODEL_FILE_CPU})
 #########################################################
 
+############## NOBLE 1962 ##############################
+set(MODEL_FILE_CPU "noble_1962.cpp")
+set(COMMON_HEADERS model_common.h noble_1962.h)
+
+ADD_LIBRARY(noble_1962 ${LIB_TYPE} ${COMMON_HEADERS} ${MODEL_FILE_CPU})
+#########################################################

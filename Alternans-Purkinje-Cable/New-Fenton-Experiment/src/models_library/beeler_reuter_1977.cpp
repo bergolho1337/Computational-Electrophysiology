@@ -20,88 +20,71 @@ extern "C" SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu)
 
 extern "C" SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) 
 {
+    int i;
 
-/*
-    uint32_t sv_id;
-
-	int i;
-
-    #pragma omp parallel for private(sv_id)
-    for (i = 0; i < num_cells_to_solve; i++) 
+    //#pragma omp parallel for
+    for (i = 0; i < num_volumes; i++)
     {
-
-        if(cells_to_solve)
-            sv_id = cells_to_solve[i];
-        else
-            sv_id = i;
-
-        for (int j = 0; j < num_steps; ++j) {
-            solve_model_ode_cpu(dt, sv + (sv_id * NEQ), stim_currents[i]);
-
-        }
+        solve_model_ode_cpu(dt,volumes[i],stim_currents[i]);
     }
-*/
 }
 
-void solve_model_ode_cpu(real dt, real *sv, real stim_current)  {
+void solve_model_ode_cpu(double dt, struct control_volume &volume,\
+                         double stim_current)  
+{
 
-    real rY[NEQ], rDY[NEQ];
+    double *y_old = volume.y_old;
+    double *y_star = volume.y_star;
+    double *y_new = volume.y_new;
 
-    // Save old value of the state vector
-    for(int i = 0; i < NEQ; i++)
-    {
-        rY[i] = sv[i];
-    }
-        
-    // Compute Right-hand-side of the ODE's
-    RHS_cpu(rY, rDY, stim_current);
+    double rDY[NEQ];
+    RHS_cpu(rDY,y_old,y_star,stim_current);
 
-    // Solve model using Forward Euler
-    for(int i = 0; i < NEQ; i++)
-    {
-        sv[i] = dt*rDY[i] + rY[i];
-    }
+    //y_new[0] = dt*rDY[0] + y_star[0];
+    for (int i = 0; i < NEQ; i++)
+        y_new[i] = dt*rDY[i] + y_old[i];
         
 }
 
-void RHS_cpu(const real *sv, real *rDY_, real stim_current) {
+void RHS_cpu(double *rDY_, const double *y_old, const double *y_star, double stim_current) 
+{
 
     // State variables
-    const real V_old_ = sv[0];
-    const real m_old_ = sv[1];
-    const real h_old_ = sv[2];
-    const real j_old_ = sv[3];
-    const real Cai_old_ = sv[4];
-    const real d_old_ = sv[5];
-    const real f_old_ = sv[6];
-    const real x1_old_ = sv[7];
+    const double V_old_ = y_old[0];
+    const double m_old_ = y_old[1];
+    const double h_old_ = y_old[2];
+    const double j_old_ = y_old[3];
+    const double Cai_old_ = y_old[4];
+    const double d_old_ = y_old[5];
+    const double f_old_ = y_old[6];
+    const double x1_old_ = y_old[7];
 
     // Constants
-    const real C = 0.01;
-    const real g_na = 4e-2;
-    const real E_na = 50;
-    const real g_nac = 3e-5;
-    const real g_s = 9e-4;
+    const double C = 0.01;
+    const double g_na = 4e-2;
+    const double E_na = 50;
+    const double g_nac = 3e-5;
+    const double g_s = 9e-4;
 
     // Algebraics
-    real alpha_m = ( - 1.00000*(V_old_+47.0000))/(exp( - 0.100000*(V_old_+47.0000)) - 1.00000);
-    real beta_m =  40.0000*exp( - 0.0560000*(V_old_+72.0000));
-    real alpha_h =  0.126000*exp( - 0.250000*(V_old_+77.0000));
-    real beta_h = 1.70000/(exp( - 0.0820000*(V_old_+22.5000))+1.00000);
-    real alpha_j = ( 0.0550000*exp( - 0.250000*(V_old_+78.0000)))/(exp( - 0.200000*(V_old_+78.0000))+1.00000);
-    real beta_j = 0.300000/(exp( - 0.100000*(V_old_+32.0000))+1.00000);
-    real alpha_d = ( 0.0950000*exp(- (V_old_ - 5.00000)/100.000))/(1.00000+exp(- (V_old_ - 5.00000)/13.8900));
-    real beta_d = ( 0.0700000*exp(- (V_old_+44.0000)/59.0000))/(1.00000+exp((V_old_+44.0000)/20.0000));
-    real alpha_f = ( 0.0120000*exp(- (V_old_+28.0000)/125.000))/(1.00000+exp((V_old_+28.0000)/6.67000));
-    real beta_f = ( 0.00650000*exp(- (V_old_+30.0000)/50.0000))/(1.00000+exp(- (V_old_+30.0000)/5.00000));
-    real alpha_x1 = ( 0.000500000*exp((V_old_+50.0000)/12.1000))/(1.00000+exp((V_old_+50.0000)/17.5000));
-    real beta_x1 = ( 0.00130000*exp(- (V_old_+20.0000)/16.6700))/(1.00000+exp(- (V_old_+20.0000)/25.0000));
-    real E_s = - 82.3000 -  13.0287*log( Cai_old_*0.00100000);
-    real i_s =  g_s*d_old_*f_old_*(V_old_ - E_s);
-    real i_na =  ( g_na*pow(m_old_, 3.00000)*h_old_*j_old_+g_nac)*(V_old_ - E_na);
-    real i_x1 = ( x1_old_*0.00800000*(exp( 0.0400000*(V_old_+77.0000)) - 1.00000))/exp( 0.0400000*(V_old_+35.0000));
-    real i_k1 =  0.00350000*(( 4.00000*(exp( 0.0400000*(V_old_+85.0000)) - 1.00000))/(exp( 0.0800000*(V_old_+53.0000))+exp( 0.0400000*(V_old_+53.0000)))+( 0.200000*(V_old_+23.0000))/(1.00000 - exp( - 0.0400000*(V_old_+23.0000))));
-    real i_stim = stim_current;
+    double alpha_m = ( - 1.00000*(V_old_+47.0000))/(exp( - 0.100000*(V_old_+47.0000)) - 1.00000);
+    double beta_m =  40.0000*exp( - 0.0560000*(V_old_+72.0000));
+    double alpha_h =  0.126000*exp( - 0.250000*(V_old_+77.0000));
+    double beta_h = 1.70000/(exp( - 0.0820000*(V_old_+22.5000))+1.00000);
+    double alpha_j = ( 0.0550000*exp( - 0.250000*(V_old_+78.0000)))/(exp( - 0.200000*(V_old_+78.0000))+1.00000);
+    double beta_j = 0.300000/(exp( - 0.100000*(V_old_+32.0000))+1.00000);
+    double alpha_d = ( 0.0950000*exp(- (V_old_ - 5.00000)/100.000))/(1.00000+exp(- (V_old_ - 5.00000)/13.8900));
+    double beta_d = ( 0.0700000*exp(- (V_old_+44.0000)/59.0000))/(1.00000+exp((V_old_+44.0000)/20.0000));
+    double alpha_f = ( 0.0120000*exp(- (V_old_+28.0000)/125.000))/(1.00000+exp((V_old_+28.0000)/6.67000));
+    double beta_f = ( 0.00650000*exp(- (V_old_+30.0000)/50.0000))/(1.00000+exp(- (V_old_+30.0000)/5.00000));
+    double alpha_x1 = ( 0.000500000*exp((V_old_+50.0000)/12.1000))/(1.00000+exp((V_old_+50.0000)/17.5000));
+    double beta_x1 = ( 0.00130000*exp(- (V_old_+20.0000)/16.6700))/(1.00000+exp(- (V_old_+20.0000)/25.0000));
+    double E_s = - 82.3000 -  13.0287*log( Cai_old_*0.00100000);
+    double i_s =  g_s*d_old_*f_old_*(V_old_ - E_s);
+    double i_na =  ( g_na*pow(m_old_, 3.00000)*h_old_*j_old_+g_nac)*(V_old_ - E_na);
+    double i_x1 = ( x1_old_*0.00800000*(exp( 0.0400000*(V_old_+77.0000)) - 1.00000))/exp( 0.0400000*(V_old_+35.0000));
+    double i_k1 =  0.00350000*(( 4.00000*(exp( 0.0400000*(V_old_+85.0000)) - 1.00000))/(exp( 0.0800000*(V_old_+53.0000))+exp( 0.0400000*(V_old_+53.0000)))+( 0.200000*(V_old_+23.0000))/(1.00000 - exp( - 0.0400000*(V_old_+23.0000))));
+    double i_stim = stim_current;
 
     // Rates
     rDY_[0] = (i_stim - (i_na+i_s+i_x1+i_k1))/C;

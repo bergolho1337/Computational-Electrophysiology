@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/models_library/beeler_reuter_1977.cpp
+beeler_reuter_1977.h
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/models_library/beeler_reuter_1977.h
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/models_library/beeler_reuter_1977.h
+cstdint
+-
+model_common.h
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/models_library/model_common.h
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/models_library/model_common.h
+../monodomain/constants.h
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/monodomain/constants.h
+cstdio
+-
+cstdbool
+-
+cstdint
+-
+cstddef
+-
+
+/home/lucas/Documentos/Github/Computational-Electrophysiology/Alternans-Purkinje-Cable/New-Fenton-Experiment/src/monodomain/constants.h
+math.h
+-
+

@@ -14,58 +14,50 @@ extern "C" SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu)
 
 extern "C" SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) 
 {
+    int i;
 
-    /*
-    uint32_t sv_id;
-
-	int i;
-
-    #pragma omp parallel for private(sv_id)
-    for (i = 0; i < num_cells_to_solve; i++) 
+    //#pragma omp parallel for
+    for (i = 0; i < num_volumes; i++)
     {
-
-        if(cells_to_solve)
-            sv_id = cells_to_solve[i];
-        else
-            sv_id = i;
-
-        for (int j = 0; j < num_steps; ++j) {
-            solve_model_ode_cpu(dt, sv + (sv_id * NEQ), stim_currents[i]);
-
-        }
+        solve_model_ode_cpu(dt,volumes[i],stim_currents[i]);
     }
-    */
+    
 }
 
-void solve_model_ode_cpu(real dt, real *sv, real stim_current)  
+void solve_model_ode_cpu(double dt, struct control_volume &volume,\
+                         double stim_current)  
 {
 
-    real rY[NEQ], rDY[NEQ];
+    double *y_old = volume.y_old;
+    double *y_star = volume.y_star;
+    double *y_new = volume.y_new;
 
-    for(int i = 0; i < NEQ; i++)
-        rY[i] = sv[i];
+    double rDY[NEQ];
+    RHS_cpu(rDY,y_old,y_star,stim_current);
 
-    RHS_cpu(rY, rDY, stim_current);
+    y_new[0] = dt*rDY[0] + y_star[0];
+    for (int i = 1; i < NEQ; i++)
+        y_new[i] = dt*rDY[i] + y_old[i];
 
-    for(int i = 0; i < NEQ; i++)
-        sv[i] = dt*rDY[i] + rY[i];
 }
 
-void RHS_cpu(const real *sv, real *rDY_, real stim_current) 
+void RHS_cpu(double *rDY_, const double *y_old, const double *y_star, double stim_current) 
 {
 
     //State variables
-    const real V_old_ = sv[0];
-    const real h_old_ = sv[1];
+    const double V_old_ = y_old[0];
+    const double h_old_ = y_old[1];
+    const double V_star_ = y_star[0];
+    const double h_star_ = y_star[1];
 
     //Parameters
-    const real alpha = -0.100000000000000e+00f;
-    const real gamma = 3.000000000000000e+00f;
-    const real epsilon = 5.000000000000000e-03f;
+    const double alpha = -0.100000000000000e+00f;
+    const double gamma = 3.000000000000000e+00f;
+    const double epsilon = 5.000000000000000e-03f;
 
-    real calc_I_stim = stim_current;
+    double calc_I_stim = stim_current;
 
-    rDY_[0] = (( V_old_*(V_old_ - alpha)*(1.00000 - V_old_) - h_old_) + calc_I_stim);
+    rDY_[0] = (( V_star_*(V_star_ - alpha)*(1.00000 - V_star_) - h_star_) + calc_I_stim);
     rDY_[1] = epsilon*(V_old_ -  gamma*h_old_);
 
 }

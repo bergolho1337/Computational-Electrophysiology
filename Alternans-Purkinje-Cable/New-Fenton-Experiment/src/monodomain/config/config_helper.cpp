@@ -2,7 +2,7 @@
 
 void set_celular_model (struct monodomain_solver *solver, struct user_options *configs)
 {
-    void *handle = dlopen (configs->model_file_path.c_str(), RTLD_LAZY);
+    void *handle = dlopen (configs->model_file_path, RTLD_LAZY);
     if (!handle) 
     {
         fprintf(stderr, "%s\n", dlerror());
@@ -32,6 +32,7 @@ void set_celular_model (struct monodomain_solver *solver, struct user_options *c
         fprintf(stderr, "'solve_model_ode_cpu' not found in the provided model library\n");
         exit(EXIT_FAILURE);
     }
+    std::cout << "Library " << configs->model_file_path <<  " loaded with sucess" << std::endl;
 }
 
 void set_control_volumes (struct monodomain_solver *solver, struct grid *the_grid)
