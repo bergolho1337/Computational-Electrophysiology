@@ -8,8 +8,16 @@ extern "C" GET_CELL_MODEL_DATA (get_cell_model_data)
 
 extern "C" SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu) 
 {
-    y_0[0] = 0.000000f; //V millivolt 
-    y_0[1] = 0.000000f; //h dimensionless 
+    for (int i = 0; i < num_volumes; i++)
+    {
+        volumes[i].y_old = (double*)calloc(NEQ,sizeof(double));
+        volumes[i].y_star = (double*)calloc(NEQ,sizeof(double));
+        volumes[i].y_new = (double*)calloc(NEQ,sizeof(double));
+        
+        volumes[i].y_old[0] = 0.0;        // V
+        volumes[i].y_old[1] = 0.0;          // h
+
+    } 
 }
 
 extern "C" SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) 
@@ -35,9 +43,8 @@ void solve_model_ode_cpu(double dt, struct control_volume &volume,\
     double rDY[NEQ];
     RHS_cpu(rDY,y_old,y_star,stim_current);
 
-    y_new[0] = dt*rDY[0] + y_star[0];
-    for (int i = 1; i < NEQ; i++)
-        y_new[i] = dt*rDY[i] + y_old[i];
+    for (int i = 0; i < NEQ; i++)
+        y_new[i] = dt*rDY[i] + y_star[i];
 
 }
 

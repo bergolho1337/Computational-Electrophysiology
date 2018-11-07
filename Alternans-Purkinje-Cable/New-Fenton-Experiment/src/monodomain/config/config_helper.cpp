@@ -46,12 +46,7 @@ void set_control_volumes (struct monodomain_solver *solver, struct grid *the_gri
     
     // Allocate memory for the structure
     solver->volumes = (struct control_volume*)malloc(sizeof(struct control_volume)*np);
-    for (int i = 0; i < np; i++)
-    {
-        solver->volumes[i].y_old = (double*)calloc(neq,sizeof(double));
-        solver->volumes[i].y_new = (double*)calloc(neq,sizeof(double));
-        solver->volumes[i].y_star = (double*)calloc(neq,sizeof(double));
-    }
+
 }
 
 void set_derivative (struct monodomain_solver *solver, struct grid *the_grid)

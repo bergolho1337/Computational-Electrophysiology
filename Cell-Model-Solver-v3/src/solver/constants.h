@@ -11,7 +11,7 @@
 #define BLOCK_SIZE 256
 
 // Precision to be used for the calculations
-typedef float real;
+typedef double real;
 
 #ifdef _MSC_VER
 #define EXPORT_FN __declspec(dllexport)

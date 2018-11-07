@@ -2,6 +2,7 @@
 #define MONOALG3D_MODEL_BEELER_REUTER_1977_H
 
 #include <cstdint>
+#include <cstdlib>
 #include "model_common.h"
 
 #define NEQ 8
@@ -24,7 +25,7 @@ inline __device__ void RHS_gpu(double *sv_, double *rDY_, double stim_current, i
 
 void solve_model_ode_cpu(double dt, struct control_volume &volume,\
                          double stim_current);
-void RHS_cpu(double *rDY_, const double *y_old, const double *y_star, double stim_current);
+void RHS_cpu(const double dt, double *rDY_, const double *y_old, const double *y_star, double stim_current);
 
 #endif // MONOALG3D_MODEL_BEELER_REUTER_1977_H
 

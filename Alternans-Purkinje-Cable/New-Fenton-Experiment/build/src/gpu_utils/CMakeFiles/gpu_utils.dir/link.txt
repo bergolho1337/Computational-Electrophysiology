@@ -1,2 +1,0 @@
-/usr/bin/ar qc libgpu_utils.a  CMakeFiles/gpu_utils.dir/gpu_utils.cpp.o
-/usr/bin/ranlib libgpu_utils.a

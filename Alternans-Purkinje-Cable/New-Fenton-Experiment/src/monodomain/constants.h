@@ -5,7 +5,7 @@
 #ifndef MONOALG3D_CONSTANTS_H
 #define MONOALG3D_CONSTANTS_H
 
-#include <math.h>
+#include <cmath>
 
 #define UM2_TO_CM2 0.00000001f
 #define BLOCK_SIZE 256

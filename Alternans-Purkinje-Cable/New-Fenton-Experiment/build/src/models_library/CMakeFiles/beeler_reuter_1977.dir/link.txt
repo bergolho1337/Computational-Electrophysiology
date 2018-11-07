@@ -1,1 +1,0 @@
-/usr/bin/g++53 -fPIC  -O2 -fno-strict-aliasing -Wall -Wno-unused-function -fopenmp -I "/usr/local/cuda/include" -DCOMPILE_CUDA  -shared  -o ../../../shared_libs/libbeeler_reuter_1977.so CMakeFiles/beeler_reuter_1977.dir/beeler_reuter_1977.cpp.o 

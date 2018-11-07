@@ -33,7 +33,7 @@ struct control_volume
 typedef GET_CELL_MODEL_DATA (get_cell_model_data_fn);
 
 // CPU FUNCTIONS
-#define SET_ODE_INITIAL_CONDITIONS_CPU(name) EXPORT_FN void name (double *y_0)
+#define SET_ODE_INITIAL_CONDITIONS_CPU(name) EXPORT_FN void name (struct control_volume *volumes, int num_volumes)
 typedef SET_ODE_INITIAL_CONDITIONS_CPU (set_ode_initial_conditions_cpu_fn);
 
 #define SOLVE_MODEL_ODES_CPU(name)                                                                                     \

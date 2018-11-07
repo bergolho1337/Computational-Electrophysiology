@@ -1,1 +1,0 @@
-/usr/bin/g++53 -fPIC  -O2 -fno-strict-aliasing -Wall -Wno-unused-function -fopenmp -I "/usr/local/cuda/include" -DCOMPILE_CUDA  -shared  -o ../../../shared_libs/libfitzhugh_1961.so CMakeFiles/fitzhugh_1961.dir/fitzhugh_1961.cpp.o 

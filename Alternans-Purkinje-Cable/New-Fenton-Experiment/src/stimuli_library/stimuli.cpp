@@ -53,15 +53,13 @@ extern "C" SET_SPATIAL_STIM(stim_if_id_less_than)
     }
 }
 
-extern "C" SET_SPATIAL_STIM(stim_if_id_greater_than) {
-
-    /*
-    uint32_t n_active = the_grid->num_active_cells;
-    //struct cell_node **ac = the_grid->active_cells;
+extern "C" SET_SPATIAL_STIM(stim_if_id_greater_than) 
+{
+    int np = the_grid->the_purkinje_network->get_total_nodes();
 
     bool stim;
-    real stim_current = config->stim_current;
-    real stim_value;
+    double stim_current = config->stim_current;
+    double stim_value;
 
     int id;
     GET_PARAMETER_NUMERIC_VALUE_OR_REPORT_ERROR(int, id, config->config_data.config, "id_limit");
@@ -71,12 +69,12 @@ extern "C" SET_SPATIAL_STIM(stim_if_id_greater_than) {
         free(config->spatial_stim_currents);
     }
 
-    config->spatial_stim_currents = (real *)malloc(n_active*sizeof(real));
+    config->spatial_stim_currents = (double*)malloc(np*sizeof(double));
 
 	int i;
 
-    #pragma omp parallel for private(stim, stim_value)
-    for (i = 0; i < n_active; i++) 
+    //#pragma omp parallel for private(stim, stim_value)
+    for (i = 0; i < np; i++) 
     {
         stim = i >= id;
 
@@ -90,7 +88,6 @@ extern "C" SET_SPATIAL_STIM(stim_if_id_greater_than) {
         }
 
         config->spatial_stim_currents[i] = stim_value;
-
     }
-    */
+    
 }

@@ -8,14 +8,24 @@ extern "C" GET_CELL_MODEL_DATA(get_cell_model_data)
 
 extern "C" SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu) 
 {
-    y_0[0] = -84.624;        // V
-    y_0[1] = 0.011;          // m
-    y_0[2] = 0.988;          // h
-    y_0[3] = 0.975;          // j
-    y_0[4] = 1e-4;           // Cai
-    y_0[5] = 0.003;          // d
-    y_0[6] = 0.994;          // f
-    y_0[7] = 0.0001;         // x1
+    for (int i = 0; i < num_volumes; i++)
+    {
+        volumes[i].y_old = (double*)calloc(NEQ,sizeof(double));
+        volumes[i].y_star = (double*)calloc(NEQ,sizeof(double));
+        volumes[i].y_new = (double*)calloc(NEQ,sizeof(double));
+        
+        volumes[i].y_old[0] = -84.624;        // V
+        volumes[i].y_old[1] = 0.011;          // m
+        volumes[i].y_old[2] = 0.988;          // h
+        volumes[i].y_old[3] = 0.975;          // j
+        volumes[i].y_old[4] = 1e-4;           // Cai
+        volumes[i].y_old[5] = 0.003;          // d
+        volumes[i].y_old[6] = 0.994;          // f
+        volumes[i].y_old[7] = 0.0001;         // x1
+
+    }
+    
+    
 }
 
 extern "C" SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu) 
@@ -25,7 +35,7 @@ extern "C" SOLVE_MODEL_ODES_CPU(solve_model_odes_cpu)
     //#pragma omp parallel for
     for (i = 0; i < num_volumes; i++)
     {
-        solve_model_ode_cpu(dt,volumes[i],stim_currents[i]);
+        solve_model_ode_cpu(dt,volumes[i],stim_currents[i]);   
     }
 }
 
@@ -33,20 +43,33 @@ void solve_model_ode_cpu(double dt, struct control_volume &volume,\
                          double stim_current)  
 {
 
-    double *y_old = volume.y_old;
-    double *y_star = volume.y_star;
-    double *y_new = volume.y_new;
-
     double rDY[NEQ];
-    RHS_cpu(rDY,y_old,y_star,stim_current);
+    RHS_cpu(dt,rDY,volume.y_old,volume.y_star,stim_current);
 
-    //y_new[0] = dt*rDY[0] + y_star[0];
+    // Old Euler code
     for (int i = 0; i < NEQ; i++)
-        y_new[i] = dt*rDY[i] + y_old[i];
+    {
+        volume.y_new[i] = dt*rDY[i] + volume.y_star[i];
+    }
         
+
+    /*
+    // Forward Euler
+    y_new[0] = dt*rDY[0] + y_old[0];
+    y_new[4] = dt*rDY[4] + y_old[4];
+
+    // Rush-Larsen
+    y_new[1] = rDY[1];
+    y_new[2] = rDY[2];
+    y_new[3] = rDY[3];
+    y_new[5] = rDY[5];
+    y_new[6] = rDY[6];
+    y_new[7] = rDY[7];
+    */
+
 }
 
-void RHS_cpu(double *rDY_, const double *y_old, const double *y_star, double stim_current) 
+void RHS_cpu(const double dt,double *rDY_, const double *y_old, const double *y_star, double stim_current) 
 {
 
     // State variables
@@ -58,6 +81,15 @@ void RHS_cpu(double *rDY_, const double *y_old, const double *y_star, double sti
     const double d_old_ = y_old[5];
     const double f_old_ = y_old[6];
     const double x1_old_ = y_old[7];
+
+    const double V_star_ = y_star[0];
+    const double m_star_ = y_star[1];
+    const double h_star_ = y_star[2];
+    const double j_star_ = y_star[3];
+    const double Cai_star_ = y_star[4];
+    const double d_star_ = y_star[5];
+    const double f_star_ = y_star[6];
+    const double x1_star_ = y_star[7];
 
     // Constants
     const double C = 0.01;
@@ -81,9 +113,10 @@ void RHS_cpu(double *rDY_, const double *y_old, const double *y_star, double sti
     double beta_x1 = ( 0.00130000*exp(- (V_old_+20.0000)/16.6700))/(1.00000+exp(- (V_old_+20.0000)/25.0000));
     double E_s = - 82.3000 -  13.0287*log( Cai_old_*0.00100000);
     double i_s =  g_s*d_old_*f_old_*(V_old_ - E_s);
-    double i_na =  ( g_na*pow(m_old_, 3.00000)*h_old_*j_old_+g_nac)*(V_old_ - E_na);
-    double i_x1 = ( x1_old_*0.00800000*(exp( 0.0400000*(V_old_+77.0000)) - 1.00000))/exp( 0.0400000*(V_old_+35.0000));
-    double i_k1 =  0.00350000*(( 4.00000*(exp( 0.0400000*(V_old_+85.0000)) - 1.00000))/(exp( 0.0800000*(V_old_+53.0000))+exp( 0.0400000*(V_old_+53.0000)))+( 0.200000*(V_old_+23.0000))/(1.00000 - exp( - 0.0400000*(V_old_+23.0000))));
+
+    double i_na =  ( g_na*pow(m_star_, 3.00000)*h_star_*j_star_+g_nac)*(V_star_ - E_na);
+    double i_x1 = ( x1_star_*0.00800000*(exp( 0.0400000*(V_star_+77.0000)) - 1.00000))/exp( 0.0400000*(V_star_+35.0000));
+    double i_k1 =  0.00350000*(( 4.00000*(exp( 0.0400000*(V_star_+85.0000)) - 1.00000))/(exp( 0.0800000*(V_star_+53.0000))+exp( 0.0400000*(V_star_+53.0000)))+( 0.200000*(V_star_+23.0000))/(1.00000 - exp( - 0.0400000*(V_star_+23.0000))));
     double i_stim = stim_current;
 
     // Rates

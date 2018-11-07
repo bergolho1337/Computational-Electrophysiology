@@ -138,7 +138,7 @@ void solve_monodomain(struct monodomain_solver *the_monodomain_solver,
         set_initial_conditions_from_file(the_monodomain_solver,configs);
     else
         set_initial_conditions_default(the_monodomain_solver);
-    
+
     // Setting spatial stimulus
     if (stimuli_configs)
         set_spatial_stim(stimuli_configs, the_grid);
@@ -273,7 +273,7 @@ void solve_odes (const double t,\
 
     solve_model_ode_cpu_fn *solve_odes_pt = solver->solve_model_ode_cpu;
     solve_odes_pt(solver->dt,merged_stims,solver->num_volumes,solver->volumes);
-
+    
     free(merged_stims);
 }
 
@@ -342,10 +342,7 @@ void set_initial_conditions_default (struct monodomain_solver *solver)
         exit(11);
     }
     //#pragma omp parallel for
-    for(int i = 0; i < solver->num_volumes; i++) 
-    {
-        soicc_fn_pt(solver->volumes[i].y_old);
-    }
+    soicc_fn_pt(solver->volumes,solver->num_volumes);
 }
 
 void set_matrix (Eigen::SparseMatrix<double> &a,\
@@ -407,6 +404,7 @@ void set_matrix (Eigen::SparseMatrix<double> &a,\
 
     a.setFromTriplets(coeff.begin(),coeff.end());
     a.makeCompressed();
+
 }
 
 void assemble_load_vector (Eigen::VectorXd &b,\
@@ -451,9 +449,16 @@ void swap (double **a, double **b)
 void next_timestep (struct monodomain_solver *solver)
 {
     int np = solver->num_volumes;
+    int neq = solver->model_data.number_of_ode_equations;
+
     //#pragma omp parallel for
     for (int i = 0; i < np; i++) 
-        swap(&solver->volumes[i].y_old,&solver->volumes[i].y_new);
+    {
+        //swap(&solver->volumes[i].y_old,&solver->volumes[i].y_new);
+        for (int j = 0 ; j < neq; j++)
+            solver->volumes[i].y_old[j] = solver->volumes[i].y_new[j];
+    }
+    
 }
 
 void print_solver_info (struct monodomain_solver *the_monodomain_solver,\
@@ -575,6 +580,18 @@ void write_plot_data (struct monodomain_solver *solver, double t)
 {
     for (int i = 1; i < solver->plot->np; i++)
         fprintf(solver->plot->plotFile[i-1],"%.10lf %.10lf\n",t,solver->volumes[solver->plot->ids[i]].y_old[0]);
+
+    /*
+    int neq = solver->model_data.number_of_ode_equations;
+    for (int i = 1; i < solver->plot->np; i++)
+    {
+        fprintf(solver->plot->plotFile[i-1],"%.10lf ",t);
+        for (int j = 0; j < neq-1; j++)
+            fprintf(solver->plot->plotFile[i-1],"%.10lf ",solver->volumes[solver->plot->ids[i]].y_old[j]);
+        fprintf(solver->plot->plotFile[i-1],"%.10lf\n",solver->volumes[solver->plot->ids[i]].y_old[neq-1]);
+    }
+    */
+        
 }
 
 void write_steady_state_to_file (FILE *sst_file,\
