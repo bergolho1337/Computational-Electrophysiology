@@ -4,15 +4,19 @@ extern "C" GET_CELL_MODEL_DATA(get_cell_model_data)
 {
     cell_model->initial_v = INITIAL_V;
     cell_model->number_of_ode_equations = NEQ;
+
+    for (int i = 0; i < num_volumes; i++)
+    {
+        volumes[i].y_old = (double*)calloc(NEQ,sizeof(double));
+        volumes[i].y_star = (double*)calloc(NEQ,sizeof(double));
+        volumes[i].y_new = (double*)calloc(NEQ,sizeof(double));
+    }
 }
 
 extern "C" SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu) 
 {
     for (int i = 0; i < num_volumes; i++)
     {
-        volumes[i].y_old = (double*)calloc(NEQ,sizeof(double));
-        volumes[i].y_star = (double*)calloc(NEQ,sizeof(double));
-        volumes[i].y_new = (double*)calloc(NEQ,sizeof(double));
         
         volumes[i].y_old[0] = -84.624;        // V
         volumes[i].y_old[1] = 0.011;          // m

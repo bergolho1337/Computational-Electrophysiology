@@ -297,7 +297,7 @@ void set_initial_conditions_from_file (struct monodomain_solver *solver, struct 
     std::cout << "[Solver] Setting initial conditions from SST file: " << options->sst_filename << std::endl;
     
     // Initialize the solver with the 'initial_v' and 'number_quations' from the celular model
-    (*(solver->get_cell_model_data))(&(solver->model_data));
+    (*(solver->get_cell_model_data))(&(solver->model_data),solver->volumes,solver->num_volumes);
     int n_odes = solver->model_data.number_of_ode_equations;
 
     FILE *sst_file = fopen(options->sst_filename,"r");
@@ -329,7 +329,7 @@ void set_initial_conditions_default (struct monodomain_solver *solver)
     std::cout << "[Solver] Setting default initial conditions" << std::endl;
 
     // Initialize the solver with the 'initial_v' and 'number_quations' from the celular model
-    (*(solver->get_cell_model_data))(&(solver->model_data));
+    (*(solver->get_cell_model_data))(&(solver->model_data),solver->volumes,solver->num_volumes);
     int n_odes = solver->model_data.number_of_ode_equations;
 
     set_ode_initial_conditions_cpu_fn *soicc_fn_pt = solver->set_ode_initial_conditions_cpu;

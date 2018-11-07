@@ -29,7 +29,8 @@ struct control_volume
   double *y_new;
 };
 
-#define GET_CELL_MODEL_DATA(name) EXPORT_FN void name (struct cell_model_data *cell_model)
+#define GET_CELL_MODEL_DATA(name) EXPORT_FN void name (struct cell_model_data *cell_model,\
+                                                      struct control_volume *volumes, int num_volumes)
 typedef GET_CELL_MODEL_DATA (get_cell_model_data_fn);
 
 // CPU FUNCTIONS
