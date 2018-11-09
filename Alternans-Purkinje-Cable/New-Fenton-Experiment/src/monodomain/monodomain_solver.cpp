@@ -115,13 +115,14 @@ void solve_monodomain(struct monodomain_solver *the_monodomain_solver,
     struct stim_config_hash *stimuli_configs = configs->stim_configs;
 
     double last_stimulus_time = -1.0;
+    double start_period;
 
     if (stimuli_configs) 
     {
         // Init all stimuli
         STIM_CONFIG_HASH_FOR_EACH_KEY_APPLY_FN_IN_VALUE_AND_KEY (stimuli_configs, init_stim_functions);
 
-        //Find last stimuli
+        //Find first and last stimuli
         size_t s_size = stimuli_configs->size;
         double s_end;
         for (int i = 0; i < (int)s_size; i++) 
@@ -129,7 +130,9 @@ void solve_monodomain(struct monodomain_solver *the_monodomain_solver,
             for (struct stim_config_elt *e = stimuli_configs->table[i % s_size]; e != 0; e = e->next) 
             {
                 s_end = e->value->stim_start + e->value->stim_duration;
-                if(s_end > last_stimulus_time) last_stimulus_time = s_end;
+                start_period = e->value->start_period;
+                if(s_end > last_stimulus_time) 
+                    last_stimulus_time = s_end;
             }
         }
     }
@@ -167,7 +170,6 @@ void solve_monodomain(struct monodomain_solver *the_monodomain_solver,
     int print_rate = configs->print_rate;
     int sst_rate = configs->sst_rate;
     double dt = the_monodomain_solver->dt;
-    
 
     // Time loop
     for (int i = 0; i < M; i++)
@@ -198,11 +200,13 @@ void solve_monodomain(struct monodomain_solver *the_monodomain_solver,
         solve_odes(t,the_monodomain_solver,configs->stim_configs);
 
         // Calculate the maximum derivative for each volume
-        //calc_max_derivative(t,stim_config->start_period);
+        calc_max_derivative(the_monodomain_solver,t,start_period);
 
         // Jump to the next iteration
         next_timestep(the_monodomain_solver);
     }
+
+    calc_velocity(the_monodomain_solver,the_grid);
 
 }
 
@@ -437,6 +441,56 @@ void move_v_star (const Eigen::VectorXd vm,\
         for (int j = 1; j < neq; j++)
             solver->volumes[i].y_star[j] = solver->volumes[i].y_old[j];
     }
+}
+
+void calc_max_derivative (struct monodomain_solver *solver, const double t, const double start_period)
+{
+    int np = solver->num_volumes;
+    for (int i = 0; i < np; i++)
+    {
+        double diff = solver->volumes[i].y_new[0] - solver->volumes[i].y_old[0];
+        // Considering only the first stimulus
+        if (diff > solver->dvdt[i].value && t > 0.0 && t < start_period)
+        {
+            solver->dvdt[i].value = diff;
+            solver->dvdt[i].t = t;
+        }
+    }
+}
+
+void calc_velocity (struct monodomain_solver *solver, struct grid *the_grid)
+{
+    cout << "[Solver] Calculating propagation velocity" << endl;
+
+    FILE *vFile = fopen("output/v.txt","w+");
+    int np = solver->vel->np;
+    double *dist = the_grid->the_purkinje_network->get_dist();
+    
+    for (int i = 0; i < np; i++)
+    {    
+        // Compute the distance from the source
+        the_grid->the_purkinje_network->dijkstra(solver->vel->ids[i]);
+        dist = the_grid->the_purkinje_network->get_dist();
+        double t = solver->dvdt[solver->vel->ids[i]].t - solver->dvdt[solver->vel->ids[i] - OFFSET].t;
+        double velocity = dist[solver->vel->ids[i] - OFFSET] / t;
+
+        // Check if the value is beyond the tolerance
+	    if (t < 0 || fabs(solver->dvdt[solver->vel->ids[i]].value - solver->dvdt[solver->vel->ids[i] - OFFSET].value) > 16.0)
+            velocity = 0.0;
+        fprintf(solver->vel->velocity_file,"\n\n[!] Propagation velocity! Id = %d\n",solver->vel->ids[i]);
+        fprintf(solver->vel->velocity_file,"t1 = %.10lf\n",solver->dvdt[solver->vel->ids[i] - OFFSET].t);
+        fprintf(solver->vel->velocity_file,"dvdt[%d] = %.10lf\n\n",solver->vel->ids[i]- OFFSET ,solver->dvdt[solver->vel->ids[i] - OFFSET].value);
+        fprintf(solver->vel->velocity_file,"t2 = %.10lf\n",solver->dvdt[solver->vel->ids[i]].t);
+        fprintf(solver->vel->velocity_file,"dvdt[%d] = %.10lf\n",solver->vel->ids[i],solver->dvdt[solver->vel->ids[i]].value);
+        fprintf(solver->vel->velocity_file,"delta_x = %.10lf\n",dist[solver->vel->ids[i] - OFFSET]);
+        fprintf(solver->vel->velocity_file,"delta_t = %.10lf\n",t);
+        fprintf(solver->vel->velocity_file,"\n!!!!!!!! Propagation velocity = %lf cm/s !!!!!!!!!!\n",velocity*1000.0);
+        fprintf(solver->vel->velocity_file,"\n=============================================================\n\n");
+
+        fprintf(vFile,"%lf\n",velocity*1000.0);
+    }
+    fclose(solver->vel->velocity_file);
+    fclose(vFile);
 }
 
 void swap (double **a, double **b)

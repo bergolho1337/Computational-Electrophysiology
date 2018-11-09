@@ -113,6 +113,11 @@ void solve_odes (const double t,\
 double* merge_stimulus (struct stim_config_hash *stim_configs,\
                     const int np, const double cur_time);
 
+void calc_max_derivative (struct monodomain_solver *solver,\
+                        const double t, const double start_period);
+
+void calc_velocity (struct monodomain_solver *solver, struct grid *the_grid);
+
 void next_timestep (struct monodomain_solver *solver);
 void swap (double **a, double **b);
 

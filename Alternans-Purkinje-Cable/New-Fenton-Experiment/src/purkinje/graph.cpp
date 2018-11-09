@@ -6,6 +6,7 @@ Graph::Graph ()
     list_nodes = NULL;
     total_nodes = 0;
     total_edges = 0;
+    dist = NULL;
 }
 
 void Graph::free_list_edges (Node *node)
@@ -146,8 +147,10 @@ void Graph::dijkstra (int s)
     printf("[!] Running Dijkstra ... \n");
 
     if (!dist)
+    {
         dist = (double*)malloc(sizeof(double)*total_nodes);
-
+    }
+        
     for (int i = 0; i < total_nodes; i++) 
         dist[i] = INF;
     dist[s] = 0;

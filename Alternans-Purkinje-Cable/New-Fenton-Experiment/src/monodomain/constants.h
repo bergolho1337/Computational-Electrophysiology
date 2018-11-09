@@ -9,6 +9,7 @@
 
 #define UM2_TO_CM2 0.00000001f
 #define BLOCK_SIZE 256
+#define OFFSET 50
 
 #ifdef _MSC_VER
 #define EXPORT_FN __declspec(dllexport)
