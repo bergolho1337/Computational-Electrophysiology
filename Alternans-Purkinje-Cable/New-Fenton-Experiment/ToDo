@@ -1,0 +1,6 @@
+- Add pragmas to the ODE solver
+- Add free memory functions
+- Check memory leaks using valgrind
+- Rebuild the script that plot the (APD x Cable length) -> 'calc_apd_dir.py'
+
+- Discuss with Rodrigo about discordant alternans initiation (show my notes).

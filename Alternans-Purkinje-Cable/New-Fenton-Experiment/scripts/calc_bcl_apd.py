@@ -138,7 +138,8 @@ def main():
     else:
 
         #cell_ids = [100,400,800,1200,1600,2000]
-        cell_ids = [71,142,213,284,355,426]
+        #cell_ids = [71,142,213,284,355,426]
+        cell_ids = [45,90,135,180,225,270]
 
         for cell_id in cell_ids:
             print("[!] Working on cell number %d ..." % cell_id)
@@ -149,7 +150,7 @@ def main():
             out_filename = "BCL-APD/cell-"+str(cell_id)+".dat"
             file = open(out_filename,"w")
             
-            for bcl in range(100,285,5):
+            for bcl in range(200,400,5):
                 dir_name = str(bcl) + "ms"
                 file_name = "data-" + str(cell_id) + ".dat"
                 
