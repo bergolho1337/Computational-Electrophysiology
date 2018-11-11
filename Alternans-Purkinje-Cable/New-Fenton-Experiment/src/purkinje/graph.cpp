@@ -245,6 +245,27 @@ void Graph::set_gap_junctions (const int num_div_cell)
     }
 }
 
+void Graph::set_no_gap_junctions ()
+{
+    Node *ptr = list_nodes;
+
+    while (ptr != NULL)
+    {
+        int u = ptr->id;
+        Edge *ptrl = ptr->list_edges;
+        while (ptrl != NULL)
+        {
+            int v = ptrl->id;
+
+            // All link will be citoplasm
+            ptrl->link_type = 0;
+            
+            ptrl = ptrl->next;
+        }
+        ptr = ptr->next;
+    }
+}
+
 /*
 Graph::Graph (string filename, double &dx)
 {

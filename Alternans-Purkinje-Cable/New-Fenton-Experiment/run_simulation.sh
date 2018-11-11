@@ -5,11 +5,11 @@ run_simulation () {
     echo "[!] Running simulation with $1ms pacing ..."
     echo "****************************************************************************************************"
     # Steady-State 
-    ./bin/FentonExperiment -c example_configs/feedback-380cm-s/sst_noble_5cm_$1ms.ini
-    cp output.sst steady_state/cable-5cm-$1ms-Gap.sst
+    ./bin/FentonExperiment -c example_configs/feedback-NoGap/sst_noble_5cm_NoGap_$1ms.ini
+    cp output.sst steady_state/cable-5cm-$1ms-NoGap.sst
     ./clear_results.sh
     # Experiment
-    ./bin/FentonExperiment -c example_configs/feedback-380cm-s/simple_noble_5cm_$1ms.ini
+    ./bin/FentonExperiment -c example_configs/feedback-NoGap/simple_noble_5cm_NoGap_$1ms.ini
     mkdir scripts/$1ms
     cp output/*.dat scripts/$1ms
     echo "****************************************************************************************************"

@@ -75,6 +75,7 @@ public:
 	void insert_node_graph (const double pos[]);
 	void insert_edge_graph (const int id_1, const int id_2);
 	void set_gap_junctions (const int num_div_cell);
+	void set_no_gap_junctions ();
 private:
 	Node *list_nodes;			// Pointer to the lists of Nodes
 	Node *last_node;				// Pointer to the last Node of the list

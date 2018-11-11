@@ -16,7 +16,8 @@ void configure_grid_from_options (struct grid *the_grid, struct user_options *op
     the_grid->dx = options->start_h / options->num_div_cell;
 
     the_grid->the_purkinje_network = set_purkinje_mesh_from_file(network_filename,the_grid->dx);
-    the_grid->the_purkinje_network->set_gap_junctions(options->num_div_cell);
+    //the_grid->the_purkinje_network->set_gap_junctions(options->num_div_cell);
+    the_grid->the_purkinje_network->set_no_gap_junctions();
     //the_grid->the_purkinje_network->print();
 
 }

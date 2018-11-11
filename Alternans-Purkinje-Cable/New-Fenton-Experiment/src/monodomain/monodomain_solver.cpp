@@ -147,7 +147,7 @@ void solve_monodomain(struct monodomain_solver *the_monodomain_solver,
         set_spatial_stim(stimuli_configs, the_grid);
 
     // [DEBUG] Print out information about the simulation to be solved
-    //print_solver_info (the_monodomain_solver, the_grid, configs);
+    print_solver_info (the_monodomain_solver, the_grid, configs);
 
     // Open the SST that will store the steady_state variables of the system on the time SST_RATE
     FILE *sst_file = fopen("output.sst","w+");

@@ -1,1 +1,6 @@
-vtk
+vtk/*
+animations/*
+bin/*
+build/*
+output/*
+shared_libs/*

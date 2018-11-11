@@ -18,10 +18,17 @@ extern "C" SET_ODE_INITIAL_CONDITIONS_CPU(set_model_initial_conditions_cpu)
     for (int i = 0; i < num_volumes; i++)
     {
         
-        volumes[i].y_old[0] = -75.5344986658;   // V
-        volumes[i].y_old[1] = 0.0605467272;     // m
-        volumes[i].y_old[2] = 0.7259001355;     // h       
-        volumes[i].y_old[3] = 0.4709239708;     // n
+        // Old initial conditions
+        //volumes[i].y_old[0] = -75.5344986658;   // V
+        //volumes[i].y_old[1] = 0.0605467272;     // m
+        //volumes[i].y_old[2] = 0.7259001355;     // h       
+        //volumes[i].y_old[3] = 0.4709239708;     // n
+
+        // New initial conditions
+        volumes[i].y_old[0] = -87.0;   // V
+        volumes[i].y_old[1] = 0.01;     // m
+        volumes[i].y_old[2] = 0.8;     // h       
+        volumes[i].y_old[3] = 0.01;     // n
 
     }
 }
