@@ -49,6 +49,9 @@ Graph::~Graph ()
 {
     if (list_nodes)
         free_list_nodes();
+    
+    if (dist)
+        free(dist);
 }
 
 Node::Node (const int i, const double pos[])

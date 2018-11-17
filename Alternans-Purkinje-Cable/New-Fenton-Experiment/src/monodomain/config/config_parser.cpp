@@ -276,3 +276,14 @@ void display_usage (char *argv[])
     printf("<input_config_filename> = Input filename with the parameters of the simulation\n");
     printf("=====================================================================================\n");
 }
+
+void free_user_options(struct user_options *s)
+{
+    free(s->model_file_path);
+    if(s->stim_configs) 
+    {
+        STIM_CONFIG_HASH_FOR_EACH_KEY_APPLY_FN_IN_VALUE(s->stim_configs, free_stim_config);
+        stim_config_hash_destroy(s->stim_configs);
+    }
+    free(s);
+}

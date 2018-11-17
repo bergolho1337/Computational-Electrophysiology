@@ -660,3 +660,91 @@ void write_steady_state_to_file (FILE *sst_file,\
         fprintf(sst_file,"\n");
     }
 }
+
+void free_velocity_points (struct velocity *v)
+{
+    assert(v);
+
+    if (v->ids)
+    {
+        free(v->ids);
+        v->ids = NULL;
+    }
+        
+    if (v->t2)
+    {
+        free(v->t2);
+        v->t2 = NULL;
+    }
+    
+    fclose(v->velocity_file);
+
+    free(v);
+}
+
+void free_control_volumes (struct control_volume *v, const int n)
+{
+    assert(v);
+
+    for (int i = 0; i < n; i++)
+    {
+        free(v[i].y_old); v[i].y_old = NULL;
+        free(v[i].y_star); v[i].y_star = NULL;
+        free(v[i].y_new); v[i].y_new = NULL;
+    }
+    free(v);
+}
+
+void free_plot_points (struct plot *p)
+{
+    assert(p);
+
+    if (p->plotFile)
+    {
+        for (int i = 0; i < p->np-1; i++)
+        {
+            fclose(p->plotFile[i]);
+            free(p->plotFile[i]);
+            p->plotFile[i] = NULL;
+        }
+        
+        free(p->plotFile);
+        p->plotFile = NULL;
+    }
+
+    if (p->ids)
+    {
+        free(p->ids);
+        p->ids = NULL;
+    }
+        
+    free(p);
+}
+
+void free_derivatives (struct derivative *dvdt)
+{
+    assert(dvdt);
+
+    if (dvdt)
+        free(dvdt);
+    
+}
+
+void free_monodomain_solver (struct monodomain_solver *s)
+{
+    assert(s);
+
+    if (s->volumes)
+        free_control_volumes(s->volumes,s->num_volumes);
+    
+    if (s->vel)
+        free_velocity_points(s->vel);
+
+    if (s->plot)
+        free_plot_points(s->plot);
+
+    if (s->dvdt)
+        free_derivatives(s->dvdt);
+    
+    free(s);
+}

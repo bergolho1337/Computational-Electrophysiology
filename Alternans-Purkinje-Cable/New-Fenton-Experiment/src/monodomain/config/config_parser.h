@@ -49,15 +49,15 @@ struct user_options
 };
 
 
-/* Display program usage, and exit.
- */
+// Display program usage, and exit
 void display_usage ( char *argv[] );
 struct user_options* new_user_options();
 void get_config_file (int argc, char **argv, struct user_options *user_args);
 int parse_config_file(void* user, const char* section, const char* name, const char* value);
 void print_user_options (struct user_options *user_args);
-/*
+void free_user_options(struct user_options *s);
 
+/*
 void configure_grid_from_options(struct grid* grid, struct user_options *options);
 void free_user_options(struct user_options *s);
 

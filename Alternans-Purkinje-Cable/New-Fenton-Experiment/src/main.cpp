@@ -52,6 +52,9 @@ int main (int argc, char *argv[])
         printf("[!] Time elapsed = %.10lf seconds\n",elapsed);
         printf("==========================================================\n");
 
+        clean_and_free_grid(the_grid);
+        free_monodomain_solver(monodomain_solver);
+        free_user_options(options);        
 
         return 0;
     }

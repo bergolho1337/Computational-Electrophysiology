@@ -82,6 +82,10 @@ struct monodomain_solver
 };
 
 struct monodomain_solver *new_monodomain_solver ();
+void free_monodomain_solver (struct monodomain_solver *s);
+void free_control_volumes (struct control_volume *v, const int n);
+void free_velocity_points (struct velocity *v);
+void free_derivatives (struct derivative *dvdt);
 
 void configure_monodomain_solver_from_options(struct monodomain_solver *the_monodomain_solver,
                                               struct user_options *options);
@@ -132,27 +136,4 @@ void write_steady_state_to_file (FILE *sst_file,\
 void write_VTK_to_file (struct monodomain_solver *solver,\
                         struct grid *the_grid, int iter);
 
-/*
-void save_old_cell_positions (struct grid *the_grid);
-void update_cells_to_solve (struct grid *the_grid, struct ode_solver *solver);
-void set_initial_conditions_all_volumes (struct monodomain_solver *the_solver, struct grid *the_grid, double initial_v);
-
-void print_solver_info(struct monodomain_solver *the_monodomain_solver, struct ode_solver *the_ode_solver,
-                       struct grid *the_grid, struct user_options *options);
-
-void update_ode_state_vector(struct ode_solver *the_ode_solver, struct grid *the_grid, uint32_t max_number_of_cells);
-
-void set_ode_extra_data(struct extra_data_config *config, struct grid *the_grid, struct ode_solver *the_ode_solver);
-void set_spatial_stim(struct stim_config_hash *stim_configs, struct grid *the_grid);
-
-void update_monodomain(uint32_t initial_number_of_cells, uint32_t num_active_cells, struct cell_node **active_cells,
-                       double beta,
-                       double cm, double dt_edp, real *sv, int n_equations_cell_model, bool use_gpu);
-
-
-
-
-bool print_result(const struct grid *the_grid, const struct user_options *configs, int count, bool save_in_binary);
-
-*/
 #endif // MONOALG3D_SOLVER_H

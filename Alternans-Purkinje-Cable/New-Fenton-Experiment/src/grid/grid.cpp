@@ -21,3 +21,23 @@ void configure_grid_from_options (struct grid *the_grid, struct user_options *op
     //the_grid->the_purkinje_network->print();
 
 }
+
+void clean_and_free_grid(struct grid* the_grid)
+{
+    assert(the_grid);
+
+    clean_grid(the_grid);
+
+    free (the_grid);
+}
+
+void clean_grid(struct grid *the_grid)
+{
+    assert(the_grid);
+    
+    if (the_grid->the_purkinje_network) 
+    {
+        delete the_grid->the_purkinje_network;
+    }
+
+}
