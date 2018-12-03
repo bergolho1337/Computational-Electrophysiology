@@ -4,3 +4,5 @@ bin/*
 build/*
 output/*
 shared_libs/*
+scripts/Results*
+steady_state/Results*
