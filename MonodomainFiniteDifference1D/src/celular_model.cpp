@@ -5,6 +5,8 @@
 
 void compute_initial_conditions (double *sv, const int Ncell, const int Nodes)
 {
+	printf("[Celular Model] Using Noble 1962 celular model\n");
+	printf("[Celular Model] Initializing cells with default initial conditions\n");
 	#pragma omp parallel
 	for (int i = 0; i < Ncell; i++)
 	{
@@ -14,6 +16,23 @@ void compute_initial_conditions (double *sv, const int Ncell, const int Nodes)
 		sv[i*Nodes+3] = 0.01;     	// n
 	}
 }
+
+void read_initial_conditions_from_file (double *sv, const int Ncell, const int Nodes)
+{
+	printf("[Celular Model] Using Noble 1962 celular model\n");
+	printf("[Celular Model] Initializing cells with using steady-state file 'output.sst'\n");
+	
+	FILE *file = fopen("output.sst","r");
+	for (int i = 0; i < Ncell; i++)
+	{
+		for (int j = 0; j < Nodes; j++)
+		{
+			fscanf(file,"%lf",&sv[i*Nodes+j]);
+		}
+	}
+	fclose(file);
+}
+
 
 double dvdt (const double V, const double m, const double h, const double n, const double stim_current)
 {

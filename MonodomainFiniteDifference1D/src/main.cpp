@@ -6,90 +6,63 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
+#include <fstream>
 #include <omp.h>
 
 #include "../include/timer.h"
+#include "../include/config.h"
 #include "../include/utils.h"
+#include "../include/plot.h"
 #include "../include/stimuli.h"
 #include "../include/monodomain.h"
-
 
 using namespace std;
 
 int main (int argc, char *argv[])
 {
-	// Print configuration
-	FILE *file = fopen("output/sv.dat","w+");
-	const int plot_cell_id = 250;	
-	const int print_rate = 100;
+	if (argc-1 != 1)
+	{
+		usage(argv[0]);
+		exit(EXIT_FAILURE);
+	}
 
-	// Finite difference parameters configuration
-	const double dx = 0.01;
-	const double dt = 0.01;
-	const double tmax = 3000.0;
-	const double lmax = 5.0;
-
-	int Ncell = nearbyint(lmax / dx);
-	int Niter = nearbyint(tmax / dt);
-
-	cout << "Number of cells = " << Ncell << endl;
-	cout << "Number of iterations = " << Niter << endl;
+	// Initialize all the structures 
+	struct user_options *options;
+	options = new_user_options();
 	
+	struct monodomain_solver *solver;
+	solver = new_monodomain_solver();
+
+	struct plot_config *plotter;
+	plotter = new_plot_config();
+
+	struct stim_config *stim;
+	stim = new_stim_config();
+
+	// Reading input configuration file
+	read_input_file(options,argv[1]);
+
+	// Parse the user input into the structures
+	configure_solver_from_options(solver,options);
+	configure_plot_from_options(plotter,solver,options);
+	configure_stimulus_from_options(stim,options);
+
 	// OpenMP configuration
 	omp_set_dynamic(0);
     	omp_set_num_threads(1);
 
-	// ODE's parameters
-	int Nodes = 4;		// Noble, 1962
+	print_configuration_parameters(solver->dx,solver->dt,solver->tmax,solver->lmax,\
+					solver->Ncell,solver->Niter,Nodes,\
+					plotter->plot_cell_ids,plotter->print_rate,plotter->sst_rate);
 
-	print_configuration_parameters(dx,dt,tmax,lmax,\
-					Ncell,Niter,Nodes,\
-					plot_cell_id,print_rate);
-
-	// Allocate memory
-	double *sv = new double[Ncell*Nodes]();
-	double *stim_current = new double[Ncell]();
-	double *vm = new double[Ncell]();
+	// Call the solver function for the monodomain equation
+	solve_monodomain(solver,stim,plotter);
 	
-	compute_initial_conditions(sv,Ncell,Nodes);
-	//print_state_vector(sv,Ncell,Nodes);
-
-	double start, finish, elapsed;
-	GET_TIME(start);	
-
-	for (int k = 0; k < Niter; k++)
-	{
-		double t = dt*k;
-
-		print_progress(k,Niter);	
-
-		if (k % print_rate == 0)
-		{
-			//write_VTK_to_file(sv,dx,Ncell,Nodes,k);
-			write_plot_data(file,t,sv,Ncell, Nodes, plot_cell_id);
-		}
-
-		compute_stimulus(stim_current,t,Ncell,dx);
-		//print_stimulus(stim_current,Ncell,dx);
-		
-		solve_diffusion(sv,dx,dt,Ncell,Nodes,vm);
-
-		update_state_vector(sv,vm,Ncell,Nodes);		
-		
-		solve_reaction(sv,stim_current,t,Ncell,Nodes,dt);
-
-	}
-	GET_TIME(finish);
-	elapsed = finish - start;
-	printf("%s\n",PRINT_LINE);
-	printf("Elapsed time = %.10lf\n",elapsed);
-	printf("%s\n",PRINT_LINE);
-
 	// Free memory
-	delete [] sv;
-	delete [] stim_current;
-	delete [] vm;
-	fclose(file);	
+	free_user_options(options);
+	free_monodomain_solver(solver);
+	free_plot_config(plotter);
+	free_stim_config(stim);
 
 	return 0;  
 }

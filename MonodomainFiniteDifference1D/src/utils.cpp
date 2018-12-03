@@ -44,11 +44,30 @@ void write_VTK_to_file (const double *sv, const double dx,\
 	fclose(file);
 }
 
-void write_plot_data (FILE *file, const double t, const double *sv,\
-			const int Ncell, const int Nodes,\
-			const int id)
+void write_steady_state_to_file (const double *sv, const int Ncell, const int Nodes)
 {
-	fprintf(file,"%.10lf %.10lf %.10lf\n",t,sv[id*Nodes],sv[id*Nodes+1]);
+	FILE *file = fopen("output.sst","w+");
+	for (int i = 0; i < Ncell; i++)
+	{
+		for (int j = 0; j < Nodes-1; j++)
+		{
+			fprintf(file,"%.10lf ",sv[i*Nodes+j]);
+		}
+		fprintf(file,"%.10lf\n",sv[i*Nodes+(Nodes-1)]);
+	}
+	fclose(file);
+}
+
+void write_plot_data (std::ofstream files[], const double t, const double *sv,\
+			const int Ncell, const int Nodes,\
+			const int ids[])
+{
+	for (int i = 0; i < 5; i++)
+	{
+		int id = ids[i];
+		files[i] << std::setprecision(10) << t << " " << sv[id*Nodes] << " " << sv[id*Nodes+1] << std::endl;
+		//fprintf(files[i],"%.10lf %.10lf\n",t,sv[id*Nodes],sv[id*Nodes+1]);
+	}
 }
 
 void print_stimulus (const double *stim_current, const int Ncell, const double dx)
@@ -77,8 +96,10 @@ void print_state_vector (const double *sv, const int Ncell, const int Nodes)
 
 void print_configuration_parameters(const double dx, const double dt, const double tmax, const double lmax,\
 					const int Ncell, const int Niter, const int Nodes,\
-					const int plot_cell_id, const int print_rate)
+					const int plot_cell_ids[], const int print_rate, const int sst_rate)
 {
+	int i;
+
 	printf("%s\n",PRINT_LINE);
 	printf("[Utils] dx = %.10lf cm\n",dx);
 	printf("[Utils] dt = %.10lf ms\n",dt);
@@ -87,8 +108,12 @@ void print_configuration_parameters(const double dx, const double dt, const doub
 	printf("[Utils] Number of cells = %d\n",Ncell);
 	printf("[Utils] Number of iterations = %d\n",Niter);
 	printf("[Utils] Number of ODE equations = %d\n",Nodes);
-	printf("[Utils] Plot cell id = %d\n",plot_cell_id);
 	printf("[Utils] Print rate = %d\n",print_rate);
+	printf("[Utils] Sst rate = %d\n",sst_rate);
+	printf("[Utils] Plot cell ids = ");
+	for (i = 0; i < 4; i++)
+		printf("%d ",plot_cell_ids[i]);
+	printf("%d\n",plot_cell_ids[i]);
 	printf("%s\n",PRINT_LINE);
 }
 
@@ -101,4 +126,29 @@ void print_progress (int iter, int max_iter)
     std::cout.flush();
 }
 
+void configure_plot_cells (std::ofstream files[], int plot_cell_ids[], const double lmax, const double dx)
+{
+	int offset = nearbyint(lmax / dx) / 5;
+	for (int i = 0; i < 5; i++)
+	{
+		std::stringstream filename;
+		plot_cell_ids[i] = i*offset;	
+	
+		filename << "output/sv-" << plot_cell_ids[i] << ".dat";
+		files[i].open(filename.str().c_str());		
+	}
+}
 
+void close_plot_files (std::ofstream files[])
+{
+	for (int i = 0; i < 5; i++)
+		files[i].close();
+}
+
+void usage (const char pname[])
+{
+	printf("%s\n",PRINT_LINE);
+	printf("Usage:> %s <input_config_file>\n",pname);
+	printf("\t<input_config_file> = Input file with the parameters values for the simulation\n");
+	printf("%s\n",PRINT_LINE);	
+}

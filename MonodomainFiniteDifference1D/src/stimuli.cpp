@@ -1,5 +1,29 @@
 #include "../include/stimuli.h"
 
+struct stim_config* new_stim_config ()
+{
+	struct stim_config *stim = (struct stim_config*)malloc(sizeof(struct stim_config));
+
+	return stim;
+}
+
+void free_stim_config (struct stim_config *stim)
+{
+	free(stim);
+}
+
+void configure_stimulus_from_options (struct stim_config *stim, struct user_options *options)
+{
+	stim->stim_start = options->stim_start;
+	stim->stim_duration = options->stim_duration;
+	stim->start_period = options->start_period;
+	stim->end_period = options->end_period;
+	stim->period_step = options->period_step;
+	stim->n_cycles = options->n_cycles;
+
+	print_stim_config(stim);
+}
+
 double get_spatial_stim_currents (const double x)
 {
 	static const double xmin = 0.0;
@@ -58,4 +82,14 @@ void compute_stimulus (double *stims, const double cur_time, const int np, const
         time = cur_time;
 }
 
-
+void print_stim_config (struct stim_config *stim)
+{
+	printf("%s\n",PRINT_LINE);
+	printf("[Stimulus] stim_start = %.10lf\n",stim->stim_start);
+	printf("[Stimulus] stim_duration = %.10lf\n",stim->stim_duration);
+	printf("[Stimulus] start_period = %.10lf\n",stim->start_period);
+	printf("[Stimulus] end_period = %.10lf\n",stim->end_period);
+	printf("[Stimulus] period_step = %.10lf\n",stim->period_step);
+	printf("[Stimulus] n_cycles = %d\n",stim->n_cycles);
+	printf("%s\n",PRINT_LINE);
+}
