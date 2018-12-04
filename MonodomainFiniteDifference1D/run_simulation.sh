@@ -17,7 +17,7 @@ run_simulation_Noble () {
 
 
 #PACINGS=( 200 210 220 230 240 250 260 270 280 290 300 )
-PACINGS=($(seq 300 -5 295))
+PACINGS=($(seq 235 -5 200))
 
 for PACING in "${PACINGS[@]}"; do
     run_simulation_Noble $PACING

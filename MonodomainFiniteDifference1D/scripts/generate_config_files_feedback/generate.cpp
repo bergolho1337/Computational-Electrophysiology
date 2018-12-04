@@ -77,7 +77,7 @@ void write_config_files (const int period, const int start_period, const int ste
 int main ()
 {
     int start_period = 300;
-    int end_period = 250;
+    int end_period = 200;
     int period_step = 5;
     for (int period = start_period; period >= end_period; period -= period_step)
     {
