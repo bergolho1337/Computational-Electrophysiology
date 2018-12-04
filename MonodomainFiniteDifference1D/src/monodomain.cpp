@@ -13,14 +13,14 @@ struct monodomain_solver* new_monodomain_solver ()
 
 void free_monodomain_solver (struct monodomain_solver *solver)
 {
-	if (!solver->sv)
-		free(solver->sv);
+	if (solver->sv)
+		delete [] solver->sv;
 
-	if (!solver->stim_current)
-		free(solver->stim_current);
+	if (solver->stim_current)
+		delete [] solver->stim_current;
 
-	if (!solver->vm)
-		free(solver->vm);
+	if (solver->vm)
+		delete [] solver->vm;
 
 	free(solver);
 }
@@ -35,6 +35,7 @@ void configure_solver_from_options (struct monodomain_solver *solver, struct use
 	solver->Niter = nearbyint(solver->tmax / solver->dt);
 
 	solver->use_steady_state = options->use_steady_state;
+	solver->sst_filename = options->sst_filename;
 
 	// Allocate memory
 	solver->sv = new double[solver->Ncell*Nodes]();
@@ -62,17 +63,19 @@ void solve_monodomain (struct monodomain_solver *solver,\
 	int sst_rate = plotter->sst_rate;
 	std::ofstream *plot_files = plotter->plot_files;
 	int *plot_cell_ids = plotter->plot_cell_ids;
+
+	std::string sst_filename = solver->sst_filename; 
 	
 	// Initial conditions configuration
 	if (solver->use_steady_state)
-		read_initial_conditions_from_file(sv,Ncell,Nodes);
+		read_initial_conditions_from_file(sv,Ncell,Nodes,sst_filename);
 	else
 		compute_initial_conditions(sv,Ncell,Nodes);
 
 	double start, finish, elapsed;
 	GET_TIME(start);	
 
-	for (int k = 0; k < Niter; k++)
+	for (int k = 0; k <= Niter; k++)
 	{
 		double t = dt*k;
 
@@ -89,7 +92,7 @@ void solve_monodomain (struct monodomain_solver *solver,\
 			write_steady_state_to_file(sv,Ncell,Nodes);
 		}
 
-		compute_stimulus(stim_current,t,Ncell,dx);
+		compute_stimulus(stim,stim_current,t,Ncell,dx);
 		//print_stimulus(stim_current,Ncell,dx);
 		
 		solve_diffusion(sv,dx,dt,Ncell,Nodes,vm);
@@ -115,7 +118,7 @@ void solve_diffusion (double *sv, const double dx, const double dt,\
 	static const double Cm = 12.0;
 	static const double r = (dt*D)/(dx*dx);
 	
-	#pragma omp parallel 
+	//#pragma omp parallel 
 	for (int i = 0; i < np; i++)
 	{
 		// Boundary node
@@ -134,7 +137,7 @@ void solve_diffusion (double *sv, const double dx, const double dt,\
 void update_state_vector (double *sv, const double *vm,\
 			  const int np, const int nodes)
 {
-	#pragma omp parallel
+	#pragma omp parallel for
 	for (int i = 0; i < np; i++)
 	{
 		sv[i*nodes] = vm[i];
@@ -144,7 +147,7 @@ void update_state_vector (double *sv, const double *vm,\
 void solve_reaction (double *sv, double *stims, const double t,\
 		     const int np, const int nodes, const double dt)
 {
-	#pragma omp parallel
+	#pragma omp parallel for
 	for (int i = 0; i < np; i++)
 	{
 		double V_old = sv[i*nodes];

@@ -38,15 +38,14 @@ double get_spatial_stim_currents (const double x)
 		
 }
 
-void compute_stimulus (double *stims, const double cur_time, const int np, const double dx)
+void compute_stimulus (struct stim_config *stim, double *stims, const double cur_time, const int np, const double dx)
 {
-	// Stimulus for the Noble 1962 celular model
-	static const double stim_start = 0.0;
-	static const double stim_duration = 5.0;
-	static const double start_period = 300.0;
-	static const double end_period = 300.0;
-	static const double period_step = 100.0;
-	static const int n_cycles = 10;
+	double stim_start = stim->stim_start;
+	double stim_duration = stim->stim_duration;
+	double start_period = stim->start_period;
+	double end_period = stim->end_period;
+	double period_step = stim->period_step;
+	int n_cycles = stim->n_cycles;
 
 	double time = cur_time;
 	double new_time, stim_period;

@@ -29,7 +29,10 @@ struct user_options
 	double start_period;
 	double end_period;
 	double period_step;
-	int n_cycles;	
+	int n_cycles;
+
+	// Steady-State configuration section
+	std::string sst_filename;	
 
 };
 

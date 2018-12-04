@@ -26,6 +26,6 @@ void configure_stimulus_from_options (struct stim_config *stim, struct user_opti
 void print_stim_config (struct stim_config *stim);
 
 double get_spatial_stim_currents (const double x);
-void compute_stimulus (double *stims, const double cur_time, const int np, const double dx);
+void compute_stimulus (struct stim_config *stim, double *stims, const double cur_time, const int np, const double dx);
 
 #endif

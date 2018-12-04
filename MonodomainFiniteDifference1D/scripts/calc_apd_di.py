@@ -5,7 +5,7 @@ from glob import glob
 import matplotlib.pyplot as plt
 
 # Build a tuple where: T{i} = (t_i,dvdt_i)
-def calc_derivatives (t,vm):
+def compute_derivatives (t,vm):
     n = len(vm)-1
     dvdt = {}
     for i in range(n):
@@ -23,7 +23,7 @@ def calc_apd (sv):
     APD_90_value = abs(max_value - min_value)*0.1 + min_value
 
     # Calculate the derivatives for each interval and sort then in decreasing order
-    dvdt = calc_derivatives(t,vm)
+    dvdt = compute_derivatives(t,vm)
     max_dvdt = sorted(dvdt.iteritems(), key=lambda (k,v): (v,k), reverse=True)
 
     for i in range(10):
@@ -83,7 +83,8 @@ def calc_apd (sv):
         apd = t2-t1
         apds.append(apd)
         
-        print("------------------------------")
+	'''        
+	print("------------------------------")
         print("APD %d" % i)
         print("t1 = %.10lf" % t1)
         print("t2 = %.10lf" % t2)
@@ -92,6 +93,7 @@ def calc_apd (sv):
         print("diff = %.10lf" % min_diff)
         print("value = %.10lf" % (apd))
         print("------------------------------")
+	'''
         
     return apds[0], apds[1]
 
@@ -99,6 +101,7 @@ def calc_di (even_apd,odd_apd,bcl):
 	even_di = bcl - even_apd
 	odd_di = bcl - odd_apd
 
+	'''
 	print("------------------------------")
         print("APD 1 = %.10lf" % even_apd)
 	print("DI 1 = %.10lf" % even_di)
@@ -109,8 +112,15 @@ def calc_di (even_apd,odd_apd,bcl):
 	print("DI 2 = %.10lf" % odd_di)
 	print("BCL = %.10lf" % bcl)
         print("------------------------------")
+	'''
 
 	return even_di, odd_di
+
+def calc_apd_di (sv,bcl):
+	even_apd, odd_apd = calc_apd(sv)
+	even_di, odd_di = calc_di(even_apd,odd_apd,bcl)
+	
+	return even_apd, odd_apd, even_di, odd_di
 
 def main():
 
@@ -127,8 +137,18 @@ def main():
 
         data = np.genfromtxt(input_filename)
 
-        even_apd, odd_apd = calc_apd(data)
-	even_di, odd_di = calc_di(even_apd,odd_apd,bcl)
+	even_apd, odd_apd, even_di, odd_di = calc_apd_di(data,bcl)
+	
+	print("*************************************")
+	print("APD 1 = %.10lf" % even_apd)
+	print("DI 1 = %.10lf" % even_di)
+	print("BCL = %.10lf" % bcl)
+	print("*************************************")
+	print("APD 2 = %.10lf" % odd_apd)
+	print("DI 2 = %.10lf" % odd_di)
+	print("BCL = %.10lf" % bcl)
+	print("*************************************")
+
             
 if __name__ == "__main__":
     main()

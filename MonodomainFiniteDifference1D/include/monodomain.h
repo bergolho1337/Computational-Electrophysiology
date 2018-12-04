@@ -3,9 +3,11 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <cstdio>
 #include <cstdlib>
 #include <cmath>
+#include <omp.h>
 
 #include "celular_model.h"
 #include "config.h"
@@ -18,6 +20,7 @@ struct monodomain_solver
 {
 	// Initial condition configuration
 	bool use_steady_state;
+	std::string sst_filename;
 
 	// Finite difference parameters configuration
 	double dx;
