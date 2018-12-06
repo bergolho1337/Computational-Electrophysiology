@@ -18,6 +18,9 @@ void write_sst_config_file (const int period, const int start_period, const int 
     fprintf(file,"lmax = 5.0\n");
     fprintf(file,"print_rate = 100\n");
     fprintf(file,"sst_rate = %d\n",2000*period);
+    fprintf(file,"use_steady_state = no\n");
+    fprintf(file,"sst_filename = teste.sst\n");
+    /*
     if (period == start_period)
     {
 	fprintf(file,"use_steady_state = no\n");
@@ -28,6 +31,7 @@ void write_sst_config_file (const int period, const int start_period, const int 
 	fprintf(file,"use_steady_state = yes\n");
         fprintf(file,"sst_filename = steady_state/cable-5cm-%dms.sst\n",period+step_period);
     }
+    */
     fprintf(file,"\n\n");
     fprintf(file,"[stimulus]\n");
     fprintf(file,"stim_start = 0.0\n");

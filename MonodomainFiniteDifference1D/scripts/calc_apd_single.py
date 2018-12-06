@@ -21,6 +21,9 @@ def calc_apd (sv):
     min_value = np.amin(vm)
     max_value = np.amax(vm)
     APD_90_value = abs(max_value - min_value)*0.1 + min_value
+    APD_60_value = abs(max_value - min_value)*0.3 + min_value
+    #print("APD 90 = %.10lf" % APD_90_value)
+    #print("APD 60 = %.10lf" % APD_60_value)
 
     # Calculate the derivatives for each interval and sort then in decreasing order
     dvdt = calc_derivatives(t,vm)
@@ -37,19 +40,21 @@ def calc_apd (sv):
     peak_times.sort()
 
     # Sort by derivative next
+    '''
     for i in range(0,3):
-	for j in range(i+1,3):
+    	for j in range(i+1,3):
 		if ( abs(peak_times[i][1]-peak_times[j][1]) > 10.0 ):
 			aux = peak_times[i]
 			peak_times[i] = peak_times[j]
 			peak_times[j] = aux
     peak_times = peak_times[0:2]
+    '''
 
     #print("Peak times")
     #print peak_times
     
     apds = []
-    for i in range(len(peak_times)):
+    for i in range(len(peak_times)-1):
         start_index = 0
         end_index = 0
         t1 = peak_times[i][0]

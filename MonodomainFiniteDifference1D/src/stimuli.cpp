@@ -31,11 +31,18 @@ double get_spatial_stim_currents (const double x)
 
 	static const double stim_current = 200.0;
 
+	// Old stimulus code ...
+	/*
 	if (x >= xmin && x <= xmax)
 		return stim_current;
 	else
 		return 0.0;
-		
+	*/
+
+	// New stimulus code using a Gaussian
+	static const double xp = 0.25;		// Position of the electrode
+
+	return stim_current*gaussian(x-xp);
 }
 
 void compute_stimulus (struct stim_config *stim, double *stims, const double cur_time, const int np, const double dx)
@@ -79,6 +86,13 @@ void compute_stimulus (struct stim_config *stim, double *stims, const double cur
 		stims[i] = 0.0;
 	}
         time = cur_time;
+}
+
+double gaussian (const double x)
+{
+	static const double sigma = 0.1;	// Gaussian width
+
+	return (1.0/(sigma*sqrt(2.0*M_PI)))*exp(-0.5*pow(x/sigma,2.0));
 }
 
 void print_stim_config (struct stim_config *stim)

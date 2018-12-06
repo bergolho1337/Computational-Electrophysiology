@@ -44,7 +44,8 @@ double dvdt (const double V, const double m, const double h, const double n, con
 	static const double CM = 1.2e+01;
 
 	double gna = ((pow(m,3.0e+00)*h*g_Na_max));
-	double ina = (gna+1.4e-01)*(V-E_Na);
+	double ina = (gna+1.4e-01)*(V-E_Na);		// Original
+	//double ina = (gna+1.2e-01)*(V-E_Na);
 	double gk1 = (((1.2*exp((((-V)-9.0e+01)/5.0e+01)))+(1.5e-02*exp(((V+9.0e+01)/6.0e+01)))));
 	double gk2 = ((1.2*pow(n,4.0e+00)));
 	double ik = (((gk1+gk2)*(V+1.0e+02)));

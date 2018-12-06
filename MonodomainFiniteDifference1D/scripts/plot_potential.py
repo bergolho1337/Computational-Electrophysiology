@@ -11,8 +11,8 @@ def plot_potential (sv):
     #plt.xlim(150,560)
     plt.title("Action potential",fontsize=14)
     plt.legend(loc=2,fontsize=14)
-    #plt.show()
-    plt.savefig("ap.pdf")
+    plt.show()
+    #plt.savefig("ap.pdf")
 
 def main():
 

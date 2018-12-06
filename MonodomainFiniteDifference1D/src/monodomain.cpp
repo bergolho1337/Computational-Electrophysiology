@@ -114,7 +114,7 @@ void solve_diffusion (double *sv, const double dx, const double dt,\
  			const int np, const int nodes,\
 			double *vm)
 {
-	static const double D = 2.5e-04; // Article: D = 2.5e-04
+	static const double D = 2.5e-04; // Paper: D = 2.5e-04
 	static const double Cm = 12.0;
 	static const double r = (dt*D)/(dx*dx);
 	
