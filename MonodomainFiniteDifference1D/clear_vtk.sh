@@ -1,2 +1,2 @@
 #!/bin/bash
-cd vtk; rm *
+cd vtk; rm *.vtk

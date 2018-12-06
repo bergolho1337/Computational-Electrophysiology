@@ -96,59 +96,90 @@ def calc_apd (sv):
 	'''
         
     return apds[0], apds[1]
+            
+def get_cell_id_from_filename (filename):
+    aux = filename.split('-')
+    aux2 = aux[1].split('.')
+    cell_id = aux2[0]
+    return int(cell_id)
 
-def calc_di (even_apd,odd_apd,bcl):
-	even_di = bcl - even_apd
-	odd_di = bcl - odd_apd
+def plot_apd_over_cable (cell_ids,even_apds,odd_apds,dir_name,output_filename):
+    plt.grid()
+    plt.plot(cell_ids,even_apds,label="even",c="blue",marker='s')
+    plt.plot(cell_ids,odd_apds,label="odd",c="red",marker='o')
+    plt.xlabel("cell id",fontsize=15)
+    plt.ylabel("APD",fontsize=15)
+    plt.ylim([50,250])
+    plt.title("%s" % output_filename,fontsize=14)
+    plt.legend(loc=0,fontsize=14)
+    plt.savefig(dir_name+output_filename+".pdf")
+    #plt.show()
 
-	'''
-	print("------------------------------")
-        print("APD 1 = %.10lf" % even_apd)
-	print("DI 1 = %.10lf" % even_di)
-	print("BCL = %.10lf" % bcl)
-        print("------------------------------")
-	print("------------------------------")
-        print("APD 2 = %.10lf" % odd_apd)
-	print("DI 2 = %.10lf" % odd_di)
-	print("BCL = %.10lf" % bcl)
-        print("------------------------------")
-	'''
+def swap_values (a,b):
+    aux = a
+    a = b
+    b = aux
 
-	return even_di, odd_di
+def sort_apds_by_cell_id (cell_ids,even_apds,odd_apds):
+    n = len(cell_ids)
+    for i in range(n):
+        for j in range(n):
+            if (cell_ids[j] < cell_ids[i]):
+                cell_ids[j], cell_ids[i] = cell_ids[i], cell_ids[j]
+                even_apds[j],even_apds[i] = even_apds[i],even_apds[j]
+                odd_apds[j],odd_apds[i] = odd_apds[i],odd_apds[j]
+    return cell_ids, even_apds, odd_apds
 
-def calc_apd_di (sv,bcl):
-	even_apd, odd_apd = calc_apd(sv)
-	even_di, odd_di = calc_di(even_apd,odd_apd,bcl)
-	
-	return even_apd, odd_apd, even_di, odd_di
+def plot_bcl_apd (even_apds,odd_apds,bcls,cell_id):
+    plt.clf()
+    plt.grid()
+    plt.scatter(bcls,even_apds,label="even",c="red",marker='o')
+    plt.scatter(bcls,odd_apds,label="odd",c="blue",marker='o')
+    plt.xlabel("BCL",fontsize=15)
+    plt.ylabel("APD",fontsize=15)
+    plt.title("BCL x APD (cell %d)" % cell_id,fontsize=14)
+    plt.legend(loc=0,fontsize=14)
+    #plt.show()
+    plt.savefig("BCL-APD/bcl-apd-cell-%d.pdf" % cell_id)
 
 def main():
 
-    if (len(sys.argv) != 3):
-	print("******************************************************************************************")        
-	print("Usage:> %s <input_filename> <BCL>" % (sys.argv[0]))
-	print("\t<input_filename> = Input file with the transmembrane potential of the simulation")
-	print("\t<BCL> = Basic cycle length (period)")
-	print("******************************************************************************************")
+    if (len(sys.argv) != 1):
+	print("===============================================================")
+        print("Usage:> %s" % (sys.argv[0]))
+	print("===============================================================")
         sys.exit(1)
     else:
-        input_filename = sys.argv[1]
-	bcl = float(sys.argv[2])
 
-        data = np.genfromtxt(input_filename)
+        #cell_ids = [100,400,800,1200,1600,2000]
+        #cell_ids = [71,142,213,284,355,426]
+        cell_ids = [0,100,200,300,400]
 
-	even_apd, odd_apd, even_di, odd_di = calc_apd_di(data,bcl)
-	
-	print("*************************************")
-	print("APD 1 = %.10lf" % even_apd)
-	print("DI 1 = %.10lf" % even_di)
-	print("BCL = %.10lf" % bcl)
-	print("*************************************")
-	print("APD 2 = %.10lf" % odd_apd)
-	print("DI 2 = %.10lf" % odd_di)
-	print("BCL = %.10lf" % bcl)
-	print("*************************************")
+        for cell_id in cell_ids:
+            print("[!] Working on cell number %d ..." % cell_id)
 
+            even_apds = []
+            odd_apds = []
+            bcls = []
+            out_filename = "BCL-APD/cell-"+str(cell_id)+".dat"
+            file = open(out_filename,"w")
             
+            for bcl in range(100,300,5):
+                dir_name = str(bcl) + "ms"
+                file_name = "sv-" + str(cell_id) + ".dat"
+                
+                data = np.genfromtxt(dir_name+"/"+file_name) 
+                even_apd, odd_apd = calc_apd(data)
+
+                file.write("%d %.10lf %10lf\n" % (bcl,even_apd,odd_apd))
+
+                even_apds.append(even_apd)
+                odd_apds.append(odd_apd)
+                bcls.append(bcl)
+            
+            file.close()
+
+            plot_bcl_apd(even_apds,odd_apds,bcls,cell_id)
+
 if __name__ == "__main__":
     main()

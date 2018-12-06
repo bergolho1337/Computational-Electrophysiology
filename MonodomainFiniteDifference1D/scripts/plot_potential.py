@@ -8,10 +8,11 @@ def plot_potential (sv):
     plt.plot(sv[:,0],sv[:,1],label="Vm",c="black",linewidth=3.0)
     plt.xlabel("t (ms)",fontsize=15)
     plt.ylabel("V (mV)",fontsize=15)
+    #plt.xlim(150,560)
     plt.title("Action potential",fontsize=14)
     plt.legend(loc=2,fontsize=14)
-    plt.show()
-    #plt.savefig("ap.pdf")
+    #plt.show()
+    plt.savefig("ap.pdf")
 
 def main():
 

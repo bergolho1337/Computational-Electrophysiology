@@ -12,6 +12,12 @@ def compute_derivatives (t,vm):
         dvdt[t[i]] = vm[i+1]-vm[i] 
     return dvdt
 
+def get_cell_id_from_filename (filename):
+    aux = filename.split('-')
+    aux2 = aux[1].split('.')
+    cell_id = aux2[0]
+    return int(cell_id)
+
 def calc_apd (sv):
     # Copy the state vector data to local variables
     t = sv[:,0]
@@ -122,33 +128,80 @@ def calc_apd_di (sv,bcl):
 	
 	return even_apd, odd_apd, even_di, odd_di
 
+def sort_apds_by_cell_id (cell_ids,even_apds,odd_apds,even_dis,odd_dis):
+    n = len(cell_ids)
+    for i in range(n):
+        for j in range(n):
+            if (cell_ids[j] < cell_ids[i]):
+                cell_ids[j], cell_ids[i] = cell_ids[i], cell_ids[j]
+                even_apds[j],even_apds[i] = even_apds[i],even_apds[j]
+                odd_apds[j],odd_apds[i] = odd_apds[i],odd_apds[j]
+		even_dis[j],even_dis[i] = even_dis[i],even_dis[j]
+                odd_dis[j],odd_dis[i] = odd_dis[i],odd_dis[j]
+    return cell_ids, even_apds, odd_apds, even_dis, odd_dis
+
+def plot_apd_over_cable (cell_ids,even_apds,odd_apds,dir_name,bcl):
+    plt.grid()
+    plt.plot(cell_ids,even_apds,label="even",c="blue",marker='s')
+    plt.plot(cell_ids,odd_apds,label="odd",c="red",marker='o')
+    plt.xlabel("cell id",fontsize=15)
+    plt.ylabel("APD",fontsize=15)
+    plt.ylim([50,250])
+    plt.title("BCL = %d" % bcl,fontsize=14)
+    plt.legend(loc=0,fontsize=14)
+    plt.savefig(dir_name + "/cable_APD_BCL%dms" % bcl + ".pdf")
+    #plt.show()
+
 def main():
 
     if (len(sys.argv) != 3):
 	print("******************************************************************************************")        
-	print("Usage:> %s <input_filename> <BCL>" % (sys.argv[0]))
-	print("\t<input_filename> = Input file with the transmembrane potential of the simulation")
+	print("Usage:> %s <directory_name> <BCL>" % (sys.argv[0]))
 	print("\t<BCL> = Basic cycle length (period)")
+	print("\t<directory_name> = Path to the directory for the data")
 	print("******************************************************************************************")
         sys.exit(1)
     else:
-        input_filename = sys.argv[1]
-	bcl = float(sys.argv[2])
+	dir_name = sys.argv[1]        
+	bcl = float(sys.argv[2])	
 
-        data = np.genfromtxt(input_filename)
+	# Capture the data from 
+        #data = np.genfromtxt(input_filename)
 
-	even_apd, odd_apd, even_di, odd_di = calc_apd_di(data,bcl)
+	# List to store the APD of each measured cell over the cable
+        # Even = First AP
+        # Odd = Second AP
+        even_apds = []
+        odd_apds = []
+	even_dis = []
+	odd_dis = []
+        cell_ids = []
+
+        # List of files contaning the measured AP of the marked cells
+        files = [f for f in glob(dir_name + '/*.dat')]
+		
+	# For each file calculate the Even and Odd APD and store then in a list
+        for f in files:		
+		cell_id = get_cell_id_from_filename(f)
+            	data = np.genfromtxt(f)
+
+            	print("**********************************************************")
+            	print("Cell id = %s" % cell_id)
+
+		even_apd, odd_apd = calc_apd(data)
+		even_di, odd_di = calc_di(even_apd,odd_apd,bcl)
+		
+		cell_ids.append(cell_id)
+            	even_apds.append(even_apd)     
+            	odd_apds.append(odd_apd)
+		even_dis.append(even_di)     
+            	odd_dis.append(odd_di)
 	
-	print("*************************************")
-	print("APD 1 = %.10lf" % even_apd)
-	print("DI 1 = %.10lf" % even_di)
-	print("BCL = %.10lf" % bcl)
-	print("*************************************")
-	print("APD 2 = %.10lf" % odd_apd)
-	print("DI 2 = %.10lf" % odd_di)
-	print("BCL = %.10lf" % bcl)
-	print("*************************************")
-
+	# Sort the APD by ascending order of the cell id
+	cell_ids, even_apds, odd_apds, even_dis, odd_dis = sort_apds_by_cell_id(cell_ids,even_apds,odd_apds,even_dis,odd_dis)
+	
+	# Plot the APDs over the cable
+	plot_apd_over_cable(cell_ids,even_apds,odd_apds,dir_name,bcl)
             
 if __name__ == "__main__":
     main()
