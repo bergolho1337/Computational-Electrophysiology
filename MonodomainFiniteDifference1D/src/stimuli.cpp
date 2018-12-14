@@ -39,7 +39,7 @@ double get_spatial_stim_currents (const double x)
 		return 0.0;
 	*/
 
-	// New stimulus code using a Gaussian
+	// New stimulus code using a Gaussian as from the paper
 	static const double xp = 0.25;		// Position of the electrode
 
 	return stim_current*gaussian(x-xp);

@@ -1,6 +1,14 @@
-// --------------------------------------------------------------------------------------------------------------------
-// This program solves the 1D Monodomain equation using the Mitchell-Shaeffer celular model
-// --------------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------------------
+// Author: Lucas Berg
+//
+// This program solves the 1D Monodomain equation using a Finite Difference approach and the Noble celular model from 1962
+// 
+// The idea of this project is to reproduce the results from the papers
+// 	- Model-based control of cardiac alternans in Purkinje fibers from Alejandro Garzón and Roman O. Grigoriev (2011)
+//	- Spatiotemporal control of cardiac alternans from Blas Echebarria, and Alain Karma (2002)
+//
+// The system of ODE's from the celular model has been solved using the Standart Euler Scheme and by using OpenMP.
+// -------------------------------------------------------------------------------------------------------------------------
 
 #include <iostream>
 #include <cstdio>
@@ -49,7 +57,7 @@ int main (int argc, char *argv[])
 
 	// OpenMP configuration
 	omp_set_dynamic(0);
-    omp_set_num_threads(4);
+    	omp_set_num_threads(4);
 
 	print_configuration_parameters(solver->dx,solver->dt,solver->tmax,solver->lmax,\
 					solver->Ncell,solver->Niter,Nodes,\

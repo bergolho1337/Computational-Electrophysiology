@@ -13,11 +13,11 @@ void write_sst_config_file (const int period, const int start_period, const int 
 
     fprintf(file,"[main]\n");
     fprintf(file,"dx = 0.01\n");
-    fprintf(file,"dt = 0.01\n");
-    fprintf(file,"tmax = %d\n",20*period);
+    fprintf(file,"dt = 0.05\n");
+    fprintf(file,"tmax = %d\n",200*period);
     fprintf(file,"lmax = 5.0\n");
     fprintf(file,"print_rate = 100\n");
-    fprintf(file,"sst_rate = %d\n",2000*period);
+    fprintf(file,"sst_rate = %d\n",20000*period);
     fprintf(file,"use_steady_state = no\n");
     fprintf(file,"sst_filename = teste.sst\n");
     /*
@@ -39,7 +39,7 @@ void write_sst_config_file (const int period, const int start_period, const int 
     fprintf(file,"start_period = %d\n",period);
     fprintf(file,"end_period = %d\n",period);
     fprintf(file,"period_step = 100\n");
-    fprintf(file,"n_cycles = 20\n");
+    fprintf(file,"n_cycles = 200\n");
     
     fclose(file);
 }
@@ -53,7 +53,7 @@ void write_simulation_config_file (const int period, const int start_period)
 
     fprintf(file,"[main]\n");
     fprintf(file,"dx = 0.01\n");
-    fprintf(file,"dt = 0.01\n");
+    fprintf(file,"dt = 0.05\n");
     fprintf(file,"tmax = %d\n",3*period);
     fprintf(file,"lmax = 5.0\n");
     fprintf(file,"print_rate = 100\n");
