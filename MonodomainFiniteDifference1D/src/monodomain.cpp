@@ -64,6 +64,10 @@ void solve_monodomain (struct monodomain_solver *solver,\
 	std::ofstream *plot_files = plotter->plot_files;
 	int *plot_cell_ids = plotter->plot_cell_ids;
 
+	#ifdef OUTPUT_VTK
+	printf("[Monodomain] Saving output files in VTK format\n");
+	#endif
+
 	std::string sst_filename = solver->sst_filename; 
 	
 	// Initial conditions configuration
@@ -83,7 +87,9 @@ void solve_monodomain (struct monodomain_solver *solver,\
 
 		if (k % print_rate == 0)
 		{
-			//write_VTK_to_file(sv,dx,Ncell,Nodes,k);
+			#ifdef OUTPUT_VTK
+			write_VTK_to_file(sv,dx,Ncell,Nodes,k);
+			#endif
 			write_plot_data(plot_files,t,sv,Ncell,Nodes,plot_cell_ids);
 		}
 

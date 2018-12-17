@@ -16,6 +16,8 @@
 #include "timer.h"
 #include "utils.h"
 
+//#define OUTPUT_VTK			// Flag used to control if we will be writing the output to a VTK file (Paraview visualization)
+
 struct monodomain_solver
 {
 	// Initial condition configuration

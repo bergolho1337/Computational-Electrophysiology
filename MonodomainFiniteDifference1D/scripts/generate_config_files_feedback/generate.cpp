@@ -1,9 +1,14 @@
 #include <iostream>
+#include <cmath>
 #include <cstdio>
 
 using namespace std;
 
 const int MAX_SIZE = 500;
+const double DT = 0.01;
+const double N_CYCLES = 200.0;
+
+int SST_RATE = nearbyint(N_CYCLES/DT);
 
 void write_sst_config_file (const int period, const int start_period, const int step_period)
 {
@@ -13,11 +18,11 @@ void write_sst_config_file (const int period, const int start_period, const int 
 
     fprintf(file,"[main]\n");
     fprintf(file,"dx = 0.01\n");
-    fprintf(file,"dt = 0.05\n");
-    fprintf(file,"tmax = %d\n",200*period);
+    fprintf(file,"dt = %lf\n",DT);
+    fprintf(file,"tmax = %d\n",(int)N_CYCLES*period);
     fprintf(file,"lmax = 5.0\n");
     fprintf(file,"print_rate = 100\n");
-    fprintf(file,"sst_rate = %d\n",20000*period);
+    fprintf(file,"sst_rate = %d\n",SST_RATE*period);
     fprintf(file,"use_steady_state = no\n");
     fprintf(file,"sst_filename = teste.sst\n");
     /*
@@ -53,11 +58,11 @@ void write_simulation_config_file (const int period, const int start_period)
 
     fprintf(file,"[main]\n");
     fprintf(file,"dx = 0.01\n");
-    fprintf(file,"dt = 0.05\n");
+    fprintf(file,"dt = %lf\n",DT);
     fprintf(file,"tmax = %d\n",3*period);
     fprintf(file,"lmax = 5.0\n");
     fprintf(file,"print_rate = 100\n");
-    fprintf(file,"sst_rate = %d\n",2000*period);
+    fprintf(file,"sst_rate = %d\n",SST_RATE*period);
     fprintf(file,"use_steady_state = yes\n");
     fprintf(file,"sst_filename = steady_state/cable-5cm-%dms.sst\n",period);
     fprintf(file,"\n\n");

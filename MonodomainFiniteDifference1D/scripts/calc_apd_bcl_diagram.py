@@ -164,7 +164,7 @@ def main():
             out_filename = "BCL-APD/cell-"+str(cell_id)+".dat"
             file = open(out_filename,"w")
             
-            for bcl in range(100,300,5):
+            for bcl in range(100,285,5):
                 dir_name = str(bcl) + "ms"
                 file_name = "sv-" + str(cell_id) + ".dat"
                 

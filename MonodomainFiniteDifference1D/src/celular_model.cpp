@@ -1,5 +1,5 @@
 // Here we are considering the Noble model for Purkinje fibers from 1962.
-// TODO: Implement a generic way to include celular models (see New-Fenton-Experiment code ...)
+// TODO: Implement a generic way to include other celular models (see New-Fenton-Experiment code ...)
 
 #include "../include/celular_model.h"
 

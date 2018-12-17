@@ -1,0 +1,3 @@
+/home/berg/Documentos/Github/Computational-Electrophysiology/MonodomainFiniteDifference1D/build/CMakeFiles/rebuild_cache.dir
+/home/berg/Documentos/Github/Computational-Electrophysiology/MonodomainFiniteDifference1D/build/CMakeFiles/FDMMonodomain1D.dir
+/home/berg/Documentos/Github/Computational-Electrophysiology/MonodomainFiniteDifference1D/build/CMakeFiles/edit_cache.dir

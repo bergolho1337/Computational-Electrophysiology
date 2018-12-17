@@ -152,6 +152,27 @@ def plot_apd_over_cable (cell_ids,even_apds,odd_apds,dir_name,bcl):
     plt.savefig(dir_name + "/cable_APD_BCL%dms" % bcl + ".pdf")
     #plt.show()
 
+def plot_regime_over_cable (cell_ids,even_apds,odd_apds,dir_name,bcl):
+	# Check the regime only on last cell	
+	diff = even_apds[0] - odd_apds[0]
+
+	# Normal rhythm
+	if (diff == 0.0):
+		regime = 0
+	# Discordant alternans	
+	elif (diff < 0.0):
+		regime = 1
+	# Concordant alternans	
+	elif (diff > 0.0):
+		regime = 2		
+	# Block	
+	else:
+		regime = 3
+	print("BCL = %d -- Regime = %d\n" % (bcl,regime))
+	print("----------------------------------------------\n")	
+	
+	
+
 def main():
 
     if (len(sys.argv) != 3):
@@ -185,8 +206,8 @@ def main():
 		cell_id = get_cell_id_from_filename(f)
             	data = np.genfromtxt(f)
 
-            	print("**********************************************************")
-            	print("Cell id = %s" % cell_id)
+            	#print("**********************************************************")
+            	#print("Cell id = %s" % cell_id)
 
 		even_apd, odd_apd = calc_apd(data)
 		even_di, odd_di = calc_di(even_apd,odd_apd,bcl)
@@ -202,6 +223,9 @@ def main():
 	
 	# Plot the APDs over the cable
 	plot_apd_over_cable(cell_ids,even_apds,odd_apds,dir_name,bcl)
+
+	# Plot regime of each period
+	#plot_regime_over_cable(cell_ids,even_apds,odd_apds,dir_name,bcl)
             
 if __name__ == "__main__":
     main()

@@ -3,11 +3,35 @@
 //
 // This program solves the 1D Monodomain equation using a Finite Difference approach and the Noble celular model from 1962
 // 
-// The idea of this project is to reproduce the results from the papers
+// The objective of this project is to reproduce the results from the papers
 // 	- Model-based control of cardiac alternans in Purkinje fibers from Alejandro Garzón and Roman O. Grigoriev (2011)
 //	- Spatiotemporal control of cardiac alternans from Blas Echebarria, and Alain Karma (2002)
 //
 // The system of ODE's from the celular model has been solved using the Standart Euler Scheme and by using OpenMP.
+//
+// *************************************************************************************************************************
+// HOW TO USE:
+//
+// To run a simulation using this program the user needs to provide a configuration file with the parameters related to the
+// solution of the monodomain equation (discretization sizes, stimulus, output rates, domain size, simulation time).
+//
+// In order to have a reliable calculation of the output data, we perform 2 simulations:
+//	- The first one has the objective of reaching the steady-state of the system (200 stimuli). In the last timestep we
+// dump the state vectors of each cell of the fiber in a output file.
+//	- The second simulation will actually calculate the output data (conduction velocity and APD's). This is done by
+// loading the steady-state file from the previous simulation as the initial condition of the system and we consider only
+// 3 periods for the stimulus. 
+// 	- The output files will be stored in the 'output' folder.
+//	- To process the data and analyze its results the user can run several Python scripts that are stored in the 'scripts'
+// folder. (Action potential plot, APD plot, BCL x APD diagram, ...)
+// *************************************************************************************************************************  
+// EXAMPLE:
+//	1) First simulation:
+//		./bin/FDMMonodomain1D examples/sst_sample.ini
+//	2) Second simulation:
+//		./bin/FDMMonodomain1D examples/simple_sample.ini
+//	3) Plotting the Action Potential from the cell id 0:
+//		cd scripts; python plot_potential.py ../output/sv-0.dat
 // -------------------------------------------------------------------------------------------------------------------------
 
 #include <iostream>
