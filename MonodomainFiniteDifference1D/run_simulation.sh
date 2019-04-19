@@ -5,11 +5,11 @@ run_simulation_Noble () {
     echo "[!] Running Noble simulation with $1ms pacing ..."
     echo "****************************************************************************************************"
     # Steady-State 
-    ./bin/FDMMonodomain1D examples/sst_cable_5cm_$1ms.ini
-    cp output.sst steady_state/cable-5cm-$1ms.sst 
+    ./bin/FDMMonodomain1D examples/sst_cable_4cm_$1ms.ini
+    cp output.sst steady_state/cable-4cm-$1ms.sst 
     #./clear_results.sh
     # Experiment
-    ./bin/FDMMonodomain1D examples/simple_cable_5cm_$1ms.ini
+    ./bin/FDMMonodomain1D examples/simple_cable_4cm_$1ms.ini
     mkdir scripts/$1ms
     cp output/*.dat scripts/$1ms
     echo "****************************************************************************************************"
